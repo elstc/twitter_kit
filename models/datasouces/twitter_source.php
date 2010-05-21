@@ -1203,6 +1203,108 @@ class TwitterSource extends DataSource {
     // == List Subscribers Methods
     // ====================================================
 
+    /**
+     * GET /:user/:list_id/subscribers
+     *
+     * @param string $user
+     * @param string $list_id
+     * @param array  $params
+     *      list_id.  Required. The id or slug of the list.
+     *      cursor.   Optional. Breaks the results into pages. A single page contains 20 lists. Provide a value of -1 to begin paging.
+     *                          Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-list-subscribers
+     */
+    public function get_list_subscribers($user, $list_id, $params = array()) {
+
+        if (empty($user) || empty($list_id)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/%s/%s/subscribers.json', $user, $list_id);
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * POST /:user/:id/subscribers
+     *
+     * @param string $user
+     * @param string $list_id
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-POST-list-subscribers
+     */
+    public function post_list_subscribers($user, $list_id, $params = array()) {
+
+        if (empty($user) || empty($list_id)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/%s/%s/subscribers.json', $user, $list_id);
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * DELETE /:user/:list_id/subscribers
+     *
+     * @param string $user
+     * @param string $list_id
+     * @param array  $params
+     *      id. Required. The ID or screen name of the user to remove from the list.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-DELETE-list-subscribers
+     */
+    public function delete_list_subscribers($user, $list_id, $params = array()) {
+
+        if (empty($user) || empty($list_id) || empty($params)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/%s/%s/subscribers.json', $user, $list_id);
+        $method = 'POST';
+
+        if (is_string($params)) {
+
+            $params = array('id' => $params);
+
+        }
+
+        $params['_method'] = 'DELETE';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * GET /:user/:list_id/subscribers/:id
+     *
+     * @param string $user
+     * @param string $list_id
+     * @param string $id
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-list-subscribers-id
+     */
+    public function get_list_subscribers_id($user, $list_id, $id, $params = array()) {
+
+        if (empty($user) || empty($list_id) || empty($id)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/%s/%s/subscribers/%s.json', $user, $list_id, $id);
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
 
     // ====================================================
     // == Direct Message Methods
