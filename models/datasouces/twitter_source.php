@@ -2402,14 +2402,154 @@ class TwitterSource extends DataSource {
     // == Local Trends Methods
     // ====================================================
 
+    /**
+     * trends/available
+     *
+     * @param array  $params
+     *      lat.   Optional.  If passed in conjunction with long, then the available trend locations will be sorted by distance to the lat and long passed in.  The sort is nearest to furthest.
+     *      long.  Optional.  See lat.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-trends-available
+     * @see http://developer.yahoo.com/geo/geoplanet/
+     */
+    public function trends_available($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/trends/available.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * trends/location
+     *
+     * @param string $woeid The WOEID of the location to be querying for.
+     * @param array  $params
+     *      lat.   Optional.  If passed in conjunction with long, then the available trend locations will be sorted by distance to the lat and long passed in.  The sort is nearest to furthest.
+     *      long.  Optional.  See lat.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-trends-location
+     * @see http://developer.yahoo.com/geo/geoplanet/
+     */
+    public function trends_location($woeid, $params = array()) {
+
+        if (empty($woeid)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/trends/%s.json', $woeid);
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+
     // ====================================================
     // == Geo methods
     // ====================================================
+
+    /**
+     * geo/nearby_places
+     *
+     * @param array  $params
+     *      lat.  Optional but required if long provided or if ip is not provided.  The latitude to query about.  Valid ranges are -90.0 to +90.0 (North is positive) inclusive.
+     *      long. Optional but required if lat provided or if ip is not provided. The longitude to query about.  Valid ranges are -180.0 to +180.0 (East is positive) inclusive.
+     *      ip.       Optional but required if lat and long are not provided.  The IP address that the call is coming from. Twitter will geo-IP the address.
+     *      accuracy. Optional. A hint on the "region" in which to search.
+     *                          If a number, then this is a radius in meters, but it can also take a string that is suffixed with ft to specify feet.
+     *                          If this is not passed in, then it is assumed to be 0m.
+     *                          If coming from a device, in practice, this value is whatever accuracy the device has measuring its location
+     *                          (whether it be coming from a GPS, WiFi triangulation, etc.).
+     *      granularity. Optional.  The minimal granularity of data to return.  If this is not passed in, then neighborhood is assumed.  city can also be passed.
+     *      max_results. Optional.  A hint as to the number of results to return.
+     *                             This does not guarantee that the number of results returned will equal max_results, but instead informs how many "nearby" results to return.
+     *                             Ideally, only pass in the number of places you intend to display to the user here.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-geo-nearby_places
+     */
+    public function geo_nearby_places($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/geo/nearby_places.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * geo/reverse_geocode
+     *
+     * @param array  $params
+     *      lat.  Required.  The latitude to query about.  Valid ranges are -90.0 to +90.0 (North is positive) inclusive.
+     *      long. Required. The longitude to query about.  Valid ranges are -180.0 to +180.0 (East is positive) inclusive.
+     *      accuracy. Optional. A hint on the "region" in which to search.
+     *                          If a number, then this is a radius in meters, but it can also take a string that is suffixed with ft to specify feet.
+     *                          If this is not passed in, then it is assumed to be 0m.
+     *                          If coming from a device, in practice, this value is whatever accuracy the device has measuring its location
+     *                          (whether it be coming from a GPS, WiFi triangulation, etc.).
+     *      granularity. Optional.  The minimal granularity of data to return.  If this is not passed in, then neighborhood is assumed.  city can also be passed.
+     *      max_results. Optional.  A hint as to the number of results to return.
+     *                             This does not guarantee that the number of results returned will equal max_results, but instead informs how many "nearby" results to return.
+     *                             Ideally, only pass in the number of places you intend to display to the user here.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-geo-reverse_geocode
+     */
+    public function geo_reverse_geocode($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/geo/reverse_geocode.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * geo/id/:id
+     *
+     * @param string $id Required.  The ID of the location to query about.
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-geo-ID
+     */
+    public function geo_id($id, $params = array()) {
+
+        if (empty($id)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/geo/id/%s.json', $id);
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
 
     // ====================================================
     // == Help Methods
     // ====================================================
 
+    /**
+     * help/test
+     *
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-help%C2%A0test
+     */
+    public function help_test($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/help/test.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
 
 
 }
