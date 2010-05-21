@@ -1847,6 +1847,67 @@ class TwitterSource extends DataSource {
     // == Favorite Methods
     // ====================================================
 
+    /**
+     * favorites
+     *
+     * @param array  $params
+     *     id.    Optional.  The ID or screen name of the user for whom to request a list of favorite statuses.
+     *     page.  Optional. Specifies the page of favorites to retrieve.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-favorites
+     */
+    public function favorites($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/favorites.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * favorites/create
+     *
+     * @param string $id Required.  The ID of the status to favorite.
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-favorites%C2%A0create
+     */
+    public function favorites_create($id, $params = array()) {
+
+        if (empty($id)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/favorites/create/%s.json', $id);
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * favorites/destroy
+     *
+     * @param string $id Required.  The ID of the status to un-favorite.
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-favorites%C2%A0destroy
+     */
+    public function favorites_destroy($id, $params = array()) {
+
+        if (empty($id)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/favorites/destroy/%s.json', $id);
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
 
     // ====================================================
     // == Notification Methods
