@@ -389,6 +389,171 @@ class TwitterSource extends DataSource {
     // == Timeline Methods
     // ====================================================
 
+    /**
+     * statuses/public_timeline
+     *
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-public_timeline
+     */
+    public function statuses_public_timeline($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/public_timeline.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * statuses/home_timeline
+     *
+     * @param array  $params
+     *     since_id.  Optional. Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+     *     max_id.    Optional. Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+     *     count.     Optional. Specifies the number of statuses to retrieve. May not be greater than 200.
+     *     page.      Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-home_timeline
+     */
+    public function statuses_home_timeline($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/home_timeline.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * statuses/friends_timeline
+     *
+     * @param array  $params
+     *     since_id.  Optional. Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+     *     max_id.    Optional. Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+     *     count.     Optional. Specifies the number of statuses to retrieve. May not be greater than 200.
+     *     page.      Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-friends_timeline
+     */
+    public function statuses_friends_timeline($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/friends_timeline.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * statuses/user_timeline
+     *
+     * @param array  $params
+     *     id.          Optional. Specifies the ID or screen name of the user for whom to return the user_timeline.
+     *     user_id.     Optional. Specfies the ID of the user for whom to return the user_timeline. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *     screen_name. Optional. Specfies the screen name of the user for whom to return the user_timeline. Helpful for disambiguating when a valid screen name is also a user ID.
+     *     since_id.    Optional. Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+     *     max_id.      Optional. Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+     *     count.       Optional. Specifies the number of statuses to retrieve. May not be greater than 200.
+     *     page.        Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-user_timeline
+     */
+    public function statuses_user_timeline($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/user_timeline.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * statuses/mentions
+     *
+     * @param array  $params
+     *     since_id.  Optional. Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+     *     max_id.    Optional. Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+     *     count.     Optional. Specifies the number of statuses to retrieve. May not be greater than 200.
+     *     page.      Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-mentions
+     */
+    public function statuses_mentions($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/mentions.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * statuses/retweeted_by_me
+     *
+     * @param array  $params
+     *     since_id.  Optional. Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+     *     max_id.    Optional. Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+     *     count.     Optional. Specifies the number of statuses to retrieve. May not be greater than 200.
+     *     page.      Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-retweeted_by_me
+     */
+    public function statuses_retweeted_by_me($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/retweeted_by_me.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * statuses/retweeted_to_me
+     *
+     * @param array  $params
+     *     since_id.  Optional. Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+     *     max_id.    Optional. Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+     *     count.     Optional. Specifies the number of statuses to retrieve. May not be greater than 200.
+     *     page.      Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-retweeted_to_me
+     */
+    public function statuses_retweeted_to_me($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/retweeted_to_me.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * statuses/retweets_of_me
+     *
+     * @param array  $params
+     *     since_id.  Optional. Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+     *     max_id.    Optional. Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+     *     count.     Optional. Specifies the number of statuses to retrieve. May not be greater than 200.
+     *     page.      Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-retweets_of_me
+     */
+    public function statuses_retweets_of_me($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/retweets_of_me.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
 
     // ====================================================
     // == Status Methods
