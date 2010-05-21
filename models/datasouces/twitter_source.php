@@ -21,6 +21,16 @@ App::import('vendor', 'TwitterKit.HttpSocketOauth', array('file' => 'http_socket
  * @subpackage twitter_kit.models.datasouces
  * @since      TwitterKit 1.0
  * @modifiedby nojimage <nojima at elasticconsultants.com>
+ * 
+ * @see http://apiwiki.twitter.com/Twitter-API-Documentation
+ * 
+ * This Class use HttpSocketOAuth:
+ *   
+ *   Neil Crookes » OAuth extension to CakePHP HttpSocket
+ *     http://www.neilcrookes.com/2010/04/12/cakephp-oauth-extension-to-httpsocket/
+ *     http://github.com/neilcrookes/http_socket_oauth
+ *     
+ * Thank you.
  */
 class TwitterSource extends DataSource {
 
@@ -225,136 +235,6 @@ class TwitterSource extends DataSource {
 
     }
 
-    // ====================================================
-    // == OAuth Methods
-    // ====================================================
-
-    /**
-     * Get OAuth Request Token
-     *
-     * @param  string $oauth_callback
-     * @return array
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-oauth-request_token
-     */
-    public function oauth_request_token($oauth_callback = null) {
-
-        $url    = 'http://api.twitter.com/oauth/request_token';
-        $method = 'GET';
-
-        // get Request param
-        $params = $this->_buildRequest($url, $method);
-
-        if (empty($oauth_callback)) {
-
-            $oauth_callback = $this->oauth_callback;
-
-        }
-
-        if (!preg_match('!^https?://!', $oauth_callback)) {
-
-            $oauth_callback = Router::url($oauth_callback, true);
-
-        }
-
-        // add oauth callback
-        $params['auth']['oauth_callback'] = $oauth_callback;
-
-        // request
-        $response = $this->_request($params, false);
-
-        if ($this->_isXml($response)) {
-
-            return $this->_getOAuthError($response);
-
-        }
-
-        parse_str($response, $response);
-
-        if (!empty($response['oauth_token'])) {
-            $this->oauth_token = $response['oauth_token'];
-        }
-
-        return $response;
-    }
-
-    /**
-     * Get Authorize URL
-     *
-     * @param  string $oauth_token
-     * @return string
-     * @see    http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-oauth-authorize
-     */
-    public function oauth_authorize($oauth_token = '') {
-
-        $url    = 'http://api.twitter.com/oauth/authorize';
-
-        if (empty($oauth_token)) {
-            $oauth_token = $this->oauth_token;
-        }
-
-        return $url . '?oauth_token=' . $oauth_token;
-    }
-
-    /**
-     * Get Authenticate URL
-     *
-     * @param  string $oauth_token
-     * @return string
-     * @see    http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-oauth-authenticate
-     */
-    public function oauth_authenticate($oauth_token = '') {
-
-        $url    = 'http://api.twitter.com/oauth/authenticate';
-
-        if (empty($oauth_token)) {
-            $oauth_token = $this->oauth_token;
-        }
-
-        return $url . '?oauth_token=' . $oauth_token;
-    }
-
-    /**
-     * get oauth access token
-     *
-     * @param  string $oauth_token
-     * @param  string $oauth_verifier
-     * @return array
-     * @see    http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-oauth-access_token
-     */
-    public function oauth_access_token($oauth_token, $oauth_verifier) {
-
-        $url    = 'http://api.twitter.com/oauth/access_token';
-        $method = 'GET';
-
-        // get Request param
-        $params = $this->_buildRequest($url, $method);
-
-        // add oauth param
-        $params['auth']['oauth_token']    = $oauth_token;
-        $params['auth']['oauth_verifier'] = $oauth_verifier;
-
-        // request
-        $response = $this->_request($params, false);
-
-        if ($this->_isXml($response)) {
-
-            return $this->_getOAuthError($response);
-
-        }
-
-        parse_str($response, $response);
-
-        if (!empty($response['oauth_token'])) {
-            $this->oauth_token = $response['oauth_token'];
-        }
-
-        if (!empty($response['oauth_token_secret'])) {
-            $this->oauth_token_secret = $response['oauth_token_secret'];
-        }
-
-        return $response;
-    }
-
     /**
      * get Error Message
      *
@@ -370,7 +250,21 @@ class TwitterSource extends DataSource {
     }
 
     // ====================================================
-    // == Lists Methods
+    // == Search API Methods
+    // ====================================================
+
+    // ====================================================
+    // == Timeline Methods
+    // ====================================================
+
+
+    // ====================================================
+    // == Status Methods
+    // ====================================================
+
+
+    // ====================================================
+    // == List Methods
     // ====================================================
 
     /**
@@ -569,6 +463,7 @@ class TwitterSource extends DataSource {
         return $this->_request($this->_buildRequest($url, $method, $params));
     }
 
+
     // ====================================================
     // == List Members Methods
     // ====================================================
@@ -668,4 +563,197 @@ class TwitterSource extends DataSource {
         // request
         return $this->_request($this->_buildRequest($url, $method, $params));
     }
+
+
+    // ====================================================
+    // == List Subscribers Methods
+    // ====================================================
+
+
+    // ====================================================
+    // == Direct Message Methods
+    // ====================================================
+
+
+    // ====================================================
+    // == Friendship Methods
+    // ====================================================
+
+
+    // ====================================================
+    // == Social Graph Methods
+    // ====================================================
+
+
+    // ====================================================
+    // == Account Methods
+    // ====================================================
+
+
+    // ====================================================
+    // == Favorite Methods
+    // ====================================================
+
+
+    // ====================================================
+    // == Notification Methods
+    // ====================================================
+
+    // ====================================================
+    // == Block Methods
+    // ====================================================
+
+    // ====================================================
+    // == Spam Reporting Methods
+    // ====================================================
+
+    // ====================================================
+    // == Saved Searches Methods
+    // ====================================================
+
+    // ====================================================
+    // == OAuth Methods
+    // ====================================================
+
+    /**
+     * Get OAuth Request Token
+     *
+     * @param  string $oauth_callback
+     * @return array
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-oauth-request_token
+     */
+    public function oauth_request_token($oauth_callback = null) {
+
+        $url    = 'http://api.twitter.com/oauth/request_token';
+        $method = 'GET';
+
+        // get Request param
+        $params = $this->_buildRequest($url, $method);
+
+        if (empty($oauth_callback)) {
+
+            $oauth_callback = $this->oauth_callback;
+
+        }
+
+        if (!preg_match('!^https?://!', $oauth_callback)) {
+
+            $oauth_callback = Router::url($oauth_callback, true);
+
+        }
+
+        // add oauth callback
+        $params['auth']['oauth_callback'] = $oauth_callback;
+
+        // request
+        $response = $this->_request($params, false);
+
+        if ($this->_isXml($response)) {
+
+            return $this->_getOAuthError($response);
+
+        }
+
+        parse_str($response, $response);
+
+        if (!empty($response['oauth_token'])) {
+            $this->oauth_token = $response['oauth_token'];
+        }
+
+        return $response;
+    }
+
+    /**
+     * Get Authorize URL
+     *
+     * @param  string $oauth_token
+     * @return string
+     * @see    http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-oauth-authorize
+     */
+    public function oauth_authorize($oauth_token = '') {
+
+        $url    = 'http://api.twitter.com/oauth/authorize';
+
+        if (empty($oauth_token)) {
+            $oauth_token = $this->oauth_token;
+        }
+
+        return $url . '?oauth_token=' . $oauth_token;
+    }
+
+    /**
+     * Get Authenticate URL
+     *
+     * @param  string $oauth_token
+     * @return string
+     * @see    http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-oauth-authenticate
+     */
+    public function oauth_authenticate($oauth_token = '') {
+
+        $url    = 'http://api.twitter.com/oauth/authenticate';
+
+        if (empty($oauth_token)) {
+            $oauth_token = $this->oauth_token;
+        }
+
+        return $url . '?oauth_token=' . $oauth_token;
+    }
+
+    /**
+     * get oauth access token
+     *
+     * @param  string $oauth_token
+     * @param  string $oauth_verifier
+     * @return array
+     * @see    http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-oauth-access_token
+     */
+    public function oauth_access_token($oauth_token, $oauth_verifier) {
+
+        $url    = 'http://api.twitter.com/oauth/access_token';
+        $method = 'GET';
+
+        // get Request param
+        $params = $this->_buildRequest($url, $method);
+
+        // add oauth param
+        $params['auth']['oauth_token']    = $oauth_token;
+        $params['auth']['oauth_verifier'] = $oauth_verifier;
+
+        // request
+        $response = $this->_request($params, false);
+
+        if ($this->_isXml($response)) {
+
+            return $this->_getOAuthError($response);
+
+        }
+
+        parse_str($response, $response);
+
+        if (!empty($response['oauth_token'])) {
+            $this->oauth_token = $response['oauth_token'];
+        }
+
+        if (!empty($response['oauth_token_secret'])) {
+            $this->oauth_token_secret = $response['oauth_token_secret'];
+        }
+
+        return $response;
+    }
+
+
+    // ====================================================
+    // == Local Trends Methods
+    // ====================================================
+
+    // ====================================================
+    // == Geo methods
+    // ====================================================
+
+    // ====================================================
+    // == Help Methods
+    // ====================================================
+
+
+
 }
