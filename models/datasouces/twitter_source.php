@@ -1657,6 +1657,191 @@ class TwitterSource extends DataSource {
     // == Account Methods
     // ====================================================
 
+    /**
+     * account/verify_credentials
+     *
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-account%C2%A0verify_credentials
+     */
+    public function account_verify_credentials($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/account/verify_credentials.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * account/rate_limit_status
+     *
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-account%C2%A0rate_limit_status
+     */
+    public function account_rate_limit_status($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/account/rate_limit_status.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * account/end_session
+     *
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-account%C2%A0end_session
+     */
+    public function account_end_session($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/account/end_session.json');
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * account/update_delivery_device
+     *
+     * @param array  $params
+     *      device.  Required.  Must be one of: sms, none.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-account%C2%A0update_delivery_device
+     */
+    public function account_update_delivery_device($params = array()) {
+
+        if (empty($params)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/account/update_delivery_device.json');
+        $method = 'POST';
+
+        if (is_string($params)) {
+
+            $params = array('device' => $params);
+
+        }
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * account/update_profile_colors
+     *
+     * @param array  $params
+     *      profile_background_color.  Optional.
+     *      profile_text_color.  Optional.
+     *      profile_link_color.  Optional.
+     *      profile_sidebar_fill_color.  Optional.
+     *      profile_sidebar_border_color.  Optional.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-account%C2%A0update_profile_colors
+     */
+    public function account_update_profile_colors($params = array()) {
+
+        if (empty($params)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/account/update_profile_colors.json');
+        $method = 'POST';
+
+        if (is_string($params)) {
+
+            $params = array('device' => $params);
+
+        }
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * account/update_profile_image
+     *
+     * @param array  $params
+     *      image.Required.  Must be a valid GIF, JPG, or PNG image of less than 700 kilobytes in size.
+     *                       Images with width larger than 500 pixels will be scaled down.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-account%C2%A0update_profile_image
+     *
+     * TODO: check run
+     */
+    public function account_update_profile_image($params = array()) {
+
+        if (empty($params)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/account/update_profile_image.json');
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * account/update_profile_background_image
+     *
+     * @param array  $params
+     *      image.Required.  Must be a valid GIF, JPG, or PNG image of less than 800 kilobytes in size.
+     *                       Images with width larger than 2048 pixels will be forceably scaled down.
+     *      tile. Optional.  If set to true the background image will be displayed tiled.
+     *                       The image will not be tiled otherwise.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-account%C2%A0update_profile_background_image
+     *
+     * TODO: check run
+     */
+    public function account_update_profile_background_image($params = array()) {
+
+        if (empty($params)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/account/update_profile_background_image.json');
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * account/update_profile
+     *
+     * @param array  $params
+     *      name. Optional. Maximum of 20 characters.
+     *      url.  Optional. Maximum of 100 characters. Will be prepended with "http://" if not present.
+     *      location.    Optional. Maximum of 30 characters. The contents are not normalized or geocoded in any way.
+     *      description. Optional. Maximum of 160 characters.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-account%C2%A0update_profile
+     */
+    public function account_update_profile($params = array()) {
+
+        if (empty($params)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/account/update_profile.json');
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
 
     // ====================================================
     // == Favorite Methods
