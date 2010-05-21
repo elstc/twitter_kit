@@ -1310,6 +1310,92 @@ class TwitterSource extends DataSource {
     // == Direct Message Methods
     // ====================================================
 
+    /**
+     * direct_messages
+     *
+     * @param array  $params
+     *     since_id.  Optional. Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+     *     max_id.    Optional. Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+     *     count.     Optional. Specifies the number of statuses to retrieve. May not be greater than 200.
+     *     page.      Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-direct_messages
+     */
+    public function direct_messages($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/direct_messages.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * direct_messages/sent
+     *
+     * @param array  $params
+     *     since_id.  Optional. Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+     *     max_id.    Optional. Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+     *     count.     Optional. Specifies the number of statuses to retrieve. May not be greater than 200.
+     *     page.      Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-direct_messages%C2%A0sent
+     */
+    public function direct_messages_sent($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/direct_messages/sent.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * direct_messages/new
+     *
+     * @param array  $params
+     *     user:  Required.  The ID or screen name of the recipient user.
+     *     text:  Required.  The text of your direct message.  Be sure to URL encode as necessary, and keep it under 140 characters.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-direct_messages%C2%A0new
+     */
+    public function direct_messages_new($params = array()) {
+
+        if (empty($params)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/direct_messages/new.json');
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * direct_messages/destroy
+     *
+     * @param string $id
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-direct_messages%C2%A0destroy
+     */
+    public function direct_messages_destroy($id, $params = array()) {
+
+        if (empty($id)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/direct_messages/destroy/%s.json', $id);
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
 
     // ====================================================
     // == Friendship Methods
