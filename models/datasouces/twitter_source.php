@@ -555,10 +555,253 @@ class TwitterSource extends DataSource {
         return $this->_request($this->_buildRequest($url, $method, $params));
     }
 
+
     // ====================================================
     // == Status Methods
     // ====================================================
 
+    /**
+     * statuses/show
+     *
+     * @param string $id
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses%C2%A0show
+     */
+    public function statuses_show($id, $params = array()) {
+
+        if (empty($id)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/show/%s.json', $id);
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * statuses/update
+     *
+     * @param array  $params
+     *      status. Required.  The text of your status update. URL encode as necessary.
+     *                         Statuses over 140 characters  will cause a 403 error to be returned from the API.
+     *                         Statuses have the same text as a recently posted status from the same user will also cause a 403 error to be returned from the API.
+     *                         When a 403 is returned due to shortened text or duplicate statuses, the response body will contain details on why the tweet was rejected.
+     *      in_reply_to_status_id. Optional. The ID of an existing status that the update is in reply to.
+     *      lat.   Optional. The location's latitude that this tweet refers to.
+     *                       The valid ranges for latitude is -90.0 to +90.0 (North is positive) inclusive.
+     *                       This parameter will be ignored if outside that range, if it is not a number, if geo_enabled is disabled, or if there not a corresponding long parameter with this tweet.
+     *      long.  Optional. The location's longitude that this tweet refers to.
+     *                       The valid ranges for longitude is -180.0 to +180.0 (East is positive) inclusive.
+     *                       This parameter will be ignored if outside that range, if it is not a number, if geo_enabled is disabled, or if there not a corresponding lat parameter with this tweet.
+     *      place_id.            Optional. The place to attach to this status update.  Valid place_ids can be found by querying geo/reverse_geocode.
+     *      display_coordinates. Optional. By default, geo-tweets will have their coordinates exposed in the status object (to remain backwards compatible with existing API applications).
+     *                                     To turn off the display of the precise latitude and longitude (but keep the contextual location information), pass display_coordinates=false on the status update.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses%C2%A0update
+     */
+    public function statuses_update($params = array()) {
+
+        if (empty($params)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/update.json');
+        $method = 'POST';
+
+        if (is_string($params)) {
+
+            $params = array('status' => $params);
+
+        }
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * statuses/destroy
+     *
+     * @param string $id
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses%C2%A0destroy
+     */
+    public function statuses_destroy($id, $params = array()) {
+
+        if (empty($id)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/destroy/%s.json', $id);
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * statuses/retweet
+     *
+     * @param string $id Required.  The numerical ID of the tweet you are retweeting.
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-retweet
+     */
+    public function statuses_retweet($id, $params = array()) {
+
+        if (empty($id)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/retweet/%s.json', $id);
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * statuses/retweets
+     *
+     * @param string $id Required.  The numerical ID of the tweet you want the retweets of.
+     * @param array  $params
+     *      count.  Optional.  Specifies the number of retweets to retrieve. May not be greater than 100.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-retweets
+     */
+    public function statuses_retweets($id, $params = array()) {
+
+        if (empty($id)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/retweets/%s.json', $id);
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * GET /statuses/:id/retweeted_by.format
+     *
+     * @param string $id Required. The id of the status
+     * @param array  $params
+     *      count. Optional.  Indicates number of retweeters to return per page, with a maximum 100 possible results.
+     *      page.  Optional.  Specifies the page of results to retrieve. Note: there are pagination limits.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-statuses-id-retweeted_by
+     */
+    public function get_statuses_id_retweet_by($id, $params = array()) {
+
+        if (empty($id)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/%s/retweeted_by..json', $id);
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * GET /statuses/:id/retweeted_by/ids.format
+     *
+     * @param string $id Required. The id of the status
+     * @param array  $params
+     *      count. Optional.  Indicates number of retweeters to return per page, with a maximum 100 possible results.
+     *      page.  Optional.  Specifies the page of results to retrieve. Note: there are pagination limits.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-statuses-id-retweeted_by-ids
+     */
+    public function get_statuses_id_retweeted_by_ids($id, $params = array()) {
+
+        if (empty($id)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/%s/retweeted_by/ids.format', $id);
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * statuses/show
+     *
+     * @param string $id
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses%C2%A0show
+     */
+    public function statuses_show($id, $params = array()) {
+
+        if (empty($id)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/show/%s.json', $id);
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * statuses/show
+     *
+     * @param string $id
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses%C2%A0show
+     */
+    public function statuses_show($id, $params = array()) {
+
+        if (empty($id)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/show/%s.json', $id);
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * statuses/show
+     *
+     * @param string $id
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses%C2%A0show
+     */
+    public function statuses_show($id, $params = array()) {
+
+        if (empty($id)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/show/%s.json', $id);
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+
+    // ====================================================
+    // == User Methods
+    // ====================================================
 
     // ====================================================
     // == List Methods
