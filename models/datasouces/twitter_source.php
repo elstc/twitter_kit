@@ -1401,6 +1401,182 @@ class TwitterSource extends DataSource {
     // == Friendship Methods
     // ====================================================
 
+    /**
+     * friendships/create
+     *
+     * @param array  $params
+     *      id.          Required. The ID or screen name of the user to befriend.
+     *      user_id.     Required. Specfies the ID of the user to befriend. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name. Required. Specfies the screen name of the user to befriend. Helpful for disambiguating when a valid screen name is also a user ID.
+     *      follow.      Optional. Enable delivery of statuses from this user to the authenticated user's device;
+     *                             tweets sent by the user being followed will be delivered to the caller of this endpoint's phone as SMSes.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-friendships%C2%A0create
+     */
+    public function friendships_create($params = array()) {
+
+        if (empty($params)) {
+            return false;
+        }
+
+        if (is_string($params)) {
+
+            $params = array('id' => $params);
+
+        }
+
+        $id = '';
+
+        if (!empty($params['id'])) {
+            $id = '/' . $id;
+            unset($params['id']);
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/friendships/create%s.json', $id);
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * friendships/destroy
+     *
+     * @param array  $params
+     *      id.          Required. The ID or screen name of the user to befriend.
+     *      user_id.     Required. Specfies the ID of the user to befriend. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name. Required. Specfies the screen name of the user to befriend. Helpful for disambiguating when a valid screen name is also a user ID.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-friendships%C2%A0destroy
+     */
+    public function friendships_destroy($params = array()) {
+
+        if (empty($params)) {
+            return false;
+        }
+
+        if (is_string($params)) {
+
+            $params = array('id' => $params);
+
+        }
+
+        $id = '';
+
+        if (!empty($params['id'])) {
+
+            $id = '/' . $id;
+            unset($params['id']);
+
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/friendships/destroy%s.json', $id);
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * friendships/exists
+     *
+     * @param string $id
+     * @param array  $params
+     *      user_a.  Required.  The ID or screen_name of the subject user.
+     *      user_b.  Required.  The ID or screen_name of the user to test for following.
+     *
+     * @return true|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-friendships-exists
+     */
+    public function friendships_exists($params = array()) {
+
+        if (empty($params)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/friendships/exists.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * friendships/show
+     *
+     * @param string $id
+     * @param array  $params
+     *      source_id. The user_id of the subject user.
+     *      source_screen_name. The screen_name of the subject user.
+     *      target_id. The user_id of the target user.
+     *      target_screen_name. The screen_name of the target user.
+     *
+     * @return true|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-friendships-show
+     */
+    public function friendships_show($params = array()) {
+
+        if (empty($params)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/friendships/show.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * friendships/incoming
+     *
+     * @param string $id
+     * @param array  $params
+     *      cursor. Required. Breaks the results into pages. A single page contains 5000 identifiers. Provide a value of -1 to begin paging.
+     *                        Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
+     *
+     * @return true|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-friendships-incoming
+     */
+    public function friendships_incoming($params = array()) {
+
+        if (empty($params)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/friendships/incoming.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * friendships/outgoing
+     *
+     * @param string $id
+     * @param array  $params
+     *      cursor. Required. Breaks the results into pages. A single page contains 5000 identifiers. Provide a value of -1 to begin paging.
+     *                        Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
+     *
+     * @return true|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-friendships-outgoing
+     */
+    public function friendships_outgoing($params = array()) {
+
+        if (empty($params)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/friendships/outgoing.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
 
     // ====================================================
     // == Social Graph Methods
