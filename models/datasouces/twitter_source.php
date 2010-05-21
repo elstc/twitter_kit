@@ -916,9 +916,9 @@ class TwitterSource extends DataSource {
      *
      * @param string $user
      * @param array  $params
-     *                  name.         Required. The name of the list you are creating.
-     *                  mode.         Optional. Whether your list is public or private. Values can be public or private. Lists are public by default if no mode is specified.
-     *                  description.  Optional. The description of the list you are creating.
+     *      name.         Required. The name of the list you are creating.
+     *      mode.         Optional. Whether your list is public or private. Values can be public or private. Lists are public by default if no mode is specified.
+     *      description.  Optional. The description of the list you are creating.
      * @return array|false
      * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-POST-lists
      */
@@ -941,9 +941,9 @@ class TwitterSource extends DataSource {
      * @param string $user
      * @param string $id
      * @param array  $params
-     *                  name.         Required. The name of the list you are creating.
-     *                  mode.         Optional. Whether your list is public or private. Values can be public or private. Lists are public by default if no mode is specified.
-     *                  description.  Optional. The description of the list you are creating.
+     *      name.         Required. The name of the list you are creating.
+     *      mode.         Optional. Whether your list is public or private. Values can be public or private. Lists are public by default if no mode is specified.
+     *      description.  Optional. The description of the list you are creating.
      * @return array|false
      * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-POST-lists-id
      */
@@ -1033,14 +1033,10 @@ class TwitterSource extends DataSource {
      * @param string $user
      * @param string $list_id
      * @param array  $params
-     *                  since_id.  Optional.  Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
-     *                      o Example: http://api.twitter.com/1/twitterapi/lists/team/statuses.xml?since_id=12345
-     *                  max_id. Optional.  Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
-     *                      o Example: http://api.twitter.com/1/twitterapi/lists/team/statuses.xml?max_id=54321
-     *                  per_page.  Optional.  Specifies the number of statuses to retrieve. May not be greater than 200.
-     *                      o Example: http://api.twitter.com/1/twitterapi/lists/team/statuses.xml?per_page=5
-     *                  page. Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
-     *                      o Example: http://api.twitter.com/1/twitterapi/lists/team/statuses.xml?page=3
+     *      since_id.  Optional.  Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+     *      max_id. Optional.  Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+     *      per_page.  Optional.  Specifies the number of statuses to retrieve. May not be greater than 200.
+     *      page. Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
      * @return array|false
      * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-list-statuses
      */
@@ -1062,10 +1058,8 @@ class TwitterSource extends DataSource {
      *
      * @param string $user
      * @param array  $params
-     *                  cursor. Optional. Breaks the results into pages. A single page contains 20 lists. Provide a value of -1 to begin paging.
-     *                          Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
-     *                      o Example: http://api.twitter.com/1/twitterapi/lists/memberships.xml?cursor=-1
-     *                      o Example: http://api.twitter.com/1/twitterapi/lists/memberships.xml?cursor=-1300794057949944903
+     *      cursor. Optional. Breaks the results into pages. A single page contains 20 lists. Provide a value of -1 to begin paging.
+     *                        Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
      * @return array|false
      * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-list-statuses
      */
@@ -1087,10 +1081,8 @@ class TwitterSource extends DataSource {
      *
      * @param string $user
      * @param array  $params
-     *                  cursor. Optional. Breaks the results into pages. A single page contains 20 lists. Provide a value of -1 to begin paging.
-     *                          Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
-     *                      o Example: http://api.twitter.com/1/twitterapi/lists/subscriptions.xml?cursor=-1
-     *                      o Example: http://api.twitter.com/1/twitterapi/lists/subscriptions.xml?cursor=-1300794057949944903
+     *      cursor. Optional. Breaks the results into pages. A single page contains 20 lists. Provide a value of -1 to begin paging.
+     *                        Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
      * @return array|false
      * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-list-statuses
      */
@@ -1118,11 +1110,9 @@ class TwitterSource extends DataSource {
      * @param string $user
      * @param string $list_id
      * @param array  $params
-     *                  list_id.  Required. The id or slug of the list.
-     *                  cursor.   Optional. Breaks the results into pages. A single page contains 20 lists. Provide a value of -1 to begin paging.
-     *                            Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
-     *                      o Example: http://api.twitter.com/1/twitterapi/team/members.xml?cursor=-1
-     *                      o Example: http://api.twitter.com/1/twitterapi/team/members.xml?cursor=-1300794057949944903
+     *      list_id.  Required. The id or slug of the list.
+     *      cursor.   Optional. Breaks the results into pages. A single page contains 20 lists. Provide a value of -1 to begin paging.
+     *                          Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
      * @return array|false
      * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-list-members
      */
