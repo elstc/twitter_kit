@@ -21,15 +21,15 @@ App::import('vendor', 'TwitterKit.HttpSocketOauth', array('file' => 'http_socket
  * @subpackage twitter_kit.models.datasouces
  * @since      TwitterKit 1.0
  * @modifiedby nojimage <nojima at elasticconsultants.com>
- * 
+ *
  * @see http://apiwiki.twitter.com/Twitter-API-Documentation
- * 
+ *
  * This Class use HttpSocketOAuth:
- *   
+ *
  *   Neil Crookes » OAuth extension to CakePHP HttpSocket
  *     http://www.neilcrookes.com/2010/04/12/cakephp-oauth-extension-to-httpsocket/
  *     http://github.com/neilcrookes/http_socket_oauth
- *     
+ *
  * Thank you.
  */
 class TwitterSource extends DataSource {
@@ -253,6 +253,138 @@ class TwitterSource extends DataSource {
     // == Search API Methods
     // ====================================================
 
+    /**
+     * search
+     *
+     * @param array  $params
+     *     lang:        Optional: Restricts tweets to the given language, given by an ISO 639-1 code.
+     *     locale:      Optional. Specify the language of the query you are sending (only ja is currently effective).
+     *                            This is intended for language-specific clients and the default should work in the majority of cases.
+     *     max_id:      Optional. Returns tweets with status ids less than the given id.
+     *     q:           Optional. The text to search for.  See the example queries section for examples of the syntax supported in this parameter
+     *     rpp:         Optional. The number of tweets to return per page, up to a max of 100.
+     *     page:        Optional. The page number (starting at 1) to return, up to a max of roughly 1500 results (based on rpp * page. Note: there are pagination limits.
+     *     since:       Optional. Returns tweets with since the given date.  Date should be formatted as YYYY-MM-DD
+     *     since_id:    Optional. Returns tweets with status ids greater than the given id.
+     *     geocode:     Optional. Returns tweets by users located within a given radius of the given latitude/longitude.
+     *                            The location is preferentially taking from the Geotagging API, but will fall back to their Twitter profile.
+     *                            The parameter value is specified by "latitide,longitude,radius", where radius units must be specified as either "mi" (miles) or "km" (kilometers).
+     *                            Note that you cannot use the near operator via the API to geocode arbitrary locations; however you can use this geocode parameter to search near geocodes directly.
+     *     show_user:   Optional. When true, prepends "<user>:" to the beginning of the tweet. This is useful for readers that do not display Atom's author field. The default is false.
+     *     until:       Optional. Returns tweets with generated before the given date.  Date should be formatted as YYYY-MM-DD
+     *     result_type: Optional. Specifies what type of search results you would prefer to receive.
+     *         o Valid values include:
+     *             + mixed: In a future release this will become the default value. Include both popular and real time results in the response.
+     *             + recent: The current default value. Return only the most recent results in the response.
+     *             + popular: Return only the most popular results in the response.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-Search-API-Method%3A-search
+     */
+    public function search($params = array()) {
+
+        $url    = sprintf('http://search.twitter.com/search.json');
+        $method = 'GET';
+
+        if (is_string($params)) {
+
+            $params = array('q' => $params);
+
+        }
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * trends
+     *
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-Search-API-Method%3A-trends
+     */
+    public function trends($params = array()) {
+
+        $url    = sprintf('http://search.twitter.com/trends.json');
+        $method = 'GET';
+
+        if (is_string($params)) {
+
+            $params = array('q' => $params);
+
+        }
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * trends/current
+     *
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-Search-API-Method%3A-trends-current
+     */
+    public function trends_current($params = array()) {
+
+        $url    = sprintf('http://search.twitter.com/trends/current.json');
+        $method = 'GET';
+
+        if (is_string($params)) {
+
+            $params = array('exclude' => $params);
+
+        }
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * trends/daily
+     *
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-Search-API-Method%3A-trends-daily
+     */
+    public function trends_daily($params = array()) {
+
+        $url    = sprintf('http://search.twitter.com/trends/daily.json');
+        $method = 'GET';
+
+        if (is_string($params)) {
+
+            $params = array('date' => $params);
+
+        }
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * trends/weekly
+     *
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-Search-API-Method%3A-trends-weekly
+     */
+    public function trends_weekly($params = array()) {
+
+        $url    = sprintf('http://search.twitter.com/trends/weekly.json');
+        $method = 'GET';
+
+        if (is_string($params)) {
+
+            $params = array('date' => $params);
+
+        }
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+
     // ====================================================
     // == Timeline Methods
     // ====================================================
@@ -275,7 +407,7 @@ class TwitterSource extends DataSource {
      *                  name.         Required. The name of the list you are creating.
      *                  mode.         Optional. Whether your list is public or private. Values can be public or private. Lists are public by default if no mode is specified.
      *                  description.  Optional. The description of the list you are creating.
-     * @return object|false
+     * @return array|false
      * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-POST-lists
      */
     public function post_lists($user, $params = array()) {
@@ -300,7 +432,7 @@ class TwitterSource extends DataSource {
      *                  name.         Required. The name of the list you are creating.
      *                  mode.         Optional. Whether your list is public or private. Values can be public or private. Lists are public by default if no mode is specified.
      *                  description.  Optional. The description of the list you are creating.
-     * @return object|false
+     * @return array|false
      * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-POST-lists-id
      */
     public function post_lists_id($user, $id, $params = array()) {
@@ -321,7 +453,7 @@ class TwitterSource extends DataSource {
      *
      * @param string $user
      * @param array  $params
-     * @return object|false
+     * @return array|false
      * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-lists
      */
     public function get_lists($user, $params = array()) {
@@ -343,7 +475,7 @@ class TwitterSource extends DataSource {
      * @param string $user
      * @param string $id
      * @param array  $params
-     * @return object|false
+     * @return array|false
      * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-list-id
      */
     public function get_lists_id($user, $id, $params = array()) {
@@ -365,7 +497,7 @@ class TwitterSource extends DataSource {
      * @param string $user
      * @param string $id
      * @param array  $params
-     * @return object|false
+     * @return array|false
      * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-DELETE-list-members
      */
     public function delete_lists_id($user, $id, $params = array()) {
@@ -397,7 +529,7 @@ class TwitterSource extends DataSource {
      *                      o Example: http://api.twitter.com/1/twitterapi/lists/team/statuses.xml?per_page=5
      *                  page. Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
      *                      o Example: http://api.twitter.com/1/twitterapi/lists/team/statuses.xml?page=3
-     * @return object|false
+     * @return array|false
      * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-list-statuses
      */
     public function get_lists_statuses($user, $list_id, $params = array()) {
@@ -422,7 +554,7 @@ class TwitterSource extends DataSource {
      *                          Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
      *                      o Example: http://api.twitter.com/1/twitterapi/lists/memberships.xml?cursor=-1
      *                      o Example: http://api.twitter.com/1/twitterapi/lists/memberships.xml?cursor=-1300794057949944903
-     * @return object|false
+     * @return array|false
      * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-list-statuses
      */
     public function get_lists_memberships($user, $params = array()) {
@@ -447,7 +579,7 @@ class TwitterSource extends DataSource {
      *                          Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
      *                      o Example: http://api.twitter.com/1/twitterapi/lists/subscriptions.xml?cursor=-1
      *                      o Example: http://api.twitter.com/1/twitterapi/lists/subscriptions.xml?cursor=-1300794057949944903
-     * @return object|false
+     * @return array|false
      * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-list-statuses
      */
     public function get_lists_subscriptions($user, $params = array()) {
@@ -479,7 +611,7 @@ class TwitterSource extends DataSource {
      *                            Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
      *                      o Example: http://api.twitter.com/1/twitterapi/team/members.xml?cursor=-1
      *                      o Example: http://api.twitter.com/1/twitterapi/team/members.xml?cursor=-1300794057949944903
-     * @return object|false
+     * @return array|false
      * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-list-members
      */
     public function get_list_members($user, $list_id, $params = array()) {
@@ -501,7 +633,7 @@ class TwitterSource extends DataSource {
      * @param string $user
      * @param string $list_id
      * @param array  $params array('id' => user_id)
-     * @return object|false
+     * @return array|false
      * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-POST-list-members
      */
     public function post_list_members($user, $list_id, $params = array()) {
@@ -523,7 +655,7 @@ class TwitterSource extends DataSource {
      * @param string $user
      * @param string $list_id
      * @param array  $params array('id' => user_id)
-     * @return object|false
+     * @return array|false
      * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-DELETE-list-members
      */
     public function delete_list_members($user, $list_id, $params = array()) {
@@ -548,7 +680,7 @@ class TwitterSource extends DataSource {
      * @param string $list_id
      * @param string $id
      * @param array  $params
-     * @return object|false
+     * @return array|false
      * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-list-members-id
      */
     public function get_list_members_id($user, $list_id, $id, $params = array()) {
