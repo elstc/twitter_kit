@@ -94,10 +94,147 @@ class TwitterSource extends DataSource {
     }
 
     /**
+     * Reset object vars
+     */
+    public function reset() {
+
+        $this->oauth_consumer_key    = $this->config['oauth_consumer_key'];
+        $this->oauth_consumer_secret = $this->config['oauth_consumer_secret'];
+        $this->oauth_token           = $this->config['oauth_token'];
+        $this->oauth_token_secret    = $this->config['oauth_token_secret'];
+        $this->oauth_callback        = $this->config['oauth_callback'];
+
+    }
+
+    /**
+     * set OAuth Token
+     *
+     * @param mixed  $token
+     * @param string $secret
+     * @return ture|false
+     */
+    public function setToken($token, $secret = null) {
+
+        if (is_array($token) && !empty($token['oauth_token']) && !empty($token['oauth_token_secret'])) {
+
+            $this->oauth_token        = $token['oauth_token'];
+            $this->oauth_token_secret = $token['oauth_token_secret'];
+
+            return true;
+
+        } else if (!empty($token) && !empty($secret)) {
+
+            $this->oauth_token        = $token;
+            $this->oauth_token_secret = $secret;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Request API and process responce
+     *
+     * @param array $params
+     * @param bool  $is_process
+     * @return mixed
+     */
+    protected function _request($params, $is_process = true) {
+
+        $response = $this->Http->request($params);
+
+        if ($is_process) {
+
+            $response = json_decode($response);
+
+        }
+
+        return $response;
+    }
+
+    /**
+     * Build request array
+     *
+     * @param string $url
+     * @param string $method
+     * @param array  $body   GET: query string POST: post data
+     * @return array
+     */
+    protected function _buildRequest($url, $method = 'GET', $body = array()) {
+
+        $method = strtoupper($method);
+
+        // extract path
+        if (!preg_match('!^http!', $url)) {
+
+            $url = self::TWITTER_API_URL_BASE . $url;
+
+        }
+
+        $uri = parse_url($url);
+
+        // add GET params
+        if (!empty($body) && $method == 'GET') {
+
+            $uri['query'] = array_merge($uri['query'], $body);
+            $body = array();
+
+        }
+
+        $params = compact('uri', 'method', 'body');
+
+        // -- Set Auth parameter
+        if (!empty($this->oauth_consumer_key) && !empty($this->oauth_consumer_secret)) {
+
+            // OAuth
+            $params['auth']['method'] = 'OAuth';
+            $params['auth']['oauth_consumer_key']    = $this->oauth_consumer_key;
+            $params['auth']['oauth_consumer_secret'] = $this->oauth_consumer_secret;
+
+            if (!empty($this->oauth_token) && !empty($this->oauth_token_secret)) {
+
+                $params['auth']['oauth_token']        = $this->oauth_token;
+                $params['auth']['oauth_token_secret'] = $this->oauth_token_secret;
+
+            }
+
+        }
+
+        return $params;
+    }
+
+    /**
+     * for DebugKit call
+     */
+    public function getLog() {
+
+        return array('log' => array(), 'count' => array(), 'time' => array());
+
+    }
+
+    /**
+     * check Xml response
+     *
+     * @param  string $src
+     * @return true|false
+     */
+    protected function _isXml($src) {
+
+        return preg_match('!^<\?xml!', $src);
+
+    }
+
+    // ====================================================
+    // == OAuth Methods
+    // ====================================================
+
+    /**
      * Get OAuth Request Token
      *
      * @param  string $oauth_callback
      * @return array
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-oauth-request_token
      */
     public function oauth_request_token($oauth_callback = null) {
 
@@ -145,6 +282,7 @@ class TwitterSource extends DataSource {
      *
      * @param  string $oauth_token
      * @return string
+     * @see    http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-oauth-authorize
      */
     public function oauth_authorize($oauth_token = '') {
 
@@ -162,6 +300,7 @@ class TwitterSource extends DataSource {
      *
      * @param  string $oauth_token
      * @return string
+     * @see    http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-oauth-authenticate
      */
     public function oauth_authenticate($oauth_token = '') {
 
@@ -174,6 +313,14 @@ class TwitterSource extends DataSource {
         return $url . '?oauth_token=' . $oauth_token;
     }
 
+    /**
+     * get oauth access token
+     *
+     * @param  string $oauth_token
+     * @param  string $oauth_verifier
+     * @return array
+     * @see    http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-oauth-access_token
+     */
     public function oauth_access_token($oauth_token, $oauth_verifier) {
 
         $url    = 'http://api.twitter.com/oauth/access_token';
@@ -208,122 +355,6 @@ class TwitterSource extends DataSource {
         return $response;
     }
 
-    protected function _request($params, $is_process = true) {
-
-        $response = $this->Http->request($params);
-
-        if ($is_process) {
-
-            $response = json_decode($response);
-
-        }
-
-        return $response;
-    }
-
-    protected function _buildRequest($url, $method = 'GET', $body = array()) {
-
-        $method = strtoupper($method);
-
-        // extract path
-        if (!preg_match('!^http!', $url)) {
-
-            $url = self::TWITTER_API_URL_BASE . $url;
-
-        }
-
-        $uri = parse_url($url);
-
-        // add GET params
-        if (!empty($body) && $method == 'GET') {
-
-            $uri['query'] = array_merge($uri['query'], $body);
-            $body = array();
-             
-        }
-
-        $params = compact('uri', 'method', 'body');
-
-        // -- Set Auth parameter
-        if (!empty($this->oauth_consumer_key) && !empty($this->oauth_consumer_secret)) {
-
-            // OAuth
-            $params['auth']['method'] = 'OAuth';
-            $params['auth']['oauth_consumer_key']    = $this->oauth_consumer_key;
-            $params['auth']['oauth_consumer_secret'] = $this->oauth_consumer_secret;
-
-            if (!empty($this->oauth_token) && !empty($this->oauth_token_secret)) {
-
-                $params['auth']['oauth_token']        = $this->oauth_token;
-                $params['auth']['oauth_token_secret'] = $this->oauth_token_secret;
-
-            }
-
-        }
-
-        return $params;
-    }
-
-    /**
-     *
-     * @param mixed  $token
-     * @param string $secret
-     * @return ture|false
-     */
-    public function setToken($token, $secret = null) {
-
-        if (is_array($token) && !empty($token['oauth_token']) && !empty($token['oauth_token_secret'])) {
-
-            $this->oauth_token        = $token['oauth_token'];
-            $this->oauth_token_secret = $token['oauth_token_secret'];
-
-            return true;
-
-        } else if (!empty($token) && !empty($secret)) {
-
-            $this->oauth_token        = $token;
-            $this->oauth_token_secret = $secret;
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     *
-     */
-    public function reset() {
-
-        $this->oauth_consumer_key    = $this->config['oauth_consumer_key'];
-        $this->oauth_consumer_secret = $this->config['oauth_consumer_secret'];
-        $this->oauth_token           = $this->config['oauth_token'];
-        $this->oauth_token_secret    = $this->config['oauth_token_secret'];
-        $this->oauth_callback        = $this->config['oauth_callback'];
-
-    }
-
-    /**
-     * for DebugKit call
-     */
-    public function getLog() {
-
-        return array('log' => array(), 'count' => array(), 'time' => array());
-
-    }
-
-    /**
-     * check Xml response
-     *
-     * @param  string $src
-     * @return true|false
-     */
-    protected function _isXml($src) {
-
-        return preg_match('!^<\?xml!', $src);
-
-    }
-
     /**
      * get Error Message
      *
@@ -337,7 +368,6 @@ class TwitterSource extends DataSource {
 
         return !empty($result['Hash']['error']) ? $result['Hash']['error'] : 'Error';
     }
-
 
     // ====================================================
     // == Lists Methods
