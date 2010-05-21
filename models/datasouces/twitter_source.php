@@ -2180,6 +2180,93 @@ class TwitterSource extends DataSource {
     // == Saved Searches Methods
     // ====================================================
 
+    /**
+     * saved_searches
+     *
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-saved_searches
+     */
+    public function saved_searches($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/saved_searches.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * saved_searches/show
+     *
+     * @param string $id
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-saved_searches-show
+     */
+    public function saved_searches_show($id, $params = array()) {
+
+        if (empty($id)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/saved_searches/show/%s.json', $id);
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * saved_searches/create
+     *
+     * @param array  $params
+     *      query.  Required.  The query of the search the user would like to save.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-saved_searches-create
+     */
+    public function saved_searches_create($params = array()) {
+
+        if (empty($params)) {
+            return false;
+        }
+
+        if (is_string($params)) {
+
+            $params = array('query' => $params);
+
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/saved_searches/create.json');
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * saved_searches/destroy
+     *
+     * @param string $id Required.  The id of the saved search to be deleted.
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-saved_searches-destroy
+     */
+    public function saved_searches_destroy($id, $params = array()) {
+
+        if (empty($id)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/saved_searches/destroy/%s.json', $id);
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+
     // ====================================================
     // == OAuth Methods
     // ====================================================
