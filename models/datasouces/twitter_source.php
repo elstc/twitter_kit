@@ -735,73 +735,177 @@ class TwitterSource extends DataSource {
         return $this->_request($this->_buildRequest($url, $method, $params));
     }
 
-    /**
-     * statuses/show
-     *
-     * @param string $id
-     * @param array  $params
-     * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses%C2%A0show
-     */
-    public function statuses_show($id, $params = array()) {
-
-        if (empty($id)) {
-            return false;
-        }
-
-        $url    = sprintf('http://api.twitter.com/1/statuses/show/%s.json', $id);
-        $method = 'GET';
-
-        // request
-        return $this->_request($this->_buildRequest($url, $method, $params));
-    }
-
-    /**
-     * statuses/show
-     *
-     * @param string $id
-     * @param array  $params
-     * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses%C2%A0show
-     */
-    public function statuses_show($id, $params = array()) {
-
-        if (empty($id)) {
-            return false;
-        }
-
-        $url    = sprintf('http://api.twitter.com/1/statuses/show/%s.json', $id);
-        $method = 'GET';
-
-        // request
-        return $this->_request($this->_buildRequest($url, $method, $params));
-    }
-
-    /**
-     * statuses/show
-     *
-     * @param string $id
-     * @param array  $params
-     * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses%C2%A0show
-     */
-    public function statuses_show($id, $params = array()) {
-
-        if (empty($id)) {
-            return false;
-        }
-
-        $url    = sprintf('http://api.twitter.com/1/statuses/show/%s.json', $id);
-        $method = 'GET';
-
-        // request
-        return $this->_request($this->_buildRequest($url, $method, $params));
-    }
-
 
     // ====================================================
     // == User Methods
     // ====================================================
+
+    /**
+     * users/show
+     *
+     * @param string $id The ID or screen name of a user.
+     * @param array  $params
+     *      user_id.     Specfies the ID of the user to return. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name. Specfies the screen name of the user to return. Helpful for disambiguating when a valid screen name is also a user ID.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-users%C2%A0show
+     */
+    public function users_show($id = null, $params = array()) {
+
+        if (!empty($id)) {
+            $id = '/' . $id;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/users/show%s.json', $id);
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * users/lookup
+     *
+     * @param array  $params
+     *      user_id.     Specfies the ID of the user to return.
+     *      screen_name. Specfies the screen name of the user to return.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-users-lookup
+     */
+    public function users_lookup($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/users/lookup.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * users/search
+     *
+     * @param array  $params
+     *      q.         Required. The query to run against people search.
+     *      per_page.  Optional. Specifies the number of statuses to retrieve. May not be greater than 20.
+     *      page.      Optional. Specifies the page of results to retrieve.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-users-search
+     */
+    public function users_search($params = array()) {
+
+        if (empty($params)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/users/search.json');
+        $method = 'GET';
+
+        if (is_string($params)) {
+
+            $params = array('q' => $params);
+
+        }
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * users/suggestions
+     *
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-users-suggestions
+     */
+    public function users_suggestions($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/users/suggestions.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * users/suggestions/:slug
+     *
+     * @param string $slug
+     * @param array  $params
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-users-suggestions-category
+     */
+    public function users_suggestions_category($slug, $params = array()) {
+
+        if (empty($slug)) {
+            return false;
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/users/suggestions/%s.json', $slug);
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * statuses/friends
+     *
+     * @param array  $params
+     *      id.           Optional. The ID or screen name of the user for whom to request a list of friends.
+     *      user_id.      Optional. Specfies the ID of the user for whom to return the list of friends. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name.  Optional. Specfies the screen name of the user for whom to return the list of friends. Helpful for disambiguating when a valid screen name is also a user ID.
+     *      cursor.       Optional. Breaks the results into pages. A single page contains 100 users. This is recommended for users who are following many users.
+     *                              Provide a value of  -1 to begin paging. Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses%C2%A0friends
+     */
+    public function statuses_friends($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/friends.json');
+        $method = 'GET';
+
+        if (is_string($params)) {
+
+            $params = array('id' => $params);
+
+        }
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * statuses/followers
+     *
+     * @param array  $params
+     *      id.           Optional. The ID or screen name of the user for whom to request a list of friends.
+     *      user_id.      Optional. Specfies the ID of the user for whom to return the list of friends. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name.  Optional. Specfies the screen name of the user for whom to return the list of friends. Helpful for disambiguating when a valid screen name is also a user ID.
+     *      cursor.       Optional. Breaks the results into pages. A single page contains 100 users. This is recommended for users who are following many users.
+     *                              Provide a value of  -1 to begin paging. Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses%C2%A0followers
+     */
+    public function statuses_followers($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/followers.json');
+        $method = 'GET';
+
+        if (is_string($params)) {
+
+            $params = array('id' => $params);
+
+        }
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
 
     // ====================================================
     // == List Methods
