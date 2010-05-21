@@ -44,9 +44,9 @@ class OauthController extends AppController {
     public function beforeFilter()
     {
         if (!empty($this->Auth) && is_object($this->Auth)) {
-            
+
             $this->Auth->allow('authorize_url', 'authenticate_url');
-            
+
         }
 
         parent::beforeFilter();

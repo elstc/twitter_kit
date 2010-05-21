@@ -26,6 +26,8 @@ class TwitterComponent extends Object {
 
     public $name = 'Twitter';
 
+    public $components = array('Cookie');
+
     public $settings = array(
         'datasource' => 'twitter',
         'fields' => array(
@@ -45,6 +47,18 @@ class TwitterComponent extends Object {
      */
     public $DataSource;
 
+    /**
+     *
+     * @var CookieComponent
+     */
+    public $Cookie;
+
+    /**
+     * default: 5min
+     *
+     * @var int
+     */
+    CONST OAUTH_URL_COOKIE_EXPIRE = 300;
 
     /**
      *
@@ -59,6 +73,7 @@ class TwitterComponent extends Object {
 
         $this->getTwitterSource();
 
+        $this->Cookie->path = Router::url('/' . $this->controller->params['url']['url']);
     }
 
     /**
@@ -114,26 +129,66 @@ class TwitterComponent extends Object {
      * make OAuth Authorize URL
      *
      * @param string $callback_url
+     * @param bool   $use_cookie
      * @return string authorize_url
      */
-    public function getAuthorizeUrl($callback_url = null) {
+    public function getAuthorizeUrl($callback_url = null, $use_cookie = true) {
 
+        // -- check Cookie
+        $cookie_key = $this->DataSource->configKeyName . '_authorize_url';
+
+        if ($use_cookie && $this->Cookie->read($cookie_key)) {
+
+            return $this->Cookie->read($cookie_key);
+
+        }
+
+        // -- request token
         $token = $this->DataSource->oauth_request_token($callback_url);
 
-        return $this->DataSource->oauth_authorize();
+        $url = $this->DataSource->oauth_authorize();
+
+        // -- set cookie
+        if ($use_cookie) {
+
+            $this->Cookie->write($cookie_key, $url, true, self::OAUTH_URL_COOKIE_EXPIRE);
+
+        }
+
+        return $url;
     }
 
     /**
      * make OAuth Authenticate URL
      *
      * @param string $callback_url
+     * @param bool   $use_cookie
      * @return string authorize_url
      */
-    public function getAuthenticateUrl($callback_url = null) {
+    public function getAuthenticateUrl($callback_url = null, $use_cookie = true) {
 
+        // -- check Cookie
+        $cookie_key = $this->DataSource->configKeyName . '_authenticate_url';
+
+        if ($use_cookie && $this->Cookie->read($cookie_key)) {
+
+            return $this->Cookie->read($cookie_key);
+
+        }
+
+        // -- request token
         $token = $this->DataSource->oauth_request_token($callback_url);
 
-        return $this->DataSource->oauth_authenticate();
+        $url = $this->DataSource->oauth_authenticate();
+
+        // -- set cookie
+        if ($use_cookie) {
+
+            $this->Cookie->write($cookie_key, $url, true, self::OAUTH_URL_COOKIE_EXPIRE);
+
+        }
+
+        return $url;
     }
 
     /**
