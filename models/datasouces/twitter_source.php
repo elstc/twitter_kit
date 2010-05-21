@@ -146,7 +146,7 @@ class TwitterSource extends DataSource {
 
         if ($is_process) {
 
-            $response = json_decode($response);
+            $response = json_decode($response, true);
 
         }
 
