@@ -1913,6 +1913,81 @@ class TwitterSource extends DataSource {
     // == Notification Methods
     // ====================================================
 
+    /**
+     * notifications/follow
+     *
+     * @param array  $params
+     *      id.           Required. The ID or screen name of the user to follow with device updates.
+     *      user_id.      Required. Specfies the ID of the user to follow with device updates. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name.  Required. Specfies the screen name of the user to follow with device updates. Helpful for disambiguating when a valid screen name is also a user ID.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-notifications%C2%A0follow
+     */
+    public function notifications_follow($params = array()) {
+
+        if (empty($params)) {
+            return false;
+        }
+
+        if (is_string($params)) {
+
+            $params = array('id' => $params);
+
+        }
+
+        $id = '';
+
+        if (!empty($params['id'])) {
+            $id = '/' . $id;
+            unset($params['id']);
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/notifications/follow%s.json', $id);
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * notifications/leave
+     *
+     * @param array  $params
+     *      id.           Required. The ID or screen name of the user to follow with device updates.
+     *      user_id.      Required. Specfies the ID of the user to follow with device updates. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name.  Required. Specfies the screen name of the user to follow with device updates. Helpful for disambiguating when a valid screen name is also a user ID.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-notifications%C2%A0leave
+     */
+    public function notifications_leave($params = array()) {
+
+        if (empty($params)) {
+            return false;
+        }
+
+        if (is_string($params)) {
+
+            $params = array('id' => $params);
+
+        }
+
+        $id = '';
+
+        if (!empty($params['id'])) {
+            $id = '/' . $id;
+            unset($params['id']);
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/notifications/leave%s.json', $id);
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+
     // ====================================================
     // == Block Methods
     // ====================================================
