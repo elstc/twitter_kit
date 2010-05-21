@@ -1992,9 +1992,189 @@ class TwitterSource extends DataSource {
     // == Block Methods
     // ====================================================
 
+    /**
+     * blocks/create
+     *
+     * @param array  $params
+     *      id.          Optional.  The ID or screen_name of the potentially blocked user.
+     *      user_id.     Optional.  Specfies the ID of the potentially blocked user. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name. Optional.  Specfies the screen name of the potentially blocked user. Helpful for disambiguating when a valid screen name is also a user ID.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-blocks%C2%A0create
+     */
+    public function blocks_create($params = array()) {
+
+        if (empty($params)) {
+            return false;
+        }
+
+        if (is_string($params)) {
+
+            $params = array('id' => $params);
+
+        }
+
+        $id = '';
+
+        if (!empty($params['id'])) {
+            $id = '/' . $id;
+            unset($params['id']);
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/blocks/create%s.json', $id);
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * blocks/destroy
+     *
+     * @param array  $params
+     *      id.          Optional.  The ID or screen_name of the potentially blocked user.
+     *      user_id.     Optional.  Specfies the ID of the potentially blocked user. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name. Optional.  Specfies the screen name of the potentially blocked user. Helpful for disambiguating when a valid screen name is also a user ID.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-blocks%C2%A0destroy
+     */
+    public function blocks_destroy($params = array()) {
+
+        if (empty($params)) {
+            return false;
+        }
+
+        if (is_string($params)) {
+
+            $params = array('id' => $params);
+
+        }
+
+        $id = '';
+
+        if (!empty($params['id'])) {
+            $id = '/' . $id;
+            unset($params['id']);
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/blocks/destroy%s.json', $id);
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * blocks/exists
+     *
+     * @param array  $params
+     *      id.          Optional.  The ID or screen_name of the potentially blocked user.
+     *      user_id.     Optional.  Specfies the ID of the potentially blocked user. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name. Optional.  Specfies the screen name of the potentially blocked user. Helpful for disambiguating when a valid screen name is also a user ID.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter+REST+API+Method%3A-blocks-exists
+     *
+     * TODO: Block does not exist, returned as an HTTP 404
+     */
+    public function blocks_exists($params = array()) {
+
+        if (empty($params)) {
+            return false;
+        }
+
+        if (is_string($params)) {
+
+            $params = array('id' => $params);
+
+        }
+
+        $id = '';
+
+        if (!empty($params['id'])) {
+            $id = '/' . $id;
+            unset($params['id']);
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/blocks/exists%s.json', $id);
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * blocks/blocking
+     *
+     * @param array  $params
+     *      page. Optional. Specifies the page number of the results beginning at 1. A single page contains 20 ids.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter+REST+API+Method%3A-blocks-blocking
+     */
+    public function blocks_blocking($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/blocks/blocking.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * blocks/blocking/ids
+     *
+     * @param array  $params
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-blocks-blocking-ids
+     */
+    public function blocks_blocking_ids($params = array()) {
+
+        $url    = sprintf('http://api.twitter.com/1/blocks/blocking/ids.json');
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+
     // ====================================================
     // == Spam Reporting Methods
     // ====================================================
+
+    /**
+     * report_spam
+     *
+     * @param array  $params
+     *      id.          Optional.  The ID or screen_name of the potentially blocked user.
+     *      user_id.     Optional.  Specfies the ID of the potentially blocked user. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name. Optional.  Specfies the screen name of the potentially blocked user. Helpful for disambiguating when a valid screen name is also a user ID.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-report_spam
+     */
+    public function report_spam($params = array()) {
+
+        if (empty($params)) {
+            return false;
+        }
+
+        if (is_string($params)) {
+
+            $params = array('id' => $params);
+
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/report_spam.json');
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
 
     // ====================================================
     // == Saved Searches Methods
