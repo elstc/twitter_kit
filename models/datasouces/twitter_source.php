@@ -1582,6 +1582,76 @@ class TwitterSource extends DataSource {
     // == Social Graph Methods
     // ====================================================
 
+    /**
+     * friends/ids
+     *
+     * @param array  $params
+     *      id.           Optional. The ID or screen_name of the user to retrieve the friends ID list for.
+     *      user_id.      Optional. Specfies the ID of the user for whom to return the friends list. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name.  Optional. Specfies the screen name of the user for whom to return the friends list. Helpful for disambiguating when a valid screen name is also a user ID.
+     *      cursor.       Required. Breaks the results into pages. A single page contains 5000 identifiers. This is recommended for all purposes. Provide a value of -1 to begin paging.
+     *                              Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-friends%C2%A0ids
+     */
+    public function friends_ids($params = array()) {
+
+        if (is_string($params)) {
+
+            $params = array('id' => $params);
+
+        }
+
+        $id = '';
+
+        if (!empty($params['id'])) {
+            $id = '/' . $id;
+            unset($params['id']);
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/friends/ids%s.json', $id);
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
+     * followers/ids
+     *
+     * @param array  $params
+     *      id.           Optional. The ID or screen_name of the user to retrieve the friends ID list for.
+     *      user_id.      Optional. Specfies the ID of the user for whom to return the friends list. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name.  Optional. Specfies the screen name of the user for whom to return the friends list. Helpful for disambiguating when a valid screen name is also a user ID.
+     *      cursor.       Required. Breaks the results into pages. A single page contains 5000 identifiers. This is recommended for all purposes. Provide a value of -1 to begin paging.
+     *                              Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
+     *
+     * @return array|false
+     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-followers%C2%A0ids
+     */
+    public function followers_ids($params = array()) {
+
+        if (is_string($params)) {
+
+            $params = array('id' => $params);
+
+        }
+
+        $id = '';
+
+        if (!empty($params['id'])) {
+            $id = '/' . $id;
+            unset($params['id']);
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/followers/ids%s.json', $id);
+        $method = 'GET';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
 
     // ====================================================
     // == Account Methods
