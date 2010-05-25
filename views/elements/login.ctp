@@ -28,12 +28,12 @@ $datasource    = isset($datasource)    ? $datasource    : 'twitter';
 $auth_url      = isset($authenticate) && $authenticate  ? 'authenticate_url' : 'authorize_url';
 $js->buffer("
 $.getJSON('{$html->url('/twitter_kit/oauth/' . $auth_url . '/' . $datasource, true)}', {}, function(data){
-    var link = $('<p>').append($('<a>').attr('href', data.url).text('{$login_message}'));
+    var link = $('<a>').attr('href', data.url).text('{$login_message}');
     $('#twitter-login-wrap .loading').remove();
     $('#twitter-login-wrap').append(link);
 });
 ");
 ?>
-<div id="twitter-login-wrap">
-<p class="loading"><?php echo $load_message; ?></p>
-</div>
+<span id="twitter-login-wrap">
+<span class="loading"><?php echo $load_message; ?></span>
+</span>
