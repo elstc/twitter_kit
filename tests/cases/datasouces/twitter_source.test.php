@@ -2,10 +2,10 @@
 /**
  * Twitter API Datasouce Test Case
  *
- * for CakePHP 1.3.0
- * PHP version 5
+ * for CakePHP 1.3+
+ * PHP version 5.2+
  *
- * Copyright 2010, elasticconsultants.com
+ * Copyright 2010, ELASTIC Consultants Inc. (http://elasticconsultants.com)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
@@ -13,7 +13,7 @@
  * @filesource
  * @version    1.0
  * @author     nojimage <nojima at elasticconsultants.com>
- * @copyright  2010 elasticconsultants co.,ltd.
+ * @copyright  2010, ELASTIC Consultants Inc.
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
  * @link       http://elasticconsultants.com
  * @package    twitter_kit

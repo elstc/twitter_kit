@@ -2,6 +2,8 @@
 
 This plugin provides Twitter API DataSource, Behavior, Components, with OAuth support.
 
+Copyright 2010, ELASTIC Consultants Inc. (http://elasticconsultants.com)
+
 ## Features
  * TwitterKit.TwitterSource
  * TwitterKit.TwitterBehavior
