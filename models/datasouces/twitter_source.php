@@ -258,21 +258,21 @@ class TwitterSource extends DataSource {
      *
      * @param array  $params
      *     lang:        Optional: Restricts tweets to the given language, given by an ISO 639-1 code.
-     *     locale:      Optional. Specify the language of the query you are sending (only ja is currently effective).
+     *     locale:      Specify the language of the query you are sending (only ja is currently effective).
      *                            This is intended for language-specific clients and the default should work in the majority of cases.
-     *     max_id:      Optional. Returns tweets with status ids less than the given id.
-     *     q:           Optional. The text to search for.  See the example queries section for examples of the syntax supported in this parameter
-     *     rpp:         Optional. The number of tweets to return per page, up to a max of 100.
-     *     page:        Optional. The page number (starting at 1) to return, up to a max of roughly 1500 results (based on rpp * page. Note: there are pagination limits.
-     *     since:       Optional. Returns tweets with since the given date.  Date should be formatted as YYYY-MM-DD
-     *     since_id:    Optional. Returns tweets with status ids greater than the given id.
-     *     geocode:     Optional. Returns tweets by users located within a given radius of the given latitude/longitude.
+     *     max_id:      Returns tweets with status ids less than the given id.
+     *     q:           The text to search for.  See the example queries section for examples of the syntax supported in this parameter
+     *     rpp:         The number of tweets to return per page, up to a max of 100.
+     *     page:        The page number (starting at 1) to return, up to a max of roughly 1500 results (based on rpp * page: Note: there are pagination limits.
+     *     since:       Returns tweets with since the given date.  Date should be formatted as YYYY-MM-DD
+     *     since_id:    Returns tweets with status ids greater than the given id.
+     *     geocode:     Returns tweets by users located within a given radius of the given latitude/longitude.
      *                            The location is preferentially taking from the Geotagging API, but will fall back to their Twitter profile.
      *                            The parameter value is specified by "latitide,longitude,radius", where radius units must be specified as either "mi" (miles) or "km" (kilometers).
      *                            Note that you cannot use the near operator via the API to geocode arbitrary locations; however you can use this geocode parameter to search near geocodes directly.
-     *     show_user:   Optional. When true, prepends "<user>:" to the beginning of the tweet. This is useful for readers that do not display Atom's author field. The default is false.
-     *     until:       Optional. Returns tweets with generated before the given date.  Date should be formatted as YYYY-MM-DD
-     *     result_type: Optional. Specifies what type of search results you would prefer to receive.
+     *     show_user:   When true, prepends "<user>:" to the beginning of the tweet. This is useful for readers that do not display Atom's author field. The default is false.
+     *     until:       Returns tweets with generated before the given date.  Date should be formatted as YYYY-MM-DD
+     *     result_type: Specifies what type of search results you would prefer to receive.
      *         o Valid values include:
      *             + mixed: In a future release this will become the default value. Include both popular and real time results in the response.
      *             + recent: The current default value. Return only the most recent results in the response.
@@ -297,11 +297,11 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * trends
+     * GET trends
      *
      * @param array  $params
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-Search-API-Method%3A-trends
+     * @see http://dev.twitter.com/doc/get/trends
      */
     public function trends($params = array()) {
 
@@ -319,11 +319,14 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * trends/current
+     * GET trends/current
      *
      * @param array  $params
+     *  *Optional*
+     *      exclude: Setting this equal to hashtags will remove all hashtags from the trends list.
+     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-Search-API-Method%3A-trends-current
+     * @see http://dev.twitter.com/doc/get/trends/current
      */
     public function trends_current($params = array()) {
 
@@ -341,11 +344,15 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * trends/daily
+     * GET trends/daily
      *
      * @param array  $params
+     *  *Optional*
+     *      exclude: Setting this equal to hashtags will remove all hashtags from the trends list.
+     *      date:    Permits specifying a start date for the report. The date should be formatted YYYY-MM-DD.
+     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-Search-API-Method%3A-trends-daily
+     * @see http://dev.twitter.com/doc/get/trends/daily
      */
     public function trends_daily($params = array()) {
 
@@ -363,11 +370,15 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * trends/weekly
+     * GET trends/weekly
      *
      * @param array  $params
+     *  *Optional*
+     *      exclude: Setting this equal to hashtags will remove all hashtags from the trends list.
+     *      date:    Permits specifying a start date for the report. The date should be formatted YYYY-MM-DD.
+     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-Search-API-Method%3A-trends-weekly
+     * @see http://dev.twitter.com/doc/get/trends/weekly
      */
     public function trends_weekly($params = array()) {
 
@@ -390,11 +401,16 @@ class TwitterSource extends DataSource {
     // ====================================================
 
     /**
-     * statuses/public_timeline
+     * GET statuses/public_timeline
      *
      * @param array  $params
+     *  *Optional*
+     *      skip_user:
+     *      include_rts:
+     *      include_entities:
+     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-public_timeline
+     * @see http://dev.twitter.com/doc/get/statuses/public_timeline
      */
     public function statuses_public_timeline($params = array()) {
 
@@ -406,16 +422,19 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * statuses/home_timeline
+     * GET statuses/home_timeline
      *
      * @param array  $params
-     *     since_id.  Optional. Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
-     *     max_id.    Optional. Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
-     *     count.     Optional. Specifies the number of statuses to retrieve. May not be greater than 200.
-     *     page.      Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
+     *  *Optional*
+     *     since_id: Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+     *     max_id:   Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+     *     count:    Specifies the number of statuses to retrieve. May not be greater than 200.
+     *     page:     Specifies the page of results to retrieve. Note: there are pagination limits.
+     *     skip_user:
+     *     include_entities:
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-home_timeline
+     * @see http://dev.twitter.com/doc/get/statuses/home_timeline
      */
     public function statuses_home_timeline($params = array()) {
 
@@ -427,16 +446,20 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * statuses/friends_timeline
+     * GET statuses/friends_timeline
      *
      * @param array  $params
-     *     since_id.  Optional. Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
-     *     max_id.    Optional. Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
-     *     count.     Optional. Specifies the number of statuses to retrieve. May not be greater than 200.
-     *     page.      Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
+     *  *Optional*
+     *     since_id:  Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+     *     max_id:    Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+     *     count:     Specifies the number of statuses to retrieve. May not be greater than 200.
+     *     page:      Specifies the page of results to retrieve. Note: there are pagination limits.
+     *     skip_user:
+     *     include_rts:
+     *     include_entities:
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-friends_timeline
+     * @see http://dev.twitter.com/doc/get/statuses/friends_timeline
      */
     public function statuses_friends_timeline($params = array()) {
 
@@ -448,19 +471,23 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * statuses/user_timeline
+     * GET statuses/user_timeline
      *
      * @param array  $params
-     *     id.          Optional. Specifies the ID or screen name of the user for whom to return the user_timeline.
-     *     user_id.     Optional. Specfies the ID of the user for whom to return the user_timeline. Helpful for disambiguating when a valid user ID is also a valid screen name.
-     *     screen_name. Optional. Specfies the screen name of the user for whom to return the user_timeline. Helpful for disambiguating when a valid screen name is also a user ID.
-     *     since_id.    Optional. Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
-     *     max_id.      Optional. Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
-     *     count.       Optional. Specifies the number of statuses to retrieve. May not be greater than 200.
-     *     page.        Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
+     *  *Optional*
+     *     id:          Specifies the ID or screen name of the user for whom to return the user_timeline.
+     *     user_id:     Specfies the ID of the user for whom to return the user_timeline. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *     screen_name. Specfies the screen name of the user for whom to return the user_timeline. Helpful for disambiguating when a valid screen name is also a user ID.
+     *     since_id:    Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+     *     max_id:      Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+     *     count:       Specifies the number of statuses to retrieve. May not be greater than 200.
+     *     page:        Specifies the page of results to retrieve. Note: there are pagination limits.
+     *     skip_user:
+     *     include_rts:
+     *     include_entities:
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-user_timeline
+     * @see http://dev.twitter.com/doc/get/statuses/user_timeline
      */
     public function statuses_user_timeline($params = array()) {
 
@@ -472,16 +499,19 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * statuses/mentions
+     * GET statuses/mentions
      *
      * @param array  $params
-     *     since_id.  Optional. Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
-     *     max_id.    Optional. Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
-     *     count.     Optional. Specifies the number of statuses to retrieve. May not be greater than 200.
-     *     page.      Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
+     *  *Optional*
+     *     since_id:  Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+     *     max_id:    Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+     *     count:     Specifies the number of statuses to retrieve. May not be greater than 200.
+     *     page:      Specifies the page of results to retrieve. Note: there are pagination limits.
+     *     include_rts:
+     *     include_entities:
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-mentions
+     * @see http://dev.twitter.com/doc/get/statuses/mentions
      */
     public function statuses_mentions($params = array()) {
 
@@ -493,16 +523,17 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * statuses/retweeted_by_me
+     * GET statuses/retweeted_by_me
      *
      * @param array  $params
-     *     since_id.  Optional. Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
-     *     max_id.    Optional. Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
-     *     count.     Optional. Specifies the number of statuses to retrieve. May not be greater than 200.
-     *     page.      Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
+     *  *Optional*
+     *     since_id:  Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+     *     max_id:    Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+     *     count:     Specifies the number of statuses to retrieve. May not be greater than 200.
+     *     page:      Specifies the page of results to retrieve. Note: there are pagination limits.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-retweeted_by_me
+     * @see http://dev.twitter.com/doc/get/statuses/retweeted_by_me
      */
     public function statuses_retweeted_by_me($params = array()) {
 
@@ -514,16 +545,17 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * statuses/retweeted_to_me
+     * GET statuses/retweeted_to_me
      *
      * @param array  $params
-     *     since_id.  Optional. Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
-     *     max_id.    Optional. Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
-     *     count.     Optional. Specifies the number of statuses to retrieve. May not be greater than 200.
-     *     page.      Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
+     *  *Optional*
+     *     since_id:  Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+     *     max_id:    Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+     *     count:     Specifies the number of statuses to retrieve. May not be greater than 200.
+     *     page:      Specifies the page of results to retrieve. Note: there are pagination limits.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-retweeted_to_me
+     * @see http://dev.twitter.com/doc/get/statuses/retweeted_to_me
      */
     public function statuses_retweeted_to_me($params = array()) {
 
@@ -535,16 +567,17 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * statuses/retweets_of_me
+     * GET statuses/retweets_of_me
      *
      * @param array  $params
-     *     since_id.  Optional. Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
-     *     max_id.    Optional. Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
-     *     count.     Optional. Specifies the number of statuses to retrieve. May not be greater than 200.
-     *     page.      Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
+     *  *Optional*
+     *     since_id:  Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+     *     max_id:    Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+     *     count:     Specifies the number of statuses to retrieve. May not be greater than 200.
+     *     page:      Specifies the page of results to retrieve. Note: there are pagination limits.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-retweets_of_me
+     * @see http://dev.twitter.com/doc/get/statuses/retweets_of_me
      */
     public function statuses_retweets_of_me($params = array()) {
 
@@ -561,20 +594,26 @@ class TwitterSource extends DataSource {
     // ====================================================
 
     /**
-     * statuses/show
+     * GET statuses/show
      *
-     * @param string $id
      * @param array  $params
+     *  *Required*
+     *      id: The numerical ID of the desired status.
+     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses%C2%A0show
+     * @see http://dev.twitter.com/doc/get/statuses/show
      */
-    public function statuses_show($id, $params = array()) {
+    public function statuses_show($params = array()) {
 
-        if (empty($id)) {
+        if (empty($params)) {
             return false;
         }
 
-        $url    = sprintf('http://api.twitter.com/1/statuses/show/%s.json', $id);
+        if (is_string($params)) {
+            $params = array('id' => $params);
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/show.json');
         $method = 'GET';
 
         // request
@@ -582,26 +621,20 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * statuses/update
+     * POST statuses/update
      *
      * @param array  $params
-     *      status. Required.  The text of your status update. URL encode as necessary.
-     *                         Statuses over 140 characters  will cause a 403 error to be returned from the API.
-     *                         Statuses have the same text as a recently posted status from the same user will also cause a 403 error to be returned from the API.
-     *                         When a 403 is returned due to shortened text or duplicate statuses, the response body will contain details on why the tweet was rejected.
-     *      in_reply_to_status_id. Optional. The ID of an existing status that the update is in reply to.
-     *      lat.   Optional. The location's latitude that this tweet refers to.
-     *                       The valid ranges for latitude is -90.0 to +90.0 (North is positive) inclusive.
-     *                       This parameter will be ignored if outside that range, if it is not a number, if geo_enabled is disabled, or if there not a corresponding long parameter with this tweet.
-     *      long.  Optional. The location's longitude that this tweet refers to.
-     *                       The valid ranges for longitude is -180.0 to +180.0 (East is positive) inclusive.
-     *                       This parameter will be ignored if outside that range, if it is not a number, if geo_enabled is disabled, or if there not a corresponding lat parameter with this tweet.
-     *      place_id.            Optional. The place to attach to this status update.  Valid place_ids can be found by querying geo/reverse_geocode.
-     *      display_coordinates. Optional. By default, geo-tweets will have their coordinates exposed in the status object (to remain backwards compatible with existing API applications).
-     *                                     To turn off the display of the precise latitude and longitude (but keep the contextual location information), pass display_coordinates=false on the status update.
+     *  *Required*
+     *      status: The text of your status update, up to 140 characters. URL encode as necessary.
+     *  *Optional*
+     *      in_reply_to_status_id: The ID of an existing status that the update is in reply to.
+     *      lat:  The location's latitude that this tweet refers to.
+     *      long: The location's longitude that this tweet refers to.
+     *      place_id: A place in the world. These IDs can be retrieved from geo/reverse_geocode.
+     *      display_coordinates: Whether or not to put a pin on the exact coordinates a tweet has been sent from.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses%C2%A0update
+     * @see http://dev.twitter.com/doc/post/statuses/update
      */
     public function statuses_update($params = array()) {
 
@@ -623,12 +656,15 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * statuses/destroy
+     * POST statuses/destroy
      *
      * @param string $id
      * @param array  $params
+     *  *Required*
+     *      id: The numerical ID of the desired status.
+     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses%C2%A0destroy
+     * @see http://dev.twitter.com/doc/post/statuses/destroy
      */
     public function statuses_destroy($id, $params = array()) {
 
@@ -644,12 +680,12 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * statuses/retweet
+     * POST statuses/retweet/:id
      *
-     * @param string $id Required.  The numerical ID of the tweet you are retweeting.
+     * @param string $id *Required* The numerical ID of the tweet you are retweeting.
      * @param array  $params
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-retweet
+     * @see http://dev.twitter.com/doc/post/statuses/retweet/:id
      */
     public function statuses_retweet($id, $params = array()) {
 
@@ -665,22 +701,28 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * statuses/retweets
+     * GET statuses/retweets
      *
-     * @param string $id Required.  The numerical ID of the tweet you want the retweets of.
      * @param array  $params
-     *      count.  Optional.  Specifies the number of retweets to retrieve. May not be greater than 100.
+     *  *Required*
+     *      id: The numerical ID of the tweet you want the retweets of.
+     *  *Optional*
+     *      count: Specifies the number of retweets to retrieve. May not be greater than 100.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses-retweets
+     * @see http://dev.twitter.com/doc/get/statuses/retweets
      */
-    public function statuses_retweets($id, $params = array()) {
+    public function statuses_retweets($params = array()) {
 
-        if (empty($id)) {
+        if (empty($params)) {
             return false;
         }
 
-        $url    = sprintf('http://api.twitter.com/1/statuses/retweets/%s.json', $id);
+        if (is_string($params)) {
+            $params = array('id' => $params);
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/statuses/retweets.json');
         $method = 'GET';
 
         // request
@@ -688,15 +730,16 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * GET /statuses/:id/retweeted_by.format
+     * GET statuses/:id/retweeted_by
      *
-     * @param string $id Required. The id of the status
+     * @param string $id *Required* The id of the status
      * @param array  $params
-     *      count. Optional.  Indicates number of retweeters to return per page, with a maximum 100 possible results.
-     *      page.  Optional.  Specifies the page of results to retrieve. Note: there are pagination limits.
+     *  *Optional*
+     *      count:  Indicates number of retweeters to return per page, with a maximum 100 possible results.
+     *      page:   Specifies the page of results to retrieve. Note: there are pagination limits.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-statuses-id-retweeted_by
+     * @see http://dev.twitter.com/doc/get/statuses/:id/retweeted_by
      */
     public function get_statuses_id_retweet_by($id, $params = array()) {
 
@@ -704,7 +747,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        $url    = sprintf('http://api.twitter.com/1/statuses/%s/retweeted_by..json', $id);
+        $url    = sprintf('http://api.twitter.com/1/statuses/%s/retweeted_by.json', $id);
         $method = 'GET';
 
         // request
@@ -712,15 +755,16 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * GET /statuses/:id/retweeted_by/ids.format
+     * GET statuses/:id/retweeted_by/ids
      *
-     * @param string $id Required. The id of the status
+     * @param string $id *Required* The id of the status
      * @param array  $params
-     *      count. Optional.  Indicates number of retweeters to return per page, with a maximum 100 possible results.
-     *      page.  Optional.  Specifies the page of results to retrieve. Note: there are pagination limits.
+     *  *Optional*
+     *      count:  Indicates number of retweeters to return per page, with a maximum 100 possible results.
+     *      page:   Specifies the page of results to retrieve. Note: there are pagination limits.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-statuses-id-retweeted_by-ids
+     * @see http://dev.twitter.com/doc/get/statuses/:id/retweeted_by/ids
      */
     public function get_statuses_id_retweeted_by_ids($id, $params = array()) {
 
@@ -728,7 +772,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        $url    = sprintf('http://api.twitter.com/1/statuses/%s/retweeted_by/ids.format', $id);
+        $url    = sprintf('http://api.twitter.com/1/statuses/%s/retweeted_by/ids.josn', $id);
         $method = 'GET';
 
         // request
@@ -741,23 +785,28 @@ class TwitterSource extends DataSource {
     // ====================================================
 
     /**
-     * users/show
+     * GET users/show
      *
-     * @param string $id The ID or screen name of a user.
      * @param array  $params
-     *      user_id.     Specfies the ID of the user to return. Helpful for disambiguating when a valid user ID is also a valid screen name.
-     *      screen_name. Specfies the screen name of the user to return. Helpful for disambiguating when a valid screen name is also a user ID.
+     *  *Optional*
+     *      id:          The ID or screen name of a user.
+     *      user_id:     Specfies the ID of the user to return. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name: Specfies the screen name of the user to return. Helpful for disambiguating when a valid screen name is also a user ID.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-users%C2%A0show
+     * @see http://dev.twitter.com/doc/get/users/show
      */
-    public function users_show($id = null, $params = array()) {
+    public function users_show($params = array()) {
 
-        if (!empty($id)) {
-            $id = '/' . $id;
+        if (empty($params)) {
+            return false;
         }
 
-        $url    = sprintf('http://api.twitter.com/1/users/show%s.json', $id);
+        if (is_string($params)) {
+            $params = array('id' => $params);
+        }
+
+        $url    = sprintf('http://api.twitter.com/1/users/show.json');
         $method = 'GET';
 
         // request
@@ -765,14 +814,15 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * users/lookup
+     * GET users/lookup
      *
      * @param array  $params
-     *      user_id.     Specfies the ID of the user to return.
-     *      screen_name. Specfies the screen name of the user to return.
+     *  *Optional*
+     *      user_id:     Specfies the ID of the user to return.
+     *      screen_name: Specfies the screen name of the user to return.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-users-lookup
+     * @see http://dev.twitter.com/doc/get/users/lookup
      */
     public function users_lookup($params = array()) {
 
@@ -784,15 +834,17 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * users/search
+     * GET users/search
      *
      * @param array  $params
-     *      q.         Required. The query to run against people search.
-     *      per_page.  Optional. Specifies the number of statuses to retrieve. May not be greater than 20.
-     *      page.      Optional. Specifies the page of results to retrieve.
+     * *Required*
+     *      q:         The query to run against people search.
+     * *Optional*
+     *      per_page:  Specifies the number of statuses to retrieve. May not be greater than 20.
+     *      page:      Specifies the page of results to retrieve.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-users-search
+     * @see http://dev.twitter.com/doc/get/users/search
      */
     public function users_search($params = array()) {
 
@@ -814,11 +866,11 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * users/suggestions
+     * GET users/suggestions
      *
      * @param array  $params
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-users-suggestions
+     * @see http://dev.twitter.com/doc/get/users/suggestions
      */
     public function users_suggestions($params = array()) {
 
@@ -830,12 +882,12 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * users/suggestions/:slug
+     * GET users/suggestions/slug
      *
-     * @param string $slug
+     * @param string $slug *Required* The short name of list or a category
      * @param array  $params
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-users-suggestions-category
+     * @see http://dev.twitter.com/doc/get/users/suggestions/slug
      */
     public function users_suggestions_category($slug, $params = array()) {
 
@@ -851,17 +903,18 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * statuses/friends
+     * GET statuses/friends
      *
      * @param array  $params
-     *      id.           Optional. The ID or screen name of the user for whom to request a list of friends.
-     *      user_id.      Optional. Specfies the ID of the user for whom to return the list of friends. Helpful for disambiguating when a valid user ID is also a valid screen name.
-     *      screen_name.  Optional. Specfies the screen name of the user for whom to return the list of friends. Helpful for disambiguating when a valid screen name is also a user ID.
-     *      cursor.       Optional. Breaks the results into pages. A single page contains 100 users. This is recommended for users who are following many users.
+     *  *Optional*
+     *      id:           The ID or screen name of the user for whom to request a list of friends.
+     *      user_id:      Specfies the ID of the user for whom to return the list of friends. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name:  Specfies the screen name of the user for whom to return the list of friends. Helpful for disambiguating when a valid screen name is also a user ID.
+     *      cursor.       Breaks the results into pages. A single page contains 100 users. This is recommended for users who are following many users.
      *                              Provide a value of  -1 to begin paging. Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses%C2%A0friends
+     * @see http://dev.twitter.com/doc/get/statuses/friends
      */
     public function statuses_friends($params = array()) {
 
@@ -879,17 +932,18 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * statuses/followers
+     * GET statuses/followers
      *
      * @param array  $params
-     *      id.           Optional. The ID or screen name of the user for whom to request a list of friends.
-     *      user_id.      Optional. Specfies the ID of the user for whom to return the list of friends. Helpful for disambiguating when a valid user ID is also a valid screen name.
-     *      screen_name.  Optional. Specfies the screen name of the user for whom to return the list of friends. Helpful for disambiguating when a valid screen name is also a user ID.
-     *      cursor.       Optional. Breaks the results into pages. A single page contains 100 users. This is recommended for users who are following many users.
-     *                              Provide a value of  -1 to begin paging. Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
+     *  *Optional*
+     *      id:           The ID or screen name of the user for whom to request a list of friends.
+     *      user_id:      Specfies the ID of the user for whom to return the list of friends. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name:  Specfies the screen name of the user for whom to return the list of friends. Helpful for disambiguating when a valid screen name is also a user ID.
+     *      cursor.       Breaks the results into pages. A single page contains 100 users. This is recommended for users who are following many users.
+     *                    Provide a value of  -1 to begin paging. Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses%C2%A0followers
+     * @see http://dev.twitter.com/doc/get/statuses/followers
      */
     public function statuses_followers($params = array()) {
 
@@ -912,15 +966,18 @@ class TwitterSource extends DataSource {
     // ====================================================
 
     /**
-     * POST lists (create)
+     * POST :user/lists (create)
      *
      * @param string $user
      * @param array  $params
-     *      name.         Required. The name of the list you are creating.
-     *      mode.         Optional. Whether your list is public or private. Values can be public or private. Lists are public by default if no mode is specified.
-     *      description.  Optional. The description of the list you are creating.
+     *  *Required*
+     *      name:         The name of the list you are creating.
+     *  *Optional*
+     *      mode:         Whether your list is public or private. Values can be public or private.
+     *      description:  A description of the user owning the account. Maximum of 160 characters.
+     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-POST-lists
+     * @see http://dev.twitter.com/doc/post/:user/lists
      */
     public function post_lists($user, $params = array()) {
 
@@ -936,16 +993,18 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * POST lists id (update)
+     * POST :user/lists/:id (update)
      *
      * @param string $user
      * @param string $id
      * @param array  $params
-     *      name.         Required. The name of the list you are creating.
-     *      mode.         Optional. Whether your list is public or private. Values can be public or private. Lists are public by default if no mode is specified.
-     *      description.  Optional. The description of the list you are creating.
+     *  *Optional*
+     *      name:         Full name associated with the profile. Maximum of 20 characters.
+     *      mode:         Whether your list is public or private. Values can be public or private.
+     *      description:  A description of the user owning the account. Maximum of 160 characters.
+     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-POST-lists-id
+     * @see http://dev.twitter.com/doc/post/:user/lists/:id
      */
     public function post_lists_id($user, $id, $params = array()) {
 
@@ -961,12 +1020,15 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * GET lists (index)
+     * GET :user/lists (index)
      *
      * @param string $user
      * @param array  $params
+     *  *Optional*
+     *      cursor:
+     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-lists
+     * @see http://dev.twitter.com/doc/get/:user/lists
      */
     public function get_lists($user, $params = array()) {
 
@@ -982,13 +1044,16 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * GET lists id (show)
+     * GET :user/lists/:id (show)
      *
      * @param string $user
      * @param string $id
      * @param array  $params
+     *  *Optional*
+     *      id: The id or slug of the list.
+     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-list-id
+     * @see http://dev.twitter.com/doc/get/:user/lists/:id
      */
     public function get_lists_id($user, $id, $params = array()) {
 
@@ -1004,13 +1069,16 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * DELETE list id (destroy)
+     * DELETE :user/lists/:id (destroy)
      *
      * @param string $user
      * @param string $id
      * @param array  $params
+     *  *Optional*
+     *      id: The id or slug of the list.
+     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-DELETE-list-members
+     * @see http://dev.twitter.com/doc/delete/:user/lists/:id
      */
     public function delete_lists_id($user, $id, $params = array()) {
 
@@ -1028,17 +1096,19 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * GET list statuses
+     * GET :user/lists/:id/statuses
      *
      * @param string $user
      * @param string $list_id
      * @param array  $params
-     *      since_id.  Optional.  Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
-     *      max_id. Optional.  Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
-     *      per_page.  Optional.  Specifies the number of statuses to retrieve. May not be greater than 200.
-     *      page. Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
+     *  *Optional*
+     *      since_id: Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+     *      max_id:   Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+     *      per_page: Specifies the number of statuses to retrieve. May not be greater than 200.
+     *      page:     Specifies the page of results to retrieve. Note: there are pagination limits.
+     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-list-statuses
+     * @see http://dev.twitter.com/doc/get/:user/lists/:id/statuses
      */
     public function get_lists_statuses($user, $list_id, $params = array()) {
 
@@ -1054,14 +1124,15 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * GET list memberships
+     * GET :user/lists/memberships
      *
      * @param string $user
      * @param array  $params
-     *      cursor. Optional. Breaks the results into pages. A single page contains 20 lists. Provide a value of -1 to begin paging.
-     *                        Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
+     *  *Optional*
+     *      cursor:
+     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-list-statuses
+     * @see http://dev.twitter.com/doc/get/:user/lists/memberships
      */
     public function get_lists_memberships($user, $params = array()) {
 
@@ -1077,14 +1148,15 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * GET list subscriptions
+     * GET :user/lists/subscriptions
      *
      * @param string $user
      * @param array  $params
-     *      cursor. Optional. Breaks the results into pages. A single page contains 20 lists. Provide a value of -1 to begin paging.
-     *                        Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
+     *  *Optional*
+     *      cursor:
+     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-list-statuses
+     * @see http://dev.twitter.com/doc/get/:user/lists/subscriptions
      */
     public function get_lists_subscriptions($user, $params = array()) {
 
@@ -1105,16 +1177,17 @@ class TwitterSource extends DataSource {
     // ====================================================
 
     /**
-     * GET list members
+     * GET :user/:list_id/members
      *
      * @param string $user
      * @param string $list_id
      * @param array  $params
-     *      list_id.  Required. The id or slug of the list.
-     *      cursor.   Optional. Breaks the results into pages. A single page contains 20 lists. Provide a value of -1 to begin paging.
-     *                          Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
+     *  *Optional*
+     *      id:   The id or slug of the list.
+     *      cursor:
+     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-list-members
+     * @see http://dev.twitter.com/doc/get/:user/:list_id/members
      */
     public function get_list_members($user, $list_id, $params = array()) {
 
@@ -1130,13 +1203,17 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * POST list members
+     * POST :user/:list_id/members
      *
      * @param string $user
      * @param string $list_id
-     * @param array  $params array('id' => user_id)
+     * @param array  $params
+     *  *Optional*
+     *      id: The id or slug of the list.
+     *      user_id: Specfies the ID of the user for whom to return results for. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-POST-list-members
+     * @see http://dev.twitter.com/doc/post/:user/:list_id/members
      */
     public function post_list_members($user, $list_id, $params = array()) {
 
@@ -1152,13 +1229,17 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * DELETE list members
+     * DELETE :user/:id/members
      *
      * @param string $user
      * @param string $list_id
-     * @param array  $params array('id' => user_id)
+     * @param array  $params
+     *  *Optional*
+     *      id:      The id or slug of the list.
+     *      user_id: Specfies the ID of the user for whom to return results for. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-DELETE-list-members
+     * @see http://dev.twitter.com/doc/delete/:user/:id/members
      */
     public function delete_list_members($user, $list_id, $params = array()) {
 
@@ -1176,14 +1257,18 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * GET list members id
+     * GET :user/:list_id/members/:id
      *
      * @param string $user
      * @param string $list_id
      * @param string $id
      * @param array  $params
+     *  *Optional*
+     *      id:      The id or slug of the list.
+     *      user_id: Specfies the ID of the user for whom to return results for. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-list-members-id
+     * @see http://dev.twitter.com/doc/get/:user/:list_id/members/:id
      */
     public function get_list_members_id($user, $list_id, $id, $params = array()) {
 
@@ -1204,16 +1289,16 @@ class TwitterSource extends DataSource {
     // ====================================================
 
     /**
-     * GET /:user/:list_id/subscribers
+     * GET :user/:list_id/subscribers
      *
      * @param string $user
      * @param string $list_id
      * @param array  $params
-     *      list_id.  Required. The id or slug of the list.
-     *      cursor.   Optional. Breaks the results into pages. A single page contains 20 lists. Provide a value of -1 to begin paging.
-     *                          Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
+     *  *Optional*
+     *      cursor:
+     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-list-subscribers
+     * @see http://dev.twitter.com/doc/get/:user/:list_id/subscribers
      */
     public function get_list_subscribers($user, $list_id, $params = array()) {
 
@@ -1229,13 +1314,13 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * POST /:user/:id/subscribers
+     * POST :user/:list_id/subscribers
      *
      * @param string $user
      * @param string $list_id
      * @param array  $params
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-POST-list-subscribers
+     * @see http://dev.twitter.com/doc/post/:user/:list_id/subscribers
      */
     public function post_list_subscribers($user, $list_id, $params = array()) {
 
@@ -1256,10 +1341,8 @@ class TwitterSource extends DataSource {
      * @param string $user
      * @param string $list_id
      * @param array  $params
-     *      id. Required. The ID or screen name of the user to remove from the list.
-     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-DELETE-list-subscribers
+     * @see http://dev.twitter.com/doc/delete/:user/:id/subscribers
      */
     public function delete_list_subscribers($user, $list_id, $params = array()) {
 
@@ -1283,14 +1366,14 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * GET /:user/:list_id/subscribers/:id
+     * GET :user/:list_id/subscribers/:id
      *
      * @param string $user
      * @param string $list_id
      * @param string $id
      * @param array  $params
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-list-subscribers-id
+     * @see http://dev.twitter.com/doc/get/:user/:list_id/subscribers/:id
      */
     public function get_list_subscribers_id($user, $list_id, $id, $params = array()) {
 
@@ -1311,16 +1394,17 @@ class TwitterSource extends DataSource {
     // ====================================================
 
     /**
-     * direct_messages
+     * GET direct_messages
      *
      * @param array  $params
-     *     since_id.  Optional. Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
-     *     max_id.    Optional. Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
-     *     count.     Optional. Specifies the number of statuses to retrieve. May not be greater than 200.
-     *     page.      Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
+     *  *Optional*
+     *     since_id:  Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+     *     max_id:    Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+     *     count:     Specifies the number of statuses to retrieve. May not be greater than 200.
+     *     page:      Specifies the page of results to retrieve. Note: there are pagination limits.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-direct_messages
+     * @see http://dev.twitter.com/doc/get/direct_messages
      */
     public function direct_messages($params = array()) {
 
@@ -1332,16 +1416,17 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * direct_messages/sent
+     * GET direct_messages/sent
      *
      * @param array  $params
-     *     since_id.  Optional. Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
-     *     max_id.    Optional. Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
-     *     count.     Optional. Specifies the number of statuses to retrieve. May not be greater than 200.
-     *     page.      Optional. Specifies the page of results to retrieve. Note: there are pagination limits.
+     *  *Optional*
+     *     since_id:  Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+     *     max_id:    Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+     *     count:     Specifies the number of statuses to retrieve. May not be greater than 200.
+     *     page:      Specifies the page of results to retrieve. Note: there are pagination limits.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-direct_messages%C2%A0sent
+     * @see http://dev.twitter.com/doc/get/direct_messages/sent
      */
     public function direct_messages_sent($params = array()) {
 
@@ -1353,14 +1438,15 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * direct_messages/new
+     * POST direct_messages/new
      *
      * @param array  $params
-     *     user:  Required.  The ID or screen name of the recipient user.
-     *     text:  Required.  The text of your direct message.  Be sure to URL encode as necessary, and keep it under 140 characters.
+     *  *Required*
+     *     user: The ID or screen name of the recipient user.
+     *     text: The text of your direct message.  Be sure to URL encode as necessary, and keep it under 140 characters.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-direct_messages%C2%A0new
+     * @see http://dev.twitter.com/doc/post/direct_messages/new
      */
     public function direct_messages_new($params = array()) {
 
@@ -1376,12 +1462,12 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * direct_messages/destroy
+     * POST direct_messages/destroy
      *
      * @param string $id
      * @param array  $params
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-direct_messages%C2%A0destroy
+     * @see http://dev.twitter.com/doc/post/direct_messages/destroy
      */
     public function direct_messages_destroy($id, $params = array()) {
 
@@ -1402,17 +1488,18 @@ class TwitterSource extends DataSource {
     // ====================================================
 
     /**
-     * friendships/create
+     * POST friendships/create/:id
      *
      * @param array  $params
-     *      id.          Required. The ID or screen name of the user to befriend.
-     *      user_id.     Required. Specfies the ID of the user to befriend. Helpful for disambiguating when a valid user ID is also a valid screen name.
-     *      screen_name. Required. Specfies the screen name of the user to befriend. Helpful for disambiguating when a valid screen name is also a user ID.
-     *      follow.      Optional. Enable delivery of statuses from this user to the authenticated user's device;
-     *                             tweets sent by the user being followed will be delivered to the caller of this endpoint's phone as SMSes.
+     *  *Required*
+     *      id:          The ID or screen name of the user to befriend.
+     *      user_id:     Specfies the ID of the user to befriend. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name: Specfies the screen name of the user to befriend. Helpful for disambiguating when a valid screen name is also a user ID.
+     *  *Optional*
+     *      follow:      Enable notifications for the target user.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-friendships%C2%A0create
+     * @see http://dev.twitter.com/doc/post/friendships/create/:id
      */
     public function friendships_create($params = array()) {
 
@@ -1441,15 +1528,16 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * friendships/destroy
+     * POST friendships/destroy
      *
      * @param array  $params
-     *      id.          Required. The ID or screen name of the user to befriend.
-     *      user_id.     Required. Specfies the ID of the user to befriend. Helpful for disambiguating when a valid user ID is also a valid screen name.
-     *      screen_name. Required. Specfies the screen name of the user to befriend. Helpful for disambiguating when a valid screen name is also a user ID.
+     *  *Required*
+     *      id:          The ID or screen name of the user to befriend.
+     *      user_id:     Specfies the ID of the user to befriend. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name: Specfies the screen name of the user to befriend. Helpful for disambiguating when a valid screen name is also a user ID.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-friendships%C2%A0destroy
+     * @see http://dev.twitter.com/doc/post/friendships/destroy
      */
     public function friendships_destroy($params = array()) {
 
@@ -1480,15 +1568,16 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * friendships/exists
+     * GET friendships/exists
      *
      * @param string $id
      * @param array  $params
-     *      user_a.  Required.  The ID or screen_name of the subject user.
-     *      user_b.  Required.  The ID or screen_name of the user to test for following.
+     *  *Required*
+     *      user_a:  The ID or screen_name of the subject user.
+     *      user_b:  The ID or screen_name of the user to test for following.
      *
      * @return true|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-friendships-exists
+     * @see http://dev.twitter.com/doc/get/friendships/exists
      */
     public function friendships_exists($params = array()) {
 
@@ -1504,17 +1593,18 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * friendships/show
+     * GET friendships/show
      *
      * @param string $id
      * @param array  $params
-     *      source_id. The user_id of the subject user.
-     *      source_screen_name. The screen_name of the subject user.
-     *      target_id. The user_id of the target user.
-     *      target_screen_name. The screen_name of the target user.
+     *  *Optional*
+     *      source_id: The user_id of the subject user.
+     *      source_screen_name: The screen_name of the subject user.
+     *      target_id: The user_id of the target user.
+     *      target_screen_name: The screen_name of the target user.
      *
-     * @return true|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-friendships-show
+     * @return array|false
+     * @see http://dev.twitter.com/doc/get/friendships/show
      */
     public function friendships_show($params = array()) {
 
@@ -1530,15 +1620,14 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * friendships/incoming
+     * GET friendships/incoming
      *
-     * @param string $id
      * @param array  $params
-     *      cursor. Required. Breaks the results into pages. A single page contains 5000 identifiers. Provide a value of -1 to begin paging.
-     *                        Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
+     *  *Optional*
+     *      cursor:
      *
-     * @return true|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-friendships-incoming
+     * @return array|false
+     * @see http://dev.twitter.com/doc/get/friendships/incoming
      */
     public function friendships_incoming($params = array()) {
 
@@ -1554,15 +1643,14 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * friendships/outgoing
+     * GET friendships/outgoing
      *
-     * @param string $id
      * @param array  $params
-     *      cursor. Required. Breaks the results into pages. A single page contains 5000 identifiers. Provide a value of -1 to begin paging.
-     *                        Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
+     *  *Optional*
+     *      cursor:
      *
      * @return true|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-friendships-outgoing
+     * @see http://dev.twitter.com/doc/get/friendships/outgoing
      */
     public function friendships_outgoing($params = array()) {
 
@@ -1583,17 +1671,17 @@ class TwitterSource extends DataSource {
     // ====================================================
 
     /**
-     * friends/ids
+     * GET friends/ids
      *
      * @param array  $params
-     *      id.           Optional. The ID or screen_name of the user to retrieve the friends ID list for.
-     *      user_id.      Optional. Specfies the ID of the user for whom to return the friends list. Helpful for disambiguating when a valid user ID is also a valid screen name.
-     *      screen_name.  Optional. Specfies the screen name of the user for whom to return the friends list. Helpful for disambiguating when a valid screen name is also a user ID.
-     *      cursor.       Required. Breaks the results into pages. A single page contains 5000 identifiers. This is recommended for all purposes. Provide a value of -1 to begin paging.
-     *                              Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
+     *  *Optional*
+     *      id:           The ID or screen_name of the user to retrieve the friends ID list for.
+     *      user_id:      Specfies the ID of the user for whom to return the friends list. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name:  Specfies the screen name of the user for whom to return the friends list. Helpful for disambiguating when a valid screen name is also a user ID.
+     *      cursor:
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-friends%C2%A0ids
+     * @see http://dev.twitter.com/doc/get/friends/ids
      */
     public function friends_ids($params = array()) {
 
@@ -1618,17 +1706,16 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * followers/ids
+     * GET followers/ids
      *
      * @param array  $params
-     *      id.           Optional. The ID or screen_name of the user to retrieve the friends ID list for.
-     *      user_id.      Optional. Specfies the ID of the user for whom to return the friends list. Helpful for disambiguating when a valid user ID is also a valid screen name.
-     *      screen_name.  Optional. Specfies the screen name of the user for whom to return the friends list. Helpful for disambiguating when a valid screen name is also a user ID.
-     *      cursor.       Required. Breaks the results into pages. A single page contains 5000 identifiers. This is recommended for all purposes. Provide a value of -1 to begin paging.
-     *                              Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
+     *      id:           The ID or screen_name of the user to retrieve the friends ID list for.
+     *      user_id:      Specfies the ID of the user for whom to return the friends list. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name:  Specfies the screen name of the user for whom to return the friends list. Helpful for disambiguating when a valid screen name is also a user ID.
+     *      cursor:
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-followers%C2%A0ids
+     * @see http://dev.twitter.com/doc/get/followers/ids
      */
     public function followers_ids($params = array()) {
 
@@ -1658,11 +1745,11 @@ class TwitterSource extends DataSource {
     // ====================================================
 
     /**
-     * account/verify_credentials
+     * GET account/verify_credentials
      *
      * @param array  $params
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-account%C2%A0verify_credentials
+     * @see http://dev.twitter.com/doc/get/account/verify_credentials
      */
     public function account_verify_credentials($params = array()) {
 
@@ -1674,11 +1761,11 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * account/rate_limit_status
+     * GET account/rate_limit_status
      *
      * @param array  $params
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-account%C2%A0rate_limit_status
+     * @see http://dev.twitter.com/doc/get/account/rate_limit_status
      */
     public function account_rate_limit_status($params = array()) {
 
@@ -1690,11 +1777,11 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * account/end_session
+     * POST account/end_session
      *
      * @param array  $params
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-account%C2%A0end_session
+     * @see http://dev.twitter.com/doc/post/account/end_session
      */
     public function account_end_session($params = array()) {
 
@@ -1706,13 +1793,14 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * account/update_delivery_device
+     * POST account/update_delivery_device
      *
      * @param array  $params
-     *      device.  Required.  Must be one of: sms, none.
+     *  *Required*
+     *      device: Delivery device type to send updates to.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-account%C2%A0update_delivery_device
+     * @see http://dev.twitter.com/doc/post/account/update_delivery_device
      */
     public function account_update_delivery_device($params = array()) {
 
@@ -1734,17 +1822,18 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * account/update_profile_colors
+     * POST account/update_profile_colors
      *
      * @param array  $params
-     *      profile_background_color.  Optional.
-     *      profile_text_color.  Optional.
-     *      profile_link_color.  Optional.
-     *      profile_sidebar_fill_color.  Optional.
-     *      profile_sidebar_border_color.  Optional.
+     *  *Optional*
+     *      profile_background_color:
+     *      profile_text_color:
+     *      profile_link_color:
+     *      profile_sidebar_fill_color:
+     *      profile_sidebar_border_color:
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-account%C2%A0update_profile_colors
+     * @see http://dev.twitter.com/doc/post/account/update_profile_colors
      */
     public function account_update_profile_colors($params = array()) {
 
@@ -1766,14 +1855,15 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * account/update_profile_image
+     * POST account/update_profile_image
      *
      * @param array  $params
-     *      image.Required.  Must be a valid GIF, JPG, or PNG image of less than 700 kilobytes in size.
-     *                       Images with width larger than 500 pixels will be scaled down.
+     *  *Required*
+     *      image: The avatar image for the profile. Must be a valid GIF, JPG, or PNG image of less than 700 kilobytes in size.
+     *             Images with width larger than 500 pixels will be scaled down.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-account%C2%A0update_profile_image
+     * @see http://dev.twitter.com/doc/post/account/update_profile_image
      *
      * TODO: check run
      */
@@ -1791,16 +1881,18 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * account/update_profile_background_image
+     * POST account/update_profile_background_image
      *
      * @param array  $params
-     *      image.Required.  Must be a valid GIF, JPG, or PNG image of less than 800 kilobytes in size.
-     *                       Images with width larger than 2048 pixels will be forceably scaled down.
-     *      tile. Optional.  If set to true the background image will be displayed tiled.
-     *                       The image will not be tiled otherwise.
+     *  *Required*
+     *      image: The background image for the profile. Must be a valid GIF, JPG, or PNG image of less than 800 kilobytes in size.
+     *             Images with width larger than 2048 pixels will be forceably scaled down.
+     *  *Optional*
+     *      tile:  Whether or not to tile the background image. If set to true the background image will be displayed tiled.
+     *             The image will not be tiled otherwise.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-account%C2%A0update_profile_background_image
+     * @see http://dev.twitter.com/doc/post/account/update_profile_background_image
      *
      * TODO: check run
      */
@@ -1818,16 +1910,17 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * account/update_profile
+     * POST account/update_profile
      *
      * @param array  $params
-     *      name. Optional. Maximum of 20 characters.
-     *      url.  Optional. Maximum of 100 characters. Will be prepended with "http://" if not present.
-     *      location.    Optional. Maximum of 30 characters. The contents are not normalized or geocoded in any way.
-     *      description. Optional. Maximum of 160 characters.
+     *  *Optional*
+     *      name: Maximum of 20 characters.
+     *      url:  Maximum of 100 characters. Will be prepended with "http://" if not present.
+     *      location:    Maximum of 30 characters. The contents are not normalized or geocoded in any way.
+     *      description: Maximum of 160 characters.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-account%C2%A0update_profile
+     * @see http://dev.twitter.com/doc/post/account/update_profile
      */
     public function account_update_profile($params = array()) {
 
@@ -1848,14 +1941,15 @@ class TwitterSource extends DataSource {
     // ====================================================
 
     /**
-     * favorites
+     * GET favorites
      *
      * @param array  $params
-     *     id.    Optional.  The ID or screen name of the user for whom to request a list of favorite statuses.
-     *     page.  Optional. Specifies the page of favorites to retrieve.
+     *  *Optional*
+     *     id:    The ID or screen name of the user for whom to request a list of favorite statuses.
+     *     page:  Specifies the page of favorites to retrieve.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-favorites
+     * @see http://dev.twitter.com/doc/get/favorites
      */
     public function favorites($params = array()) {
 
@@ -1867,12 +1961,12 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * favorites/create
+     * POST favorites/:id/create
      *
-     * @param string $id Required.  The ID of the status to favorite.
+     * @param string $id *Required*  The ID of the status to favorite.
      * @param array  $params
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-favorites%C2%A0create
+     * @see http://dev.twitter.com/doc/post/favorites/:id/create
      */
     public function favorites_create($id, $params = array()) {
 
@@ -1888,12 +1982,12 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * favorites/destroy
+     * POST favorites/destroy
      *
-     * @param string $id Required.  The ID of the status to un-favorite.
+     * @param string $id *Required*  The ID of the status to un-favorite.
      * @param array  $params
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-favorites%C2%A0destroy
+     * @see http://dev.twitter.com/doc/post/favorites/destroy
      */
     public function favorites_destroy($id, $params = array()) {
 
@@ -1914,15 +2008,17 @@ class TwitterSource extends DataSource {
     // ====================================================
 
     /**
-     * notifications/follow
+     * POST notifications/follow
      *
      * @param array  $params
-     *      id.           Required. The ID or screen name of the user to follow with device updates.
-     *      user_id.      Required. Specfies the ID of the user to follow with device updates. Helpful for disambiguating when a valid user ID is also a valid screen name.
-     *      screen_name.  Required. Specfies the screen name of the user to follow with device updates. Helpful for disambiguating when a valid screen name is also a user ID.
+     *  *Required*
+     *      id:           The ID or screen name of the user to follow with device updates.
+     *  *Optional*
+     *      user_id:      Specfies the ID of the user to follow with device updates. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name:  Specfies the screen name of the user to follow with device updates. Helpful for disambiguating when a valid screen name is also a user ID.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-notifications%C2%A0follow
+     * @see http://dev.twitter.com/doc/post/notifications/follow
      */
     public function notifications_follow($params = array()) {
 
@@ -1951,15 +2047,17 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * notifications/leave
+     * POST notifications/leave
      *
      * @param array  $params
-     *      id.           Required. The ID or screen name of the user to follow with device updates.
-     *      user_id.      Required. Specfies the ID of the user to follow with device updates. Helpful for disambiguating when a valid user ID is also a valid screen name.
-     *      screen_name.  Required. Specfies the screen name of the user to follow with device updates. Helpful for disambiguating when a valid screen name is also a user ID.
+     *  *Required*
+     *      id:           The ID or screen name of the user to follow with device updates.
+     *  *Optional*
+     *      user_id:      Specfies the ID of the user to follow with device updates. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name:  Specfies the screen name of the user to follow with device updates. Helpful for disambiguating when a valid screen name is also a user ID.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-notifications%C2%A0leave
+     * @see http://dev.twitter.com/doc/post/notifications/leave
      */
     public function notifications_leave($params = array()) {
 
@@ -1993,15 +2091,16 @@ class TwitterSource extends DataSource {
     // ====================================================
 
     /**
-     * blocks/create
+     * POST blocks/create
      *
      * @param array  $params
-     *      id.          Optional.  The ID or screen_name of the potentially blocked user.
-     *      user_id.     Optional.  Specfies the ID of the potentially blocked user. Helpful for disambiguating when a valid user ID is also a valid screen name.
-     *      screen_name. Optional.  Specfies the screen name of the potentially blocked user. Helpful for disambiguating when a valid screen name is also a user ID.
+     *  *Optional*
+     *      id:           The ID or screen_name of the potentially blocked user.
+     *      user_id:      Specfies the ID of the potentially blocked user. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name:  Specfies the screen name of the potentially blocked user. Helpful for disambiguating when a valid screen name is also a user ID.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-blocks%C2%A0create
+     * @see http://dev.twitter.com/doc/post/blocks/create
      */
     public function blocks_create($params = array()) {
 
@@ -2030,15 +2129,16 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * blocks/destroy
+     * POST blocks/destroy
      *
      * @param array  $params
-     *      id.          Optional.  The ID or screen_name of the potentially blocked user.
-     *      user_id.     Optional.  Specfies the ID of the potentially blocked user. Helpful for disambiguating when a valid user ID is also a valid screen name.
-     *      screen_name. Optional.  Specfies the screen name of the potentially blocked user. Helpful for disambiguating when a valid screen name is also a user ID.
+     *  *Optional*
+     *      id:           The ID or screen_name of the potentially blocked user.
+     *      user_id:      Specfies the ID of the potentially blocked user. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name:  Specfies the screen name of the potentially blocked user. Helpful for disambiguating when a valid screen name is also a user ID.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-blocks%C2%A0destroy
+     * @see http://dev.twitter.com/doc/post/blocks/destroy
      */
     public function blocks_destroy($params = array()) {
 
@@ -2067,15 +2167,15 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * blocks/exists
+     * GET blocks/exists
      *
      * @param array  $params
-     *      id.          Optional.  The ID or screen_name of the potentially blocked user.
-     *      user_id.     Optional.  Specfies the ID of the potentially blocked user. Helpful for disambiguating when a valid user ID is also a valid screen name.
-     *      screen_name. Optional.  Specfies the screen name of the potentially blocked user. Helpful for disambiguating when a valid screen name is also a user ID.
+     *      id:           The ID or screen_name of the potentially blocked user.
+     *      user_id:      Specfies the ID of the potentially blocked user. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name:  Specfies the screen name of the potentially blocked user. Helpful for disambiguating when a valid screen name is also a user ID.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter+REST+API+Method%3A-blocks-exists
+     * @see http://dev.twitter.com/doc/get/blocks/exists
      *
      * TODO: Block does not exist, returned as an HTTP 404
      */
@@ -2106,13 +2206,13 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * blocks/blocking
+     * GET blocks/blocking
      *
      * @param array  $params
-     *      page. Optional. Specifies the page number of the results beginning at 1. A single page contains 20 ids.
+     *      page: Specifies the page number of the results beginning at 1. A single page contains 20 ids.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter+REST+API+Method%3A-blocks-blocking
+     * @see http://dev.twitter.com/doc/get/blocks/blocking
      */
     public function blocks_blocking($params = array()) {
 
@@ -2124,12 +2224,11 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * blocks/blocking/ids
+     * GET blocks/blocking/ids
      *
      * @param array  $params
-     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-blocks-blocking-ids
+     * @see http://dev.twitter.com/doc/get/blocks/blocking/ids
      */
     public function blocks_blocking_ids($params = array()) {
 
@@ -2146,15 +2245,16 @@ class TwitterSource extends DataSource {
     // ====================================================
 
     /**
-     * report_spam
+     * POST report_spam
      *
      * @param array  $params
-     *      id.          Optional.  The ID or screen_name of the potentially blocked user.
-     *      user_id.     Optional.  Specfies the ID of the potentially blocked user. Helpful for disambiguating when a valid user ID is also a valid screen name.
-     *      screen_name. Optional.  Specfies the screen name of the potentially blocked user. Helpful for disambiguating when a valid screen name is also a user ID.
+     *  *Optional*
+     *      id:           The ID or screen_name of the potentially blocked user.
+     *      user_id:      Specfies the ID of the potentially blocked user. Helpful for disambiguating when a valid user ID is also a valid screen name.
+     *      screen_name:  Specfies the screen name of the potentially blocked user. Helpful for disambiguating when a valid screen name is also a user ID.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-report_spam
+     * @see http://dev.twitter.com/doc/post/report_spam
      */
     public function report_spam($params = array()) {
 
@@ -2181,11 +2281,11 @@ class TwitterSource extends DataSource {
     // ====================================================
 
     /**
-     * saved_searches
+     * GET saved_searches
      *
      * @param array  $params
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-saved_searches
+     * @see http://dev.twitter.com/doc/get/saved_searches
      */
     public function saved_searches($params = array()) {
 
@@ -2197,12 +2297,12 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * saved_searches/show
+     * GET saved_searches/show
      *
      * @param string $id
      * @param array  $params
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-saved_searches-show
+     * @see http://dev.twitter.com/doc/get/saved_searches/show
      */
     public function saved_searches_show($id, $params = array()) {
 
@@ -2218,13 +2318,14 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * saved_searches/create
+     * POST saved_searches/create
      *
      * @param array  $params
-     *      query.  Required.  The query of the search the user would like to save.
+     *  *Required*
+     *      query:   The query of the search the user would like to save.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-saved_searches-create
+     * @see http://dev.twitter.com/doc/post/saved_searches/create
      */
     public function saved_searches_create($params = array()) {
 
@@ -2246,12 +2347,12 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * saved_searches/destroy
+     * POST saved_searches/destroy
      *
-     * @param string $id Required.  The id of the saved search to be deleted.
+     * @param string $id *Required*  The id of the saved search to be deleted.
      * @param array  $params
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-saved_searches-destroy
+     * @see http://dev.twitter.com/doc/post/saved_searches/destroy
      */
     public function saved_searches_destroy($id, $params = array()) {
 
@@ -2272,11 +2373,11 @@ class TwitterSource extends DataSource {
     // ====================================================
 
     /**
-     * Get OAuth Request Token
+     * GET/POST oauth/request_token
      *
      * @param  string $oauth_callback
      * @return array
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-oauth-request_token
+     * @see http://dev.twitter.com/doc/post/oauth/request_token
      */
     public function oauth_request_token($oauth_callback = null) {
 
@@ -2324,7 +2425,7 @@ class TwitterSource extends DataSource {
      *
      * @param  string $oauth_token
      * @return string
-     * @see    http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-oauth-authorize
+     * @see    http://dev.twitter.com/doc/get/oauth/authorize
      */
     public function oauth_authorize($oauth_token = '') {
 
@@ -2342,7 +2443,7 @@ class TwitterSource extends DataSource {
      *
      * @param  string $oauth_token
      * @return string
-     * @see    http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-oauth-authenticate
+     * @see    http://dev.twitter.com/doc/get/oauth/authenticate
      */
     public function oauth_authenticate($oauth_token = '') {
 
@@ -2356,17 +2457,17 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * get oauth access token
+     * GET/POST oauth/access_token
      *
      * @param  string $oauth_token
      * @param  string $oauth_verifier
      * @return array
-     * @see    http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-oauth-access_token
+     * @see    http://dev.twitter.com/doc/post/oauth/access_token
      */
     public function oauth_access_token($oauth_token, $oauth_verifier) {
 
         $url    = 'http://api.twitter.com/oauth/access_token';
-        $method = 'GET';
+        $method = 'POST';
 
         // get Request param
         $params = $this->_buildRequest($url, $method);
@@ -2403,14 +2504,14 @@ class TwitterSource extends DataSource {
     // ====================================================
 
     /**
-     * trends/available
+     * GET trends/available
      *
      * @param array  $params
-     *      lat.   Optional.  If passed in conjunction with long, then the available trend locations will be sorted by distance to the lat and long passed in.  The sort is nearest to furthest.
-     *      long.  Optional.  See lat.
+     *      lat_for_trends:
+     *      long_for_trends:
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-trends-available
+     * @see http://dev.twitter.com/doc/get/trends/available
      * @see http://developer.yahoo.com/geo/geoplanet/
      */
     public function trends_available($params = array()) {
@@ -2423,15 +2524,12 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * trends/location
+     * GET trends/location/:woeid
      *
      * @param string $woeid The WOEID of the location to be querying for.
      * @param array  $params
-     *      lat.   Optional.  If passed in conjunction with long, then the available trend locations will be sorted by distance to the lat and long passed in.  The sort is nearest to furthest.
-     *      long.  Optional.  See lat.
-     *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-trends-location
+     * @see http://dev.twitter.com/doc/get/trends/location/:woeid
      * @see http://developer.yahoo.com/geo/geoplanet/
      */
     public function trends_location($woeid, $params = array()) {
@@ -2459,13 +2557,13 @@ class TwitterSource extends DataSource {
      *      lat.  Optional but required if long provided or if ip is not provided.  The latitude to query about.  Valid ranges are -90.0 to +90.0 (North is positive) inclusive.
      *      long. Optional but required if lat provided or if ip is not provided. The longitude to query about.  Valid ranges are -180.0 to +180.0 (East is positive) inclusive.
      *      ip.       Optional but required if lat and long are not provided.  The IP address that the call is coming from. Twitter will geo-IP the address.
-     *      accuracy. Optional. A hint on the "region" in which to search.
+     *      accuracy. A hint on the "region" in which to search.
      *                          If a number, then this is a radius in meters, but it can also take a string that is suffixed with ft to specify feet.
      *                          If this is not passed in, then it is assumed to be 0m.
      *                          If coming from a device, in practice, this value is whatever accuracy the device has measuring its location
      *                          (whether it be coming from a GPS, WiFi triangulation, etc.).
-     *      granularity. Optional.  The minimal granularity of data to return.  If this is not passed in, then neighborhood is assumed.  city can also be passed.
-     *      max_results. Optional.  A hint as to the number of results to return.
+     *      granularity.  The minimal granularity of data to return.  If this is not passed in, then neighborhood is assumed.  city can also be passed.
+     *      max_results.  A hint as to the number of results to return.
      *                             This does not guarantee that the number of results returned will equal max_results, but instead informs how many "nearby" results to return.
      *                             Ideally, only pass in the number of places you intend to display to the user here.
      *
@@ -2482,23 +2580,25 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * geo/reverse_geocode
+     * GET geo/reverse_geocode
      *
      * @param array  $params
-     *      lat.  Required.  The latitude to query about.  Valid ranges are -90.0 to +90.0 (North is positive) inclusive.
-     *      long. Required. The longitude to query about.  Valid ranges are -180.0 to +180.0 (East is positive) inclusive.
-     *      accuracy. Optional. A hint on the "region" in which to search.
-     *                          If a number, then this is a radius in meters, but it can also take a string that is suffixed with ft to specify feet.
-     *                          If this is not passed in, then it is assumed to be 0m.
-     *                          If coming from a device, in practice, this value is whatever accuracy the device has measuring its location
-     *                          (whether it be coming from a GPS, WiFi triangulation, etc.).
-     *      granularity. Optional.  The minimal granularity of data to return.  If this is not passed in, then neighborhood is assumed.  city can also be passed.
-     *      max_results. Optional.  A hint as to the number of results to return.
-     *                             This does not guarantee that the number of results returned will equal max_results, but instead informs how many "nearby" results to return.
-     *                             Ideally, only pass in the number of places you intend to display to the user here.
+     *  *Required*
+     *      lat:    The latitude to query about.  Valid ranges are -90.0 to +90.0 (North is positive) inclusive.
+     *      long:   The longitude to query about.  Valid ranges are -180.0 to +180.0 (East is positive) inclusive.
+     *  *Optional*
+     *      accuracy: A hint on the "region" in which to search.
+     *                If a number, then this is a radius in meters, but it can also take a string that is suffixed with ft to specify feet.
+     *                If this is not passed in, then it is assumed to be 0m.
+     *                If coming from a device, in practice, this value is whatever accuracy the device has measuring its location
+     *                (whether it be coming from a GPS, WiFi triangulation, etc.).
+     *      granularity:  The minimal granularity of data to return.  If this is not passed in, then neighborhood is assumed.  city can also be passed.
+     *      max_results:  A hint as to the number of results to return.
+     *                    This does not guarantee that the number of results returned will equal max_results, but instead informs how many "nearby" results to return.
+     *                    Ideally, only pass in the number of places you intend to display to the user here.
      *
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-geo-reverse_geocode
+     * @see http://dev.twitter.com/doc/get/geo/reverse_geocode
      */
     public function geo_reverse_geocode($params = array()) {
 
@@ -2510,12 +2610,12 @@ class TwitterSource extends DataSource {
     }
 
     /**
-     * geo/id/:id
+     * GET geo/id/:place_id
      *
-     * @param string $id Required.  The ID of the location to query about.
+     * @param string $id *Required*  The ID of the location to query about.
      * @param array  $params
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-geo-ID
+     * @see http://dev.twitter.com/doc/get/geo/id/:place_id
      */
     public function geo_id($id, $params = array()) {
 
@@ -2536,11 +2636,11 @@ class TwitterSource extends DataSource {
     // ====================================================
 
     /**
-     * help/test
+     * GET help/test
      *
      * @param array  $params
      * @return array|false
-     * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-help%C2%A0test
+     * @see http://dev.twitter.com/doc/get/help/test
      */
     public function help_test($params = array()) {
 
