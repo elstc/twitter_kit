@@ -73,7 +73,7 @@ class TwitterComponent extends Object {
 
         $this->getTwitterSource();
 
-        $this->Cookie->path = Router::url('/' . $this->controller->params['url']['url']);
+        $this->Cookie->path = Router::url('/');
     }
 
     /**
@@ -132,10 +132,10 @@ class TwitterComponent extends Object {
      * @param bool   $use_cookie
      * @return string authorize_url
      */
-    public function getAuthorizeUrl($callback_url = null, $use_cookie = true) {
+    public function getAuthorizeUrl($callback_url = null, $use_cookie = false) {
 
         // -- check Cookie
-        $cookie_key = $this->DataSource->configKeyName . '_authorize_url';
+        $cookie_key = $this->_getAuthorizeUrlCookieName();
 
         if ($use_cookie && $this->Cookie->read($cookie_key)) {
 
@@ -165,10 +165,10 @@ class TwitterComponent extends Object {
      * @param bool   $use_cookie
      * @return string authorize_url
      */
-    public function getAuthenticateUrl($callback_url = null, $use_cookie = true) {
+    public function getAuthenticateUrl($callback_url = null, $use_cookie = false) {
 
         // -- check Cookie
-        $cookie_key = $this->DataSource->configKeyName . '_authenticate_url';
+        $cookie_key = $this->_getAuthenticateUrlCookieName();
 
         if ($use_cookie && $this->Cookie->read($cookie_key)) {
 
@@ -197,6 +197,9 @@ class TwitterComponent extends Object {
      * @return array|false
      */
     public function getAccessToken() {
+
+        // remove authorize/authenticate url cookie
+        $this->deleteAuthorizeCookie();
 
         if (empty($this->controller->params['url']['oauth_token']) || empty($this->controller->params['url']['oauth_verifier'])) {
 
@@ -265,4 +268,29 @@ class TwitterComponent extends Object {
 
     }
 
+    /**
+     * delete Authorize/Authenticate url cookie
+     */
+    public function deleteAuthorizeCookie() {
+
+        $this->Cookie->delete($this->_getAuthorizeUrlCookieName());
+        $this->Cookie->delete($this->_getAuthenticateUrlCookieName());
+
+    }
+
+    /**
+     *
+     * @return string
+     */
+    protected function _getAuthorizeUrlCookieName() {
+        return $this->DataSource->configKeyName . '_authorize_url';
+    }
+
+    /**
+     *
+     * @return string
+     */
+    protected function _getAuthenticateUrlCookieName() {
+        return $this->DataSource->configKeyName . '_authenticate_url';
+    }
 }

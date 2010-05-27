@@ -66,7 +66,7 @@ class OauthController extends AppController {
         $this->Twitter->setTwitterSource($datasource);
 
         // set Authorize Url
-        $this->set('url', $this->Twitter->getAuthorizeUrl());
+        $this->set('url', $this->Twitter->getAuthorizeUrl(null, true));
     }
 
     /**
@@ -83,6 +83,6 @@ class OauthController extends AppController {
         $this->Twitter->setTwitterSource($datasource);
 
         // set Authenticate Url
-        $this->set('url', $this->Twitter->getAuthenticateUrl());
+        $this->set('url', $this->Twitter->getAuthenticateUrl(null, true));
     }
 }
