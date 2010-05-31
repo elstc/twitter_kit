@@ -283,7 +283,7 @@ class TwitterSource extends DataSource {
      */
     public function search($params = array()) {
 
-        $url    = sprintf('http://search.twitter.com/search.json');
+        $url    = 'http://search.twitter.com/search.json';
         $method = 'GET';
 
         if (is_string($params)) {
@@ -305,7 +305,7 @@ class TwitterSource extends DataSource {
      */
     public function trends($params = array()) {
 
-        $url    = sprintf('http://search.twitter.com/trends.json');
+        $url    = 'http://search.twitter.com/trends.json';
         $method = 'GET';
 
         if (is_string($params)) {
@@ -330,7 +330,7 @@ class TwitterSource extends DataSource {
      */
     public function trends_current($params = array()) {
 
-        $url    = sprintf('http://search.twitter.com/trends/current.json');
+        $url    = 'http://search.twitter.com/trends/current.json';
         $method = 'GET';
 
         if (is_string($params)) {
@@ -356,7 +356,7 @@ class TwitterSource extends DataSource {
      */
     public function trends_daily($params = array()) {
 
-        $url    = sprintf('http://search.twitter.com/trends/daily.json');
+        $url    = 'http://search.twitter.com/trends/daily.json';
         $method = 'GET';
 
         if (is_string($params)) {
@@ -382,7 +382,7 @@ class TwitterSource extends DataSource {
      */
     public function trends_weekly($params = array()) {
 
-        $url    = sprintf('http://search.twitter.com/trends/weekly.json');
+        $url    = 'http://search.twitter.com/trends/weekly.json';
         $method = 'GET';
 
         if (is_string($params)) {
@@ -414,7 +414,7 @@ class TwitterSource extends DataSource {
      */
     public function statuses_public_timeline($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/statuses/public_timeline.json');
+        $url    = 'http://api.twitter.com/1/statuses/public_timeline.json';
         $method = 'GET';
 
         // request
@@ -438,7 +438,7 @@ class TwitterSource extends DataSource {
      */
     public function statuses_home_timeline($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/statuses/home_timeline.json');
+        $url    = 'http://api.twitter.com/1/statuses/home_timeline.json';
         $method = 'GET';
 
         // request
@@ -463,7 +463,7 @@ class TwitterSource extends DataSource {
      */
     public function statuses_friends_timeline($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/statuses/friends_timeline.json');
+        $url    = 'http://api.twitter.com/1/statuses/friends_timeline.json';
         $method = 'GET';
 
         // request
@@ -491,7 +491,7 @@ class TwitterSource extends DataSource {
      */
     public function statuses_user_timeline($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/statuses/user_timeline.json');
+        $url    = 'http://api.twitter.com/1/statuses/user_timeline.json';
         $method = 'GET';
 
         // request
@@ -515,7 +515,7 @@ class TwitterSource extends DataSource {
      */
     public function statuses_mentions($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/statuses/mentions.json');
+        $url    = 'http://api.twitter.com/1/statuses/mentions.json';
         $method = 'GET';
 
         // request
@@ -537,7 +537,7 @@ class TwitterSource extends DataSource {
      */
     public function statuses_retweeted_by_me($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/statuses/retweeted_by_me.json');
+        $url    = 'http://api.twitter.com/1/statuses/retweeted_by_me.json';
         $method = 'GET';
 
         // request
@@ -559,7 +559,7 @@ class TwitterSource extends DataSource {
      */
     public function statuses_retweeted_to_me($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/statuses/retweeted_to_me.json');
+        $url    = 'http://api.twitter.com/1/statuses/retweeted_to_me.json';
         $method = 'GET';
 
         // request
@@ -581,7 +581,7 @@ class TwitterSource extends DataSource {
      */
     public function statuses_retweets_of_me($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/statuses/retweets_of_me.json');
+        $url    = 'http://api.twitter.com/1/statuses/retweets_of_me.json';
         $method = 'GET';
 
         // request
@@ -613,7 +613,7 @@ class TwitterSource extends DataSource {
             $params = array('id' => $params);
         }
 
-        $url    = sprintf('http://api.twitter.com/1/statuses/show.json');
+        $url    = 'http://api.twitter.com/1/statuses/show.json';
         $method = 'GET';
 
         // request
@@ -642,7 +642,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        $url    = sprintf('http://api.twitter.com/1/statuses/update.json');
+        $url    = 'http://api.twitter.com/1/statuses/update.json';
         $method = 'POST';
 
         if (is_string($params)) {
@@ -722,7 +722,7 @@ class TwitterSource extends DataSource {
             $params = array('id' => $params);
         }
 
-        $url    = sprintf('http://api.twitter.com/1/statuses/retweets.json');
+        $url    = 'http://api.twitter.com/1/statuses/retweets.json';
         $method = 'GET';
 
         // request
@@ -806,7 +806,7 @@ class TwitterSource extends DataSource {
             $params = array('id' => $params);
         }
 
-        $url    = sprintf('http://api.twitter.com/1/users/show.json');
+        $url    = 'http://api.twitter.com/1/users/show.json';
         $method = 'GET';
 
         // request
@@ -826,7 +826,7 @@ class TwitterSource extends DataSource {
      */
     public function users_lookup($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/users/lookup.json');
+        $url    = 'http://api.twitter.com/1/users/lookup.json';
         $method = 'GET';
 
         // request
@@ -852,7 +852,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        $url    = sprintf('http://api.twitter.com/1/users/search.json');
+        $url    = 'http://api.twitter.com/1/users/search.json';
         $method = 'GET';
 
         if (is_string($params)) {
@@ -874,7 +874,7 @@ class TwitterSource extends DataSource {
      */
     public function users_suggestions($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/users/suggestions.json');
+        $url    = 'http://api.twitter.com/1/users/suggestions.json';
         $method = 'GET';
 
         // request
@@ -918,7 +918,7 @@ class TwitterSource extends DataSource {
      */
     public function statuses_friends($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/statuses/friends.json');
+        $url    = 'http://api.twitter.com/1/statuses/friends.json';
         $method = 'GET';
 
         if (is_string($params)) {
@@ -947,7 +947,7 @@ class TwitterSource extends DataSource {
      */
     public function statuses_followers($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/statuses/followers.json');
+        $url    = 'http://api.twitter.com/1/statuses/followers.json';
         $method = 'GET';
 
         if (is_string($params)) {
@@ -1408,7 +1408,7 @@ class TwitterSource extends DataSource {
      */
     public function direct_messages($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/direct_messages.json');
+        $url    = 'http://api.twitter.com/1/direct_messages.json';
         $method = 'GET';
 
         // request
@@ -1430,7 +1430,7 @@ class TwitterSource extends DataSource {
      */
     public function direct_messages_sent($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/direct_messages/sent.json');
+        $url    = 'http://api.twitter.com/1/direct_messages/sent.json';
         $method = 'GET';
 
         // request
@@ -1454,7 +1454,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        $url    = sprintf('http://api.twitter.com/1/direct_messages/new.json');
+        $url    = 'http://api.twitter.com/1/direct_messages/new.json';
         $method = 'POST';
 
         // request
@@ -1585,7 +1585,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        $url    = sprintf('http://api.twitter.com/1/friendships/exists.json');
+        $url    = 'http://api.twitter.com/1/friendships/exists.json';
         $method = 'GET';
 
         // request
@@ -1612,7 +1612,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        $url    = sprintf('http://api.twitter.com/1/friendships/show.json');
+        $url    = 'http://api.twitter.com/1/friendships/show.json';
         $method = 'GET';
 
         // request
@@ -1635,7 +1635,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        $url    = sprintf('http://api.twitter.com/1/friendships/incoming.json');
+        $url    = 'http://api.twitter.com/1/friendships/incoming.json';
         $method = 'GET';
 
         // request
@@ -1658,7 +1658,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        $url    = sprintf('http://api.twitter.com/1/friendships/outgoing.json');
+        $url    = 'http://api.twitter.com/1/friendships/outgoing.json';
         $method = 'GET';
 
         // request
@@ -1753,7 +1753,7 @@ class TwitterSource extends DataSource {
      */
     public function account_verify_credentials($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/account/verify_credentials.json');
+        $url    = 'http://api.twitter.com/1/account/verify_credentials.json';
         $method = 'GET';
 
         // request
@@ -1769,7 +1769,7 @@ class TwitterSource extends DataSource {
      */
     public function account_rate_limit_status($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/account/rate_limit_status.json');
+        $url    = 'http://api.twitter.com/1/account/rate_limit_status.json';
         $method = 'GET';
 
         // request
@@ -1785,7 +1785,7 @@ class TwitterSource extends DataSource {
      */
     public function account_end_session($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/account/end_session.json');
+        $url    = 'http://api.twitter.com/1/account/end_session.json';
         $method = 'POST';
 
         // request
@@ -1808,7 +1808,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        $url    = sprintf('http://api.twitter.com/1/account/update_delivery_device.json');
+        $url    = 'http://api.twitter.com/1/account/update_delivery_device.json';
         $method = 'POST';
 
         if (is_string($params)) {
@@ -1841,7 +1841,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        $url    = sprintf('http://api.twitter.com/1/account/update_profile_colors.json');
+        $url    = 'http://api.twitter.com/1/account/update_profile_colors.json';
         $method = 'POST';
 
         if (is_string($params)) {
@@ -1873,7 +1873,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        $url    = sprintf('http://api.twitter.com/1/account/update_profile_image.json');
+        $url    = 'http://api.twitter.com/1/account/update_profile_image.json';
         $method = 'POST';
 
         // request
@@ -1902,7 +1902,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        $url    = sprintf('http://api.twitter.com/1/account/update_profile_background_image.json');
+        $url    = 'http://api.twitter.com/1/account/update_profile_background_image.json';
         $method = 'POST';
 
         // request
@@ -1928,7 +1928,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        $url    = sprintf('http://api.twitter.com/1/account/update_profile.json');
+        $url    = 'http://api.twitter.com/1/account/update_profile.json';
         $method = 'POST';
 
         // request
@@ -1953,7 +1953,7 @@ class TwitterSource extends DataSource {
      */
     public function favorites($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/favorites.json');
+        $url    = 'http://api.twitter.com/1/favorites.json';
         $method = 'GET';
 
         // request
@@ -2216,7 +2216,7 @@ class TwitterSource extends DataSource {
      */
     public function blocks_blocking($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/blocks/blocking.json');
+        $url    = 'http://api.twitter.com/1/blocks/blocking.json';
         $method = 'GET';
 
         // request
@@ -2232,7 +2232,7 @@ class TwitterSource extends DataSource {
      */
     public function blocks_blocking_ids($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/blocks/blocking/ids.json');
+        $url    = 'http://api.twitter.com/1/blocks/blocking/ids.json';
         $method = 'GET';
 
         // request
@@ -2268,7 +2268,7 @@ class TwitterSource extends DataSource {
 
         }
 
-        $url    = sprintf('http://api.twitter.com/1/report_spam.json');
+        $url    = 'http://api.twitter.com/1/report_spam.json';
         $method = 'POST';
 
         // request
@@ -2289,7 +2289,7 @@ class TwitterSource extends DataSource {
      */
     public function saved_searches($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/saved_searches.json');
+        $url    = 'http://api.twitter.com/1/saved_searches.json';
         $method = 'GET';
 
         // request
@@ -2339,7 +2339,7 @@ class TwitterSource extends DataSource {
 
         }
 
-        $url    = sprintf('http://api.twitter.com/1/saved_searches/create.json');
+        $url    = 'http://api.twitter.com/1/saved_searches/create.json';
         $method = 'POST';
 
         // request
@@ -2516,7 +2516,7 @@ class TwitterSource extends DataSource {
      */
     public function trends_available($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/trends/available.json');
+        $url    = 'http://api.twitter.com/1/trends/available.json';
         $method = 'GET';
 
         // request
@@ -2572,7 +2572,7 @@ class TwitterSource extends DataSource {
      */
     public function geo_nearby_places($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/geo/nearby_places.json');
+        $url    = 'http://api.twitter.com/1/geo/nearby_places.json';
         $method = 'GET';
 
         // request
@@ -2602,7 +2602,7 @@ class TwitterSource extends DataSource {
      */
     public function geo_reverse_geocode($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/geo/reverse_geocode.json');
+        $url    = 'http://api.twitter.com/1/geo/reverse_geocode.json';
         $method = 'GET';
 
         // request
@@ -2644,7 +2644,7 @@ class TwitterSource extends DataSource {
      */
     public function help_test($params = array()) {
 
-        $url    = sprintf('http://api.twitter.com/1/help/test.json');
+        $url    = 'http://api.twitter.com/1/help/test.json';
         $method = 'GET';
 
         // request
