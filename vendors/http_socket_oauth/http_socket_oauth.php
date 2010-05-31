@@ -124,15 +124,15 @@ class HttpSocketOauth extends HttpSocket {
             if ($k) {
                 $normalisedRequestParams .= '&';
             }
-            $normalisedRequestParams .= $requestParam['name'] . '=' . rawurlencode(utf8_encode($requestParam['value']));
+            $normalisedRequestParams .= $requestParam['name'] . '=' . rawurlencode($requestParam['value']);
         }
 
         // The signature base string consists of the request method (uppercased) and
         // concatenated with the request URL and normalised request parameters
         // string, both encoded, and separated by &
         $signatureBaseString = strtoupper($request['method']) . '&'
-        . rawurlencode(utf8_encode($requestUrl)) . '&'
-        . rawurlencode(utf8_encode($normalisedRequestParams));
+        . rawurlencode($requestUrl) . '&'
+        . rawurlencode($normalisedRequestParams);
 
         // The signature base string is hashed with a key which is the consumer
         // secret (assigned to your application by the provider) and the token
@@ -140,11 +140,11 @@ class HttpSocketOauth extends HttpSocket {
         // both encoded and separated by an &
         $key = '';
         if (isset($request['auth']['oauth_consumer_secret'])) {
-            $key .= rawurlencode(utf8_encode($request['auth']['oauth_consumer_secret']));
+            $key .= rawurlencode($request['auth']['oauth_consumer_secret']);
         }
         $key .= '&';
         if (isset($request['auth']['oauth_token_secret'])) {
-            $key .= rawurlencode(utf8_encode($request['auth']['oauth_token_secret']));
+            $key .= rawurlencode($request['auth']['oauth_token_secret']);
         }
 
         // Finally construct the signature according to the value of the
