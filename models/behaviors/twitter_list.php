@@ -38,5 +38,34 @@ class TwitterListBehavior extends TwitterBehavior {
         return isset($result['id']);
     }
 
+    /**
+     * get list member count
+     *
+     * @param AppModel $model
+     * @param string $user list owner screen_name or user_id
+     * @param string $slug list name or id
+     * @return int
+     */
+    public function getListMemberCount($model, $user, $slug)
+    {
+        $result = $this->getTwitterSource($model)->get_lists_id($user, $slug);
+
+        return !empty($result['member_count']) ? intval($result['member_count']) : 0;
+    }
+
+    /**
+     * get list subscriber count
+     *
+     * @param AppModel $model
+     * @param string $user list owner screen_name or user_id
+     * @param string $slug list name or id
+     * @return int
+     */
+    public function getListSubscriberCount($model, $user, $slug)
+    {
+        $result = $this->getTwitterSource($model)->get_lists_id($user, $slug);
+
+        return !empty($result['subscriber_count']) ? intval($result['subscriber_count']) : 0;
+    }
 
 }
