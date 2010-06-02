@@ -1,5 +1,5 @@
 <?php
-App::import('Core', 'Xml');
+App::import('Core', array('Xml', 'Cache'));
 App::import('vendor', 'TwitterKit.HttpSocketOauth', array('file' => 'http_socket_oauth' . DS .'http_socket_oauth.php'));
 /**
  * Twitter API Datasouce
@@ -88,6 +88,8 @@ class TwitterSource extends DataSource {
         'oauth_token' => '',
         'oauth_token_secret' => '',
         'oauth_callback' => '',
+        'cache' => false,
+        'refresh_cache' => false,
     );
 
     /**
@@ -99,7 +101,7 @@ class TwitterSource extends DataSource {
         parent::__construct($config);
          
         $this->Http =& new HttpSocketOauth();
-         
+
         $this->reset();
     }
 
@@ -144,6 +146,22 @@ class TwitterSource extends DataSource {
     }
 
     /**
+     * Enable Cache
+     *
+     * @params mixed $config
+     */
+    public function enableCache($config = true) {
+        $this->setConfig(array('cache' => $config));
+    }
+
+    /**
+     * Next request force update cache
+     */
+    public function refreshCache() {
+        $this->setConfig(array('refresh_cache' => true));
+    }
+
+    /**
      * Request API and process responce
      *
      * @param array $params
@@ -152,7 +170,26 @@ class TwitterSource extends DataSource {
      */
     protected function _request($params, $is_process = true) {
 
-        $response = $this->Http->request($params);
+        $this->_setupCache();
+
+        if ($this->_cacheable($params) && !$this->config['refresh_cache']) {
+
+            // get Cache, only GET method
+            $response = Cache::read($this->_getCacheKey($params), $this->configKeyName);
+
+        }
+
+        if (empty($response)) {
+
+            $response = $this->Http->request($params);
+
+            if ($this->_cacheable($params)) {
+                // save Cache, only GET method
+                $cache = Cache::write($this->_getCacheKey($params), $response, $this->configKeyName);
+                $this->config['refresh_cache'] = false;
+            }
+
+        }
 
         if ($is_process) {
 
@@ -160,7 +197,60 @@ class TwitterSource extends DataSource {
 
         }
 
+        // -- error logging
+        if (Configure::read('debug') && !empty($response['error'])) {
+
+            $this->log($response['error'], LOG_DEBUG);
+
+        }
+
         return $response;
+    }
+
+    /**
+     * get Cache key
+     *
+     * @param array $params
+     * @return stirng
+     */
+    protected function _getCacheKey($params) {
+        return sha1($this->oauth_token . serialize($params));
+    }
+
+    /**
+     *
+     */
+    protected function _setupCache() {
+
+        if ($this->config['cache'] && !Cache::isInitialized($this->configKeyName)) {
+
+            if (!is_array($this->config['cache'])) {
+
+                $this->config['cache'] = array(
+                    'engine' => 'File',
+                    'duration'=> '+5 min',
+                    'path' => CACHE . 'twitter' . DS,
+                    'prefix' => 'cake_' . Inflector::underscore($this->configKeyName) . '_',
+                );
+
+            }
+
+            Cache::config($this->configKeyName, $this->config['cache']);
+
+        }
+
+    }
+
+    /**
+     * is cacheable
+     *
+     * @param array $params
+     * @return bool
+     */
+    protected function _cacheable($params) {
+
+        return $this->config['cache'] && strtoupper($params['method']) == 'GET' && !preg_match('!/oauth/!i', $params['uri']['path']);
+
     }
 
     /**
