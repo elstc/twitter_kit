@@ -21,7 +21,7 @@
  **/
 class OauthController extends AppController {
 
-    public $uses = array();
+    public $uses = array('TwitterKit.User');
 
     public $components = array('TwitterKit.Twitter');
 
@@ -38,6 +38,12 @@ class OauthController extends AppController {
     public $Auth;
 
     /**
+     *
+     * @var User
+     */
+    public $User;
+
+    /**
      * (non-PHPdoc)
      * @see cake/libs/controller/Controller#beforeFilter()
      */
@@ -45,7 +51,7 @@ class OauthController extends AppController {
     {
         if (!empty($this->Auth) && is_object($this->Auth)) {
 
-            $this->Auth->allow('authorize_url', 'authenticate_url');
+            $this->Auth->allow('authorize_url', 'authenticate_url', 'callback');
 
         }
 
@@ -85,4 +91,50 @@ class OauthController extends AppController {
         // set Authenticate Url
         $this->set('url', $this->Twitter->getAuthenticateUrl(null, true));
     }
+
+
+    /**
+     * OAuth callback
+     */
+    public function callback($datasource = null)
+    {
+        $this->Twitter->setTwitterSource($datasource);
+
+        // 正当な返り値かチェック
+        if (empty($this->params['url']['oauth_token']) || empty($this->params['url']['oauth_verifier'])) {
+            $this->Twitter->deleteAuthorizeCookie();
+            $this->flash(__('認証に失敗しました', true), '/', 5);
+            return;
+        }
+
+        // $tokenを取得
+        $token = $this->Twitter->getAccessToken();
+
+        if (is_string($token)) {
+
+            $this->flash(__('認証エラー: ', true) . $token, '/', 5);
+            return;
+
+        }
+
+        // 保存データの作成
+        $data['User'] = array(
+            'id' => $token['user_id'],
+            'username' => $token['screen_name'],
+            'password' => Security::hash($token['oauth_token']),
+            'oauth_token' => $token['oauth_token'],
+            'oauth_token_secret' => $token['oauth_token_secret'],
+        );
+
+        if (!$this->User->save($data)) {
+            $this->flash(__('ユーザ情報の保存に失敗しました', true), array('plugin' => 'twitter_kit', 'controller' => 'users', 'action' => 'login'), 5);
+            return;
+        }
+
+        $this->Auth->login($data);
+
+        // Redirect
+        $this->redirect('/');
+    }
+
 }
