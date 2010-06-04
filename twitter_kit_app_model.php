@@ -1,6 +1,6 @@
 <?php
 /**
- * TwitterKit App Controller
+ * TwitterKit App Model
  *
  * PHP version 5
  *
@@ -18,6 +18,6 @@
  * @since      TwitterKit 1.0
  * @license    MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
-class TwitterKitAppController extends AppController {
+class TwitterKitAppModel extends AppModel {
 
 }
