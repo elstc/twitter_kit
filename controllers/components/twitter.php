@@ -262,7 +262,7 @@ class TwitterComponent extends Object {
 
         if (in_array($name, get_class_methods('TwitterSource'))) {
 
-            call_user_func_array(array($this->DataSource, $name), $arg);
+            return call_user_func_array(array($this->DataSource, $name), $arg);
 
         }
 
