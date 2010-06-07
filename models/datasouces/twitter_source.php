@@ -277,6 +277,7 @@ class TwitterSource extends DataSource {
         // add GET params
         if (!empty($body) && $method == 'GET') {
 
+            if (empty($uri['query'])) { $uri['query'] = array(); }
             $uri['query'] = array_merge($uri['query'], $body);
             $body = array();
 
@@ -583,6 +584,10 @@ class TwitterSource extends DataSource {
 
         $url    = 'http://api.twitter.com/1/statuses/user_timeline.json';
         $method = 'GET';
+
+        if (is_string($params)) {
+            $params = array('id' => $params);
+        }
 
         // request
         return $this->_request($this->_buildRequest($url, $method, $params));
