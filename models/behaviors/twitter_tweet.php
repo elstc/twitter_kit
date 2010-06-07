@@ -40,5 +40,17 @@ class TwitterTweetBehavior extends TwitterBehavior {
         return $result;
     }
 
+    /**
+     * post retweet
+     *
+     * @param AppModel $model
+     * @param sting $id
+     * @param array $params
+     */
+    public function retweet($model, $id, $params = array())
+    {
+        $result = $this->getTwitterSource($model)->statuses_retweet($id, $params);
+        return $result;
+    }
 
 }
