@@ -21,7 +21,7 @@
  **/
 class OauthController extends AppController {
 
-    public $uses = array('TwitterKit.User');
+    public $uses = array();
 
     public $components = array('TwitterKit.Twitter');
 
@@ -36,12 +36,6 @@ class OauthController extends AppController {
      * @var AuthComponent
      */
     public $Auth;
-
-    /**
-     *
-     * @var User
-     */
-    public $User;
 
     /**
      * (non-PHPdoc)
@@ -117,6 +111,9 @@ class OauthController extends AppController {
 
         }
 
+        /* @var User User */
+        $User = ClassRegistry::init('TwitterKit.User');
+
         // 保存データの作成
         $data['User'] = array(
             'id' => $token['user_id'],
@@ -126,7 +123,7 @@ class OauthController extends AppController {
             'oauth_token_secret' => $token['oauth_token_secret'],
         );
 
-        if (!$this->User->save($data)) {
+        if (!$User->save($data)) {
             $this->flash(__('ユーザ情報の保存に失敗しました', true), array('plugin' => 'twitter_kit', 'controller' => 'users', 'action' => 'login'), 5);
             return;
         }
