@@ -377,7 +377,7 @@ class TwitterSource extends DataSource {
         $url    = 'http://search.twitter.com/search.json';
         $method = 'GET';
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('q' => $params);
 
@@ -399,7 +399,7 @@ class TwitterSource extends DataSource {
         $url    = 'http://search.twitter.com/trends.json';
         $method = 'GET';
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('q' => $params);
 
@@ -424,7 +424,7 @@ class TwitterSource extends DataSource {
         $url    = 'http://search.twitter.com/trends/current.json';
         $method = 'GET';
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('exclude' => $params);
 
@@ -450,7 +450,7 @@ class TwitterSource extends DataSource {
         $url    = 'http://search.twitter.com/trends/daily.json';
         $method = 'GET';
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('date' => $params);
 
@@ -476,7 +476,7 @@ class TwitterSource extends DataSource {
         $url    = 'http://search.twitter.com/trends/weekly.json';
         $method = 'GET';
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('date' => $params);
 
@@ -585,7 +585,7 @@ class TwitterSource extends DataSource {
         $url    = 'http://api.twitter.com/1/statuses/user_timeline.json';
         $method = 'GET';
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
             $params = array('id' => $params);
         }
 
@@ -704,7 +704,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
             $params = array('id' => $params);
         }
 
@@ -740,7 +740,7 @@ class TwitterSource extends DataSource {
         $url    = 'http://api.twitter.com/1/statuses/update.json';
         $method = 'POST';
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('status' => $params);
 
@@ -813,7 +813,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
             $params = array('id' => $params);
         }
 
@@ -897,7 +897,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
             $params = array('id' => $params);
         }
 
@@ -950,7 +950,7 @@ class TwitterSource extends DataSource {
         $url    = 'http://api.twitter.com/1/users/search.json';
         $method = 'GET';
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('q' => $params);
 
@@ -1016,7 +1016,7 @@ class TwitterSource extends DataSource {
         $url    = 'http://api.twitter.com/1/statuses/friends.json';
         $method = 'GET';
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('id' => $params);
 
@@ -1045,7 +1045,7 @@ class TwitterSource extends DataSource {
         $url    = 'http://api.twitter.com/1/statuses/followers.json';
         $method = 'GET';
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('id' => $params);
 
@@ -1448,7 +1448,7 @@ class TwitterSource extends DataSource {
         $url    = sprintf('http://api.twitter.com/1/%s/%s/subscribers.json', $user, $list_id);
         $method = 'POST';
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('id' => $params);
 
@@ -1602,7 +1602,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('id' => $params);
 
@@ -1640,7 +1640,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('id' => $params);
 
@@ -1780,7 +1780,7 @@ class TwitterSource extends DataSource {
      */
     public function friends_ids($params = array()) {
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('id' => $params);
 
@@ -1814,7 +1814,7 @@ class TwitterSource extends DataSource {
      */
     public function followers_ids($params = array()) {
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('id' => $params);
 
@@ -1906,7 +1906,7 @@ class TwitterSource extends DataSource {
         $url    = 'http://api.twitter.com/1/account/update_delivery_device.json';
         $method = 'POST';
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('device' => $params);
 
@@ -1939,7 +1939,7 @@ class TwitterSource extends DataSource {
         $url    = 'http://api.twitter.com/1/account/update_profile_colors.json';
         $method = 'POST';
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('device' => $params);
 
@@ -2121,7 +2121,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('id' => $params);
 
@@ -2160,7 +2160,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('id' => $params);
 
@@ -2203,7 +2203,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('id' => $params);
 
@@ -2241,7 +2241,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('id' => $params);
 
@@ -2280,7 +2280,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('id' => $params);
 
@@ -2357,7 +2357,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('id' => $params);
 
@@ -2428,7 +2428,7 @@ class TwitterSource extends DataSource {
             return false;
         }
 
-        if (is_string($params)) {
+        if (is_scalar($params)) {
 
             $params = array('query' => $params);
 
