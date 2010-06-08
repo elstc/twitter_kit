@@ -41,6 +41,7 @@ class TwitterFormHelper extends AppHelper {
     public $Js;
 
     /**
+     * create tweet box
      *
      * @param $fieldName
      * @param $options
@@ -69,14 +70,14 @@ class TwitterFormHelper extends AppHelper {
         $out .= $this->Form->input($fieldName, $inputOptions);
 
         $out .= $this->Js->buffer("
-            $('#${domId}').charCount({
-                limit: ${options['maxlength']},
-                counterText: '${options['counterText']}',
+            $('#{$domId}').charCount({
+                limit: {$options['maxlength']},
+                counterText: '{$options['counterText']}',
                 exceeded: function(element) {
-                    $('#${domId}Submit').attr('disabled', true);
+                    $('#{$domId}Submit').attr('disabled', true);
                 },
                 allowed: function(element) {
-                    $('#${domId}Submit').removeAttr('disabled');
+                    $('#{$domId}Submit').removeAttr('disabled');
                 }
             });
         ");
@@ -85,8 +86,46 @@ class TwitterFormHelper extends AppHelper {
             $out .= $this->Form->submit($options['submit'], array('id' => $domId . 'Submit'));
         }
 
-        return $out;
+        return $this->output($out);
 
-}
+    }
+
+    /**
+     * create OAuth Link
+     *
+     * @param $options
+     *  loading:      loading message
+     *  login:        login link text
+     *  datasource:   datasource name (default: twitter)
+     *  authenticate: use authenticate link (default: false)
+     */
+    public function oauthLink($options = array()) {
+
+        $default = array(
+            'loading' => __('Loading...', true),
+            'login' => __('Login Twitter', true), 
+            'datasource' => 'twitter',
+            'authenticate' => false,
+            'loginElementId' => 'twitter-login-wrap',
+        );
+
+        $options = am($default, $options);
+
+        $action = $options['authenticate'] ? 'authenticate_url' : 'authorize_url';
+
+        $request_url = $this->Html->url(array('plugin' => 'twitter_kit', 'controller' => 'oauth', 'action' => $action . '/' . urlencode($options['datasource'])), true);
+
+        $this->Js->buffer("
+            $.getJSON('{$request_url}', {}, function(data){
+            var link = $('<a>').attr('href', data.url).text('{$options['login']}');
+            $('#{$options['loginElementId']} .loading').remove();
+            $('#{$options['loginElementId']}').append(link);
+            });
+        ");
+
+        $out = sprintf('<span id="%s"><span class="loading">%s</span></span>', $options['loginElementId'], $options['loading']);
+
+        return $this->output($out);
+    }
 
 }

@@ -23,7 +23,7 @@
 $this->set('title_for_layout', __('Login', true));
 ?>
 <?php if (!$session->check('Auth.User')) : /* 未ログインの場合 */ ?>
-<?php echo $this->element('login') ?>
+<?php echo $this->TwitterForm->oauthLink($linkOptions); ?>
 <?php else: ?>
 <div id="logout-wrap">
 <p><?php echo $html->link(__('ログアウト', true), '/users/logout')?></p>
