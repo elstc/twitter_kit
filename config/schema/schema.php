@@ -33,9 +33,9 @@ class TwitterKitSchema extends CakeSchema {
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'username' => array('type' => 'string', 'null' => false, 'default' => NULL, 'key' => 'unique'),
-		'password' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
-		'oauth_token' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
-		'oauth_token_secret' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 45),
+		'password' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 40),
+		'oauth_token' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 128),
+		'oauth_token_secret' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 128),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'U_username' => array('column' => 'username', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
     );
