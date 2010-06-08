@@ -23,7 +23,9 @@ class UsersController extends TwitterKitAppController {
 
     public $name = 'Users';
 
-    public $helpers = array('Html', 'Form', 'Js');
+    public $uses = array();
+
+    public $helpers = array('Html', 'Form', 'Js', 'TwitterKit.TwitterForm');
 
     /**
      * (non-PHPdoc)
@@ -37,6 +39,17 @@ class UsersController extends TwitterKitAppController {
 
     public function login()
     {
+        $linkOptions = array();
+
+        if (!empty($this->params['named']['datasource'])) {
+            $linkOptions['datasource'] = $this->params['named']['datasource'];
+        }
+
+        if (!empty($this->params['named']['authenticate'])) {
+            $linkOptions['authenticate'] = $this->params['named']['authenticate'];
+        }
+
+        $this->set('linkOptions', $linkOptions);
         $this->Session->destroy(); // TODO: remove
     }
 

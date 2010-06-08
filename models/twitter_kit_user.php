@@ -1,6 +1,6 @@
 <?php
 /**
- * TwitterKit User Model
+ * TwitterKit TwitterUser Model
  *
  * for CakePHP 1.3+
  * PHP version 5.2+
@@ -19,9 +19,9 @@
  * @since      TwitterKit 1.0
  * @license    MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
-class User extends TwitterKitAppModel {
+class TwitterKitUser extends TwitterKitAppModel {
 
-    public $name = 'User';
+    public $name = 'TwitterKitUser';
 
     public $useTable = 'twitter_users';
 
@@ -39,11 +39,10 @@ class User extends TwitterKitAppModel {
      * login check
      * @return boolean
      */
-    static function isLogin()
-    {
+    static function isLogin() {
         // FIXME: how to use session in model?
         $session = new CakeSession();
-        return $session->check('Auth.User');
+        return $session->check('Auth.' . $this->alias);
     }
 
 }
