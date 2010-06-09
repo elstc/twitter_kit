@@ -33,8 +33,8 @@ class UsersController extends TwitterKitAppController {
      */
     public function beforeFilter()
     {
-        $this->Auth->allow('logout');
         parent::beforeFilter();
+        $this->Auth->allow('login', 'logout');
     }
 
     public function login()
