@@ -78,6 +78,8 @@ class TwitterSource extends DataSource {
 
     const TWITTER_API_URL_BASE = 'http://api.twitter.com/';
 
+    const ANYWHERE_IDENTITY = 'twitter_anywhere_identity';
+
     /**
      *
      * @var array
@@ -2746,5 +2748,20 @@ class TwitterSource extends DataSource {
         return $this->_request($this->_buildRequest($url, $method, $params));
     }
 
+    // ====================================================
+    // == @Anywhere Methods
+    // ====================================================
+    /**
+    *
+    * @param string $id
+    */
+    public function getAnywhereIdentity($id = null) {
+
+        if (empty($id)) {
+            return false;
+        }
+
+        return $id . ':' . sha1($id . $this->oauth_consumer_secret);
+    }
 
 }
