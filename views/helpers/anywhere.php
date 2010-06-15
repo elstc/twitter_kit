@@ -175,7 +175,7 @@ class AnywhereHelper extends AppHelper {
 
         $this->Js->buffer("
         twttr.anywhere(function (T) {
-            T('#{$element}').hovercards({$opt});
+            T('{$element}').hovercards({$opt});
         });");
 
     }
