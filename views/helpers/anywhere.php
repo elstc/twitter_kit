@@ -71,7 +71,7 @@ class AnywhereHelper extends AppHelper {
      * @param $elementId
      * @param $options
      * @deprecated
-     * TODO: not test
+     * TODO: not testing
      */
     public function connectButton($elementId = 'login', $options = array()) {
 
@@ -126,6 +126,57 @@ class AnywhereHelper extends AppHelper {
         ");
 
         return $out;
+
+    }
+
+    /**
+     * create follow me button
+     *
+     * @param string $screen_name
+     * @param string $elementId
+     */
+    function followMe($screen_name, $elementId = 'followMe') {
+
+        $out = $this->Html->tag('span', '', array('id' => $elementId));
+
+        $out .= $this->Html->scriptBlock("
+        twttr.anywhere(function (T) {
+            T('#{$elementId}').followButton('{$screen_name}');
+        });");
+
+        return $out;
+    }
+
+    /**
+     * create Hovercards
+     *
+     * @param string $element
+     * @param array  $options
+     */
+    function hovercards($element = '.content', $options = array()) {
+
+        if (!empty($options['username'])) {
+            $username = $options['username'];
+            unset($options['username']);
+        }
+
+        $opt = '';
+        if (!empty($options)) {
+            $opt = json_encode($options);
+        }
+
+        if (!empty($username)) {
+            if (empty($options)) {
+                $opt = "{ username: {$username} }";
+            } else {
+                $opt = preg_replace('/^{/', "{ username: {$username},", $opt);
+            }
+        }
+
+        $this->Js->buffer("
+        twttr.anywhere(function (T) {
+            T('#{$element}').hovercards({$opt});
+        });");
 
     }
 }
