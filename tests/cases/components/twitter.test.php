@@ -75,6 +75,19 @@ class TestComponent extends TwitterComponent
     {
         $this->initialize(new FakeController(), array('datasource' => 'test_twitter'));
         $this->DataSource->reset();
+
+        // -- init components
+        $this->components = Set::normalize($this->components);
+        foreach ($this->components as $Component => $config) {
+
+            if (empty($config)) {
+                $config = array();
+            }
+
+            App::import('Component', $Component);
+            $this->{$Component} = ClassRegistry::init($Component . 'Component', 'Component');
+            $this->{$Component}->initialize($this->controller, $config);
+        }
     }
 
 }
@@ -169,9 +182,9 @@ class TwitterTestCase extends CakeTestCase
 
         $this->TestComponent->controller = $controller;
         $result =  $this->TestComponent->getAccessToken();
-        
+
         debug($result);
-        
+
         if (!is_string($result)) {
 
             $this->assertIsA($result['oauth_token'], 'String');
@@ -204,7 +217,7 @@ class TwitterTestCase extends CakeTestCase
         $this->assertEqual('dummy_token2',  $this->TestComponent->DataSource->oauth_token);
         $this->assertEqual('dummy_secret2', $this->TestComponent->DataSource->oauth_token_secret);
     }
-    
+
     function testSetTokenByUser()
     {
         $user   = array(
@@ -218,7 +231,7 @@ class TwitterTestCase extends CakeTestCase
 
         $this->TestComponent->settings['fields']['oauth_token'] = 'accsess_token';
         $this->TestComponent->settings['fields']['oauth_token_secret'] = 'accsess_token_secret';
-        
+
         $user   = array(
             'User' => array(
                 'accsess_token' => 'dummy_token2',
@@ -227,6 +240,6 @@ class TwitterTestCase extends CakeTestCase
         $result = $this->TestComponent->setTokenByUser($user);
         $this->assertEqual('dummy_token2', $this->TestComponent->DataSource->oauth_token);
         $this->assertEqual('dummy_secret2', $this->TestComponent->DataSource->oauth_token_secret);
-        
+
     }
 }
