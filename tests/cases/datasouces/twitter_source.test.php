@@ -169,10 +169,15 @@ class TwitterSourceTestCase extends CakeTestCase
         $this->TestSource->reset();
         $this->assertEqual('', $this->TestSource->oauth_token);
         $this->assertEqual('', $this->TestSource->oauth_token_secret);
-        
+
         $result = $this->TestSource->setToken('dummy_token2', 'dummy_secret2');
         $this->assertTrue($result);
         $this->assertEqual('dummy_token2',  $this->TestSource->oauth_token);
         $this->assertEqual('dummy_secret2', $this->TestSource->oauth_token_secret);
+    }
+
+    function testGetAnywhereIdentity()
+    {
+        $this->assertEqual($this->TestSource->getAnywhereIdentity(15982041), '15982041:7f25bf8e58f67fb01857dee740169456ee65a885');
     }
 }

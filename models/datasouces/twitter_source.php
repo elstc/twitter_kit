@@ -2751,14 +2751,18 @@ class TwitterSource extends DataSource {
     // ====================================================
     // == @Anywhere Methods
     // ====================================================
+
     /**
-    *
-    * @param string $id
-    */
+     * return @Anywhere identity cookie
+     *
+     * @param  string $id
+     * @return string|null
+     * @see   http://dev.twitter.com/anywhere/begin#current-user
+     */
     public function getAnywhereIdentity($id = null) {
 
         if (empty($id)) {
-            return false;
+            return null;
         }
 
         return $id . ':' . sha1($id . $this->oauth_consumer_secret);
