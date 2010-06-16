@@ -116,6 +116,10 @@ add methods
 return authorize/authenticate url.
 
 
+### Create Table 'twitter_users'
+
+    cake/console/cake schema create TwitterKit -path app/plugins/twitter_kit/config/schema/
+
 ## License
 
 Licensed under The MIT License.

@@ -29,7 +29,7 @@ class TwitterKitSchema extends CakeSchema {
     }
 
     var $twitter_users = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 20, 'key' => 'primary'),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 20, 'key' => 'primary'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'username' => array('type' => 'string', 'null' => false, 'default' => NULL, 'key' => 'unique'),
