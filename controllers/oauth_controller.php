@@ -132,7 +132,7 @@ class OauthController extends AppController {
         $this->Auth->login($data);
 
         // Redirect
-        $this->redirect('/');
+        $this->redirect($this->Auth->redirect());
     }
 
 }

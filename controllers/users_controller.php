@@ -50,14 +50,13 @@ class UsersController extends TwitterKitAppController {
         }
 
         $this->set('linkOptions', $linkOptions);
-        $this->Session->destroy(); // TODO: remove
     }
 
     public function logout()
     {
         $this->Session->destroy();
         $this->Session->setFlash(__('ログアウトしました。', true));
-        $this->redirect('/');
+        $this->redirect($this->Auth->logoutRedirect);
     }
 
 }
