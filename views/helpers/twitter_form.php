@@ -45,6 +45,12 @@ class TwitterFormHelper extends AppHelper {
      *
      * @param $fieldName
      * @param $options
+     *      type: element type (default: textarea)
+     *      maxLength:   text max length (default: 140)
+     *      counterText: length message
+     *      submit: submit button message. if set to false, not create.
+     *      jqueryCharCount: path to charCount.js (jquery plugin)
+     *      other keys set to input element options.
      */
     public function tweet($fieldName, $options = array()) {
 
