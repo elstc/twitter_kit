@@ -1,0 +1,58 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2010-06-25 17:58+0900\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: /controllers/oauth_controller.php:101
+msgid "Authorization failure."
+msgstr ""
+
+#: /controllers/oauth_controller.php:110
+msgid "Authorization Error: "
+msgstr ""
+
+#: /controllers/oauth_controller.php:128
+msgid "The user could not be saved"
+msgstr ""
+
+#: /controllers/users_controller.php:58
+msgid "Signed out"
+msgstr ""
+
+#: /views/elements/login.ctp:25
+#: /views/helpers/twitter_form.php:111
+msgid "Loading..."
+msgstr ""
+
+#: /views/elements/login.ctp:26
+#: /views/helpers/twitter_form.php:112
+msgid "Login Twitter"
+msgstr ""
+
+#: /views/helpers/twitter_form.php:64
+msgid "Characters left: "
+msgstr ""
+
+#: /views/helpers/twitter_form.php:65
+msgid "Tweet"
+msgstr ""
+
+#: /views/users/login.ctp:23
+msgid "Login"
+msgstr ""
+
+#: /views/users/login.ctp:29
+msgid "Logout"
+msgstr ""
+

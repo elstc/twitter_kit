@@ -55,8 +55,8 @@ class TwitterFormHelper extends AppHelper {
             'type' => 'textarea',
             'maxlength' => 140,
             'jqueryCharCount' => '/twitter_kit/js/charCount.js',
-            'counterText' => __('Characters left: ', true),
-            'submit' => __('Tweet', true),
+            'counterText' => __d('twitter_kit', 'Characters left: ', true),
+            'submit' => __d('twitter_kit', 'Tweet', true),
         );
 
         $options = am($default, $options);
@@ -102,8 +102,8 @@ class TwitterFormHelper extends AppHelper {
     public function oauthLink($options = array()) {
 
         $default = array(
-            'loading' => __('Loading...', true),
-            'login' => __('Login Twitter', true), 
+            'loading' => __d('twitter_kit', 'Loading...', true),
+            'login' => __d('twitter_kit', 'Login Twitter', true), 
             'datasource' => 'twitter',
             'authenticate' => false,
             'loginElementId' => 'twitter-login-wrap',

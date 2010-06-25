@@ -1,0 +1,59 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TwitterKit 1.0\n"
+"POT-Creation-Date: 2010-06-25 17:58+0900\n"
+"PO-Revision-Date: 2010-06-25 18:04+0900\n"
+"Last-Translator: nojimage <nojimage@gmail.com>\n"
+"Language-Team: ELASTIC Consultants Inc. <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Language: Japanese\n"
+"X-Poedit-Country: JAPAN\n"
+
+#: /controllers/oauth_controller.php:101
+msgid "Authorization failure."
+msgstr "認証に失敗しました。"
+
+#: /controllers/oauth_controller.php:110
+msgid "Authorization Error: "
+msgstr "認証エラー:"
+
+#: /controllers/oauth_controller.php:128
+msgid "The user could not be saved"
+msgstr "ユーザの保存に失敗しました"
+
+#: /controllers/users_controller.php:58
+msgid "Signed out"
+msgstr "ログアウトしました"
+
+#: /views/elements/login.ctp:25
+#: /views/helpers/twitter_form.php:111
+msgid "Loading..."
+msgstr "読み込み中…"
+
+#: /views/elements/login.ctp:26
+#: /views/helpers/twitter_form.php:112
+msgid "Login Twitter"
+msgstr "ツイッターでログイン"
+
+#: /views/helpers/twitter_form.php:64
+msgid "Characters left: "
+msgstr "残り文字数: "
+
+#: /views/helpers/twitter_form.php:65
+msgid "Tweet"
+msgstr "ツイート"
+
+#: /views/users/login.ctp:23
+msgid "Login"
+msgstr "ログイン"
+
+#: /views/users/login.ctp:29
+msgid "Logout"
+msgstr "ログアウト"
+

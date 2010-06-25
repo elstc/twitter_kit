@@ -98,7 +98,7 @@ class OauthController extends AppController {
         // 正当な返り値かチェック
         if (empty($this->params['url']['oauth_token']) || empty($this->params['url']['oauth_verifier'])) {
             $this->Twitter->deleteAuthorizeCookie();
-            $this->flash(__('認証に失敗しました', true), '/', 5);
+            $this->flash(__d('twitter_kit', 'Authorization failure.', true), '/', 5);
             return;
         }
 
@@ -107,7 +107,7 @@ class OauthController extends AppController {
 
         if (is_string($token)) {
 
-            $this->flash(__('認証エラー: ', true) . $token, '/', 5);
+            $this->flash(__d('twitter_kit', 'Authorization Error: ', true) . $token, '/', 5);
             return;
 
         }
@@ -124,7 +124,7 @@ class OauthController extends AppController {
         $data = $model->createSaveDataByToken($token);
 
         if (!$model->save($data)) {
-            $this->flash(__('ユーザ情報の保存に失敗しました', true), array('plugin' => 'twitter_kit', 'controller' => 'users', 'action' => 'login'), 5);
+            $this->flash(__d('twitter_kit', 'The user could not be saved', true), array('plugin' => 'twitter_kit', 'controller' => 'users', 'action' => 'login'), 5);
             return;
         }
 

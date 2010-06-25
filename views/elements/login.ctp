@@ -22,8 +22,8 @@
  * @license    MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
 
-$load_message  = isset($load_message)  ? $load_message  : __('読み込み中', true);
-$login_message = isset($login_message) ? $login_message : __('ツイッターアカウントの認証', true);
+$load_message  = isset($load_message)  ? $load_message  : __d('twitter_kit', 'Loading...', true);
+$login_message = isset($login_message) ? $login_message : __d('twitter_kit', 'Login Twitter', true);
 $datasource    = isset($datasource)    ? $datasource    : 'twitter';
 $auth_url      = isset($authenticate) && $authenticate  ? 'authenticate_url' : 'authorize_url';
 $js->buffer("

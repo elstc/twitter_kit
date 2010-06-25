@@ -20,13 +20,13 @@
  * @since      TwitterKit 1.0
  * @license    MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
-$this->set('title_for_layout', __('Login', true));
+$this->set('title_for_layout', __d('twitter_kit', 'Login', true));
 ?>
 <?php if (!$session->check('Auth.User')) : /* 未ログインの場合 */ ?>
 <?php echo $this->TwitterForm->oauthLink($linkOptions); ?>
 <?php else: ?>
 <div id="logout-wrap">
-<p><?php echo $html->link(__('ログアウト', true), '/users/logout')?></p>
+<p><?php echo $html->link(__d('twitter_kit', 'Logout', true), '/users/logout')?></p>
 </div>
 <?php endif ; ?>
 
