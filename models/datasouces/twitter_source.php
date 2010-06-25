@@ -343,6 +343,74 @@ class TwitterSource extends DataSource {
     }
 
     // ====================================================
+    // == API Limit Methods
+    // ====================================================
+
+    /**
+     * get API remaining
+     *
+     * @return integer|null
+     */
+    public function getRatelimitRemaining() {
+        return !empty($this->Http->response['header']['X-Ratelimit-Remaining']) ? intval($this->Http->response['header']['X-Ratelimit-Remaining']) : null;
+    }
+
+    /**
+     * get API limit
+     *
+     * @return integer|null
+     */
+    public function getRatelimitLimit() {
+        return !empty($this->Http->response['header']['X-Ratelimit-Limit']) ? intval($this->Http->response['header']['X-Ratelimit-Limit']) : null;
+    }
+
+    /**
+     * get API limit reset time
+     *
+     * @return integer|null
+     */
+    public function getRatelimitReset() {
+        return !empty($this->Http->response['header']['X-Ratelimit-Reset']) ? intval($this->Http->response['header']['X-Ratelimit-Reset']) : null;
+    }
+
+    /**
+     * get Ratelimit Class
+     *
+     * @return string|null
+     */
+    public function getRatelimitClass() {
+        return !empty($this->Http->response['header']['X-Ratelimit-Class']) ? $this->Http->response['header']['X-Ratelimit-Class'] : null;
+    }
+
+    /**
+     * get API remaining (Search API)
+     *
+     * @return integer|null
+     */
+    public function getFeatureRatelimitRemaining() {
+        return !empty($this->Http->response['header']['X-FeatureRateLimit-Remaining']) ? intval($this->Http->response['header']['X-FeatureRateLimit-Remaining']) : null;
+    }
+
+    /**
+     * get API limit (Search API)
+     *
+     * @return integer|null
+     */
+    public function getFeatureRatelimitLimit() {
+        return !empty($this->Http->response['header']['X-FeatureRateLimit-Limit']) ? intval($this->Http->response['header']['X-FeatureRateLimit-Limit']) : null;
+    }
+
+    /**
+     * get API limit reset time (Search API)
+     *
+     * @return integer|null
+     */
+    public function getFeatureRatelimitReset() {
+        return !empty($this->Http->response['header']['X-FeatureRateLimit-Reset']) ? intval($this->Http->response['header']['X-FeatureRateLimit-Reset']) : null;
+    }
+
+
+    // ====================================================
     // == Search API Methods
     // ====================================================
 
