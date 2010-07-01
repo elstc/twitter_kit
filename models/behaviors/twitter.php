@@ -242,4 +242,26 @@ class TwitterBehavior extends ModelBehavior {
         return $model->save($data);
 
     }
+
+    /**
+     * create save data
+     *
+     * @param  AppModel $model
+     * @param  array    $token
+     * @return array
+     */
+    public function createSaveDataByToken($model, $token) {
+
+        $data = array(
+        $model->alias => array(
+                'id' => $token['user_id'],
+                'username' => $token['screen_name'],
+                'password' => Security::hash($token['oauth_token']),
+                $this->settings[$model->alias]['fields']['oauth_token'] => $token['oauth_token'],
+                $this->settings[$model->alias]['fields']['oauth_token_secret'] => $token['oauth_token_secret'],
+        ),
+        );
+
+        return $data;
+    }
 }

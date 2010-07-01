@@ -112,17 +112,16 @@ class OauthController extends AppController {
 
         }
 
-        /* @var $model TwitterKitUser */
-        $model = ClassRegistry::init('TwitterKit.TwitterKitUser');
+        if ( ClassRegistry::isKeySet('TwitterUser') ) {
+            /* @var $model TwitterUser */
+            $model = ClassRegistry::init('TwitterUser');
+        } else {
+            /* @var $model TwitterKitUser */
+            $model = ClassRegistry::init('TwitterKit.TwitterKitUser');
+        }
 
         // 保存データの作成
-        $data[$model->alias] = array(
-            'id' => $token['user_id'],
-            'username' => $token['screen_name'],
-            'password' => Security::hash($token['oauth_token']),
-            'oauth_token' => $token['oauth_token'],
-            'oauth_token_secret' => $token['oauth_token_secret'],
-        );
+        $data = $model->createSaveDataByToken($token);
 
         if (!$model->save($data)) {
             $this->flash(__('ユーザ情報の保存に失敗しました', true), array('plugin' => 'twitter_kit', 'controller' => 'users', 'action' => 'login'), 5);

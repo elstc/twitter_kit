@@ -23,6 +23,8 @@ class TwitterKitUser extends TwitterKitAppModel {
 
     public $name = 'TwitterKitUser';
 
+    public $alias = 'TwitterUser';
+
     public $useTable = 'twitter_users';
 
     public $displayField = 'username';
@@ -34,15 +36,5 @@ class TwitterKitUser extends TwitterKitAppModel {
     public $actsAs = array(
         'TwitterKit.Twitter',
     );
-
-    /**
-     * login check
-     * @return boolean
-     */
-    static function isLogin() {
-        // FIXME: how to use session in model?
-        $session = new CakeSession();
-        return $session->check('Auth.' . $this->alias);
-    }
 
 }
