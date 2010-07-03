@@ -36,15 +36,15 @@ array(
 
 Mock::generate('AppModel', 'MockModel');
 
-class Fake extends AppModel {
+class MockTwitterTimelineTestModel extends AppModel {
 
-    public $name = 'Fake';
+    public $name = 'MockTwitterTimelineTestModel';
 
     public $useTable = false;
 
 }
 
-class TwitterBehaviorTest extends CakeTestCase
+class TwitterTimelineBehaviorTest extends CakeTestCase
 {
 
     public $autoFixtures = false;
@@ -63,7 +63,7 @@ class TwitterBehaviorTest extends CakeTestCase
      */
     function startTest()
     {
-        $this->TestModel = ClassRegistry::init('Fake');
+        $this->TestModel = ClassRegistry::init('MockTwitterTimelineTestModel');
         $this->TestModel->Behaviors->attach('TwitterKit.TwitterTimeline', array('datasource' => 'test_twitter'));
         $this->TestModel->Behaviors->TwitterTimeline->DataSource->reset();
     }

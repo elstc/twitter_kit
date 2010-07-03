@@ -1,6 +1,6 @@
 <?php
 App::import('Core', 'ConnectionManager');
-App::import('Datasouce', 'TwitterKit.TwitterSource');
+App::import('Datasource', 'TwitterKit.TwitterSource');
 /**
  * TwitterKit Twitter Behavior
  *
