@@ -1,6 +1,6 @@
 <?php
 /**
- * Twitter API Datasouce Test Case
+ * Twitter API Datasource Test Case
  *
  * for CakePHP 1.3+
  * PHP version 5.2+
@@ -17,11 +17,11 @@
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
  * @link       http://elasticconsultants.com
  * @package    twitter_kit
- * @subpackage twitter_kit.tests.cases.datasouces
+ * @subpackage twitter_kit.tests.cases.datasources
  * @since      TwitterKit 1.0
  * @modifiedby nojimage <nojima at elasticconsultants.com>
  */
-App::import('Datasouce', 'TwitterKit.TwitterSource');
+App::import('Datasource', 'TwitterKit.TwitterSource');
 App::import('Model', array('AppModel', 'Model'));
 App::import('Core', array('Router'));
 

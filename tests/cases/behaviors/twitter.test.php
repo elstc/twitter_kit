@@ -47,9 +47,9 @@ array(
 
 Mock::generate('AppModel', 'MockModel');
 
-class Fake extends AppModel {
+class MockTwitterTestModel extends AppModel {
 
-    public $name = 'Fake';
+    public $name = 'MockTwitterTestModel';
 
     public $useTable = false;
 
@@ -76,7 +76,7 @@ class TwitterBehaviorTest extends CakeTestCase
      */
     function startTest()
     {
-        $this->TestModel = ClassRegistry::init('Fake');
+        $this->TestModel = ClassRegistry::init('MockTwitterTestModel');
         $this->TestModel->Behaviors->attach('TwitterKit.Twitter', array('datasource' => 'test_twitter'));
         $this->TestModel->Behaviors->Twitter->DataSource->reset();
     }
@@ -96,21 +96,21 @@ class TwitterBehaviorTest extends CakeTestCase
 
     function testSetup()
     {
-        $model = new Fake();
+        $model = new MockTwitterTestModel();
 
         $model->Behaviors->attach('TwitterKit.Twitter');
-        $this->assertEqual('twitter', $model->Behaviors->Twitter->settings['Fake']['datasource']);
-        $this->assertEqual('oauth_token', $model->Behaviors->Twitter->settings['Fake']['fields']['oauth_token']);
-        $this->assertEqual('oauth_token_secret', $model->Behaviors->Twitter->settings['Fake']['fields']['oauth_token_secret']);
+        $this->assertEqual('twitter', $model->Behaviors->Twitter->settings['MockTwitterTestModel']['datasource']);
+        $this->assertEqual('oauth_token', $model->Behaviors->Twitter->settings['MockTwitterTestModel']['fields']['oauth_token']);
+        $this->assertEqual('oauth_token_secret', $model->Behaviors->Twitter->settings['MockTwitterTestModel']['fields']['oauth_token_secret']);
 
         $this->TestModel->Behaviors->detach('TwitterKit.Twitter');
         $this->TestModel->Behaviors->attach('TwitterKit.Twitter', array('datasource' => 'test_twitter'));
-        $this->assertEqual('test_twitter', $model->Behaviors->Twitter->settings['Fake']['datasource']);
+        $this->assertEqual('test_twitter', $model->Behaviors->Twitter->settings['MockTwitterTestModel']['datasource']);
 
         $this->TestModel->Behaviors->detach('TwitterKit.Twitter');
         $this->TestModel->Behaviors->attach('TwitterKit.Twitter', array('fields' => array('oauth_token' => 'access_token', 'oauth_token_secret' => 'access_token_secret')));
-        $this->assertEqual('access_token', $model->Behaviors->Twitter->settings['Fake']['fields']['oauth_token']);
-        $this->assertEqual('access_token_secret', $model->Behaviors->Twitter->settings['Fake']['fields']['oauth_token_secret']);
+        $this->assertEqual('access_token', $model->Behaviors->Twitter->settings['MockTwitterTestModel']['fields']['oauth_token']);
+        $this->assertEqual('access_token_secret', $model->Behaviors->Twitter->settings['MockTwitterTestModel']['fields']['oauth_token_secret']);
     }
 
     function testGetTwitterSource()
@@ -196,7 +196,7 @@ class TwitterBehaviorTest extends CakeTestCase
 
         // --
         $this->TestModel->Behaviors->Twitter->DataSource->reset();
-        $this->TestModel->data = array('Fake' => array('oauth_token' => 'dummy_token3', 'oauth_token_secret' => 'dummy_secret3'));
+        $this->TestModel->data = array('MockTwitterTestModel' => array('oauth_token' => 'dummy_token3', 'oauth_token_secret' => 'dummy_secret3'));
         $result = $this->TestModel->twitterSetToken();
         $ds = $this->TestModel->getTwitterSource();
         $this->assertTrue($result);
@@ -207,7 +207,7 @@ class TwitterBehaviorTest extends CakeTestCase
         $this->TestModel->Behaviors->Twitter->DataSource->reset();
         $this->TestModel->Behaviors->detach('TwitterKit.Twitter');
         $this->TestModel->Behaviors->attach('TwitterKit.Twitter', array('fields' => array('oauth_token' => 'access_token', 'oauth_token_secret' => 'access_token_secret')));
-        $this->TestModel->data = array('Fake' => array('access_token' => 'dummy_token4', 'access_token_secret' => 'dummy_secret4'));
+        $this->TestModel->data = array('MockTwitterTestModel' => array('access_token' => 'dummy_token4', 'access_token_secret' => 'dummy_secret4'));
         $result = $this->TestModel->twitterSetToken();
         $ds = $this->TestModel->getTwitterSource();
         $this->assertTrue($result);

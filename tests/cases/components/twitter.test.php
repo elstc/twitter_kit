@@ -46,7 +46,7 @@ array(
 ) );
 
 
-class FakeController extends Object
+class MockTwitterTestController extends Object
 {
     public $stoped = false;
 
@@ -73,7 +73,7 @@ class TestComponent extends TwitterComponent
 
     function _reset()
     {
-        $this->initialize(new FakeController(), array('datasource' => 'test_twitter'));
+        $this->initialize(new MockTwitterTestController(), array('datasource' => 'test_twitter'));
         $this->DataSource->reset();
 
         // -- init components
@@ -121,7 +121,7 @@ class TwitterTestCase extends CakeTestCase
 
         unset($this->TestComponent);
         $this->TestComponent = new TestComponent();
-        $this->TestComponent->initialize(new FakeController());
+        $this->TestComponent->initialize(new MockTwitterTestController());
         $this->assertIsA($this->TestComponent, 'TwitterComponent');
         $this->assertEqual('twitter', $this->TestComponent->settings['datasource']);
         $this->assertEqual('oauth_token', $this->TestComponent->settings['fields']['oauth_token']);
@@ -176,7 +176,7 @@ class TwitterTestCase extends CakeTestCase
         $result = $this->TestComponent->getAccessToken();
         $this->assertFalse($result);
 
-        $controller = new FakeController();
+        $controller = new MockTwitterTestController();
         $controller->params['url']['oauth_token']    = 'vkwlQH1uLWWahUNa7PNE6RbBTYGotugP9wh3NSoT0';
         $controller->params['url']['oauth_verifier'] = 'DUWU7DpwCGYNgKbq1B9Pf3uhwVDLyv9XvTP3T3DVAo';
 

@@ -2,7 +2,7 @@
 App::import('Core', array('Xml', 'Cache'));
 App::import('vendor', 'TwitterKit.HttpSocketOauth', array('file' => 'http_socket_oauth' . DS .'http_socket_oauth.php'));
 /**
- * Twitter API Datasouce
+ * Twitter API Datasource
  *
  * for CakePHP 1.3+
  * PHP version 5.2+
@@ -18,7 +18,7 @@ App::import('vendor', 'TwitterKit.HttpSocketOauth', array('file' => 'http_socket
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
  * @link       http://elasticconsultants.com
  * @package    twitter_kit
- * @subpackage twitter_kit.models.datasouces
+ * @subpackage twitter_kit.models.datasources
  * @since      TwitterKit 1.0
  * @modifiedby nojimage <nojima at elasticconsultants.com>
  *
