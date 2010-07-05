@@ -1681,7 +1681,7 @@ class TwitterSource extends DataSource {
         $id = '';
 
         if (!empty($params['id'])) {
-            $id = '/' . $id;
+            $id = '/' . $params['id'];
             unset($params['id']);
         }
 
@@ -1720,7 +1720,7 @@ class TwitterSource extends DataSource {
 
         if (!empty($params['id'])) {
 
-            $id = '/' . $id;
+            $id = '/' . $params['id'];
             unset($params['id']);
 
         }
@@ -1859,7 +1859,7 @@ class TwitterSource extends DataSource {
         $id = '';
 
         if (!empty($params['id'])) {
-            $id = '/' . $id;
+            $id = '/' . $params['id'];
             unset($params['id']);
         }
 
@@ -1893,7 +1893,7 @@ class TwitterSource extends DataSource {
         $id = '';
 
         if (!empty($params['id'])) {
-            $id = '/' . $id;
+            $id = '/' . $params['id'];
             unset($params['id']);
         }
 
@@ -2200,7 +2200,7 @@ class TwitterSource extends DataSource {
         $id = '';
 
         if (!empty($params['id'])) {
-            $id = '/' . $id;
+            $id = '/' . $params['id'];
             unset($params['id']);
         }
 
@@ -2239,7 +2239,7 @@ class TwitterSource extends DataSource {
         $id = '';
 
         if (!empty($params['id'])) {
-            $id = '/' . $id;
+            $id = '/' . $params['id'];
             unset($params['id']);
         }
 
@@ -2282,7 +2282,7 @@ class TwitterSource extends DataSource {
         $id = '';
 
         if (!empty($params['id'])) {
-            $id = '/' . $id;
+            $id = '/' . $params['id'];
             unset($params['id']);
         }
 
@@ -2320,7 +2320,7 @@ class TwitterSource extends DataSource {
         $id = '';
 
         if (!empty($params['id'])) {
-            $id = '/' . $id;
+            $id = '/' . $params['id'];
             unset($params['id']);
         }
 
@@ -2359,7 +2359,7 @@ class TwitterSource extends DataSource {
         $id = '';
 
         if (!empty($params['id'])) {
-            $id = '/' . $id;
+            $id = '/' . $params['id'];
             unset($params['id']);
         }
 
