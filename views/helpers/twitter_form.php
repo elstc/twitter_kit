@@ -55,7 +55,7 @@ class TwitterFormHelper extends AppHelper {
     public function tweet($fieldName, $options = array()) {
 
         $this->setEntity($fieldName);
-        $domId = $this->domId($fieldName);
+        $domId = !empty($options['id']) ? $options['id'] : $this->domId($fieldName);
 
         $default = array(
             'type' => 'textarea',

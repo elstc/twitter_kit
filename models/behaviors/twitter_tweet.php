@@ -41,6 +41,26 @@ class TwitterTweetBehavior extends TwitterBehavior {
     }
 
     /**
+     * reply message
+     *
+     * @param AppModel $model
+     * @param string $message
+     * @param string $inReplyToStatusId
+     * @param array $params
+     */
+    public function reply($model, $message, $inReplyToStatusId, $params = array())
+    {
+        if (is_string($message)) {
+            $message = array('status' => $message);
+        }
+
+        $message = am($message, array('in_reply_to_status_id' => $inReplyToStatusId));
+
+        $result = $this->getTwitterSource($model)->statuses_update(am($message, $params));
+        return $result;
+    }
+
+    /**
      * post retweet
      *
      * @param AppModel $model
