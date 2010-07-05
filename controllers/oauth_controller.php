@@ -50,7 +50,6 @@ class OauthController extends AppController {
             $this->Auth->allow('authorize_url', 'authenticate_url', 'callback');
 
         }
-
     }
 
     /**
@@ -131,7 +130,7 @@ class OauthController extends AppController {
         $this->Auth->login($data);
 
         // Redirect
-        $this->redirect($this->Auth->redirect());
+        $this->flash(sprintf(__d('twiter_kit', 'Redirect to %s', true), Router::url($this->Auth->redirect(), true)), $this->Auth->redirect(), 0);
     }
 
 }
