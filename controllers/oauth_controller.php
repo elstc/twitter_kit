@@ -130,7 +130,13 @@ class OauthController extends AppController {
         $this->Auth->login($data);
 
         // Redirect
-        $this->flash(sprintf(__d('twiter_kit', 'Redirect to %s', true), Router::url($this->Auth->redirect(), true)), $this->Auth->redirect(), 0);
+        if (env('HTTP_REFERER')) {
+            $this->flash(sprintf(__d('twiter_kit', 'Redirect to %s', true), Router::url($this->Auth->redirect(), true)), $this->Auth->redirect(), 0);
+            return;
+        }
+
+        $this->redirect($this->Auth->redirect());
+
     }
 
 }
