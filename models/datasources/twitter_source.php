@@ -1752,7 +1752,8 @@ class TwitterSource extends DataSource {
         $method = 'GET';
 
         // request
-        return $this->_request($this->_buildRequest($url, $method, $params));
+        $check = $this->_request($this->_buildRequest($url, $method, $params));
+        return !is_array($check) && $check;
     }
 
     /**
