@@ -200,10 +200,8 @@ class TwitterSource extends DataSource {
         }
 
         // -- error logging
-        if (Configure::read('debug') && !empty($response['error'])) {
-
-            $this->log($response['error'], LOG_DEBUG);
-
+        if (!empty($response['error'])) {
+            $this->log($response['error'] . "\n" . print_r($params, true), LOG_DEBUG);
         }
 
         return $response;
