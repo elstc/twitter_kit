@@ -200,10 +200,8 @@ class TwitterSource extends DataSource {
         }
 
         // -- error logging
-        if (Configure::read('debug') && !empty($response['error'])) {
-
-            $this->log($response['error'], LOG_DEBUG);
-
+        if (!empty($response['error'])) {
+            $this->log($response['error'] . "\n" . print_r($params, true), LOG_DEBUG);
         }
 
         return $response;
@@ -1754,7 +1752,8 @@ class TwitterSource extends DataSource {
         $method = 'GET';
 
         // request
-        return $this->_request($this->_buildRequest($url, $method, $params));
+        $check = $this->_request($this->_buildRequest($url, $method, $params));
+        return !is_array($check) && $check;
     }
 
     /**
