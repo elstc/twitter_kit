@@ -43,11 +43,11 @@ class TwitterFormTestCase extends CakeTestCase
         $value = '@username #hashtag';
         $result = '<a href="http://twitter.com/username">@username</a> <a href="http://search.twitter.com/search?q=#hashtag">#hashtag</a>';
         $this->assertEqual($this->TwitterForm->linkify($value), $result);
-        
+
         $value = '@username#hashtag';
         $result = '<a href="http://twitter.com/username">@username</a><a href="http://search.twitter.com/search?q=#hashtag">#hashtag</a>';
         $this->assertEqual($this->TwitterForm->linkify($value), $result);
-        
+
         $value = '@username http://example.com';
         $result = '<a href="http://twitter.com/username">@username</a> <a href="http://example.com">http://example.com</a>';
         $this->assertEqual($this->TwitterForm->linkify($value), $result);
@@ -71,13 +71,25 @@ class TwitterFormTestCase extends CakeTestCase
         $value = '@user%name';
         $result = '<a href="http://twitter.com/user">@user</a>%name';
         $this->assertEqual($this->TwitterForm->linkify($value), $result);
-        
+
         $value = 'http://example.com:8080/path?query=search&order=asc#hashtag';
         $result = '<a href="http://example.com:8080/path?query=search&order=asc#hashtag">http://example.com:8080/path?query=search&order=asc#hashtag</a>';
         $this->assertEqual($this->TwitterForm->linkify($value), $result);
-        
+
         $value = 'http://subdomain.example.com:8080/?query=search&order=asc#hashtag';
         $result = '<a href="http://subdomain.example.com:8080/?query=search&order=asc#hashtag">http://subdomain.example.com:8080/?query=search&order=asc#hashtag</a>';
+        $this->assertEqual($this->TwitterForm->linkify($value), $result);
+
+        $value = 'http://subdomain.example.com:8080/?#hashtag';
+        $result = '<a href="http://subdomain.example.com:8080/?#hashtag">http://subdomain.example.com:8080/?#hashtag</a>';
+        $this->assertEqual($this->TwitterForm->linkify($value), $result);
+
+        $value = '@username @nameuser';
+        $result = '<a href="http://twitter.com/username">@username</a> <a href="http://twitter.com/nameuser">@nameuser</a>';
+        $this->assertEqual($this->TwitterForm->linkify($value), $result);
+
+        $value = '#hashtag #taghash';
+        $result = '<a href="http://search.twitter.com/search?q=#hashtag">#hashtag</a> <a href="http://search.twitter.com/search?q=#taghash">#taghash</a>';
         $this->assertEqual($this->TwitterForm->linkify($value), $result);
     }
 
