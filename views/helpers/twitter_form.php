@@ -160,7 +160,7 @@ class TwitterFormHelper extends AppHelper {
         $replaces = array(
             'url'      => array('!(^|[\W])(' . $_urlMatch . ')([\W]|$)!iu' => '$1<a href="$2">$2</a>$3'),
             'username' => array('!(^|[^\w/?&;])@(\w+)!iu' => '$1<a href="http://twitter.com/$2">@$2</a>$3'),
-            'hashtag'  => array('!(^|[^\w/?&;])#(\w+)!iu' => '$1<a href="http://search.twitter.com/search?q=#$2">#$2</a>$3'),
+            'hashtag'  => array('!(^|[^\w/?&;])#(\w+)!iu' => '$1<a href="http://search.twitter.com/search?q=$2">#$2</a>$3'),
         );
 
         $options = am($default, $options);
