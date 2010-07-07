@@ -31,7 +31,7 @@ class TwitterFormTestCase extends CakeTestCase
         $this->assertEqual($this->TwitterForm->linkify($value, array('username' => false)), $value);
 
         $value = '#hashtag';
-        $result = '<a href="http://search.twitter.com/search?q=hashtag">#hashtag</a>';
+        $result = '<a href="http://search.twitter.com/search?q=%23hashtag">#hashtag</a>';
         $this->assertEqual($this->TwitterForm->linkify($value), $result);
         $this->assertEqual($this->TwitterForm->linkify($value, array('hashtag' => false)), $value);
 
@@ -41,11 +41,11 @@ class TwitterFormTestCase extends CakeTestCase
         $this->assertEqual($this->TwitterForm->linkify($value, array('url' => false)), $value);
 
         $value = '@username #hashtag';
-        $result = '<a href="http://twitter.com/username">@username</a> <a href="http://search.twitter.com/search?q=hashtag">#hashtag</a>';
+        $result = '<a href="http://twitter.com/username">@username</a> <a href="http://search.twitter.com/search?q=%23hashtag">#hashtag</a>';
         $this->assertEqual($this->TwitterForm->linkify($value), $result);
 
         $value = '@username#hashtag';
-        $result = '<a href="http://twitter.com/username">@username</a><a href="http://search.twitter.com/search?q=hashtag">#hashtag</a>';
+        $result = '<a href="http://twitter.com/username">@username</a><a href="http://search.twitter.com/search?q=%23hashtag">#hashtag</a>';
         $this->assertEqual($this->TwitterForm->linkify($value), $result);
 
         $value = '@username http://example.com';
@@ -53,7 +53,7 @@ class TwitterFormTestCase extends CakeTestCase
         $this->assertEqual($this->TwitterForm->linkify($value), $result);
 
         $value = 'http://example.com #hashtag';
-        $result = '<a href="http://example.com">http://example.com</a> <a href="http://search.twitter.com/search?q=hashtag">#hashtag</a>';
+        $result = '<a href="http://example.com">http://example.com</a> <a href="http://search.twitter.com/search?q=%23hashtag">#hashtag</a>';
         $this->assertEqual($this->TwitterForm->linkify($value), $result);
 
         $value = 'http://example.com/#hashtag';
@@ -65,7 +65,7 @@ class TwitterFormTestCase extends CakeTestCase
         $this->assertEqual($this->TwitterForm->linkify($value), $result);
 
         $value = '#hash_tag';
-        $result = '<a href="http://search.twitter.com/search?q=hash_tag">#hash_tag</a>';
+        $result = '<a href="http://search.twitter.com/search?q=%23hash_tag">#hash_tag</a>';
         $this->assertEqual($this->TwitterForm->linkify($value), $result);
 
         $value = '@user%name';
@@ -89,7 +89,7 @@ class TwitterFormTestCase extends CakeTestCase
         $this->assertEqual($this->TwitterForm->linkify($value), $result);
 
         $value = '#hashtag #taghash';
-        $result = '<a href="http://search.twitter.com/search?q=hashtag">#hashtag</a> <a href="http://search.twitter.com/search?q=taghash">#taghash</a>';
+        $result = '<a href="http://search.twitter.com/search?q=%23hashtag">#hashtag</a> <a href="http://search.twitter.com/search?q=%23taghash">#taghash</a>';
         $this->assertEqual($this->TwitterForm->linkify($value), $result);
     }
 
