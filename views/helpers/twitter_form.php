@@ -134,4 +134,44 @@ class TwitterFormHelper extends AppHelper {
         return $this->output($out);
     }
 
+
+    /**
+     * linkify text
+     *
+     * @param string $value
+     * @param array  $options
+     *    username: linkify username. eg. @username
+     *    hashtag : linkify hashtag. eg. #hashtag
+     *    url     : linkify url. eg. http://example.com/
+     * @return string
+     */
+    public function linkify($value, $options = array()) {
+
+        $default = array(
+            'url'      => true,
+            'username' => true,
+            'hashtag'  => true,
+        );
+
+        $validChars = '(?:[' . preg_quote('!"$&\'()*+,-.@_:;=~', '!') . '\/0-9a-z]|(?:%[0-9a-f]{2}))';
+        $_urlMatch = 'https?://(?:[a-z0-9][-a-z0-9]*\.)*(?:[a-z0-9][-a-z0-9]{0,62})\.(?:(?:[a-z]{2}\.)?[a-z]{2,6})' .
+            '(?::[1-9][0-9]{0,4})?' . '(?:\/' . $validChars . '*)?' . '(?:\?' . $validChars . '*)?' . '(?:#' . $validChars . '*)?';
+
+        $replaces = array(
+            'url'      => array('!(^|[\W])(' . $_urlMatch . ')([\W]|$)!iu' => '$1<a href="$2">$2</a>$3'),
+            'username' => array('!(^|[^\w/])@(\w+)([\W]|$)!iu' => '$1<a href="http://twitter.com/$2">@$2</a>$3'),
+            'hashtag'  => array('!(^|[^\w/])#(\w+)([\W]|$)!iu' => '$1<a href="http://search.twitter.com/search?q=#$2">#$2</a>$3'),
+        );
+
+        $options = am($default, $options);
+
+        foreach ($replaces as $key => $_replace) {
+            if ($options[$key]) {
+                $value = preg_replace(array_keys($replaces[$key]), array_values($replaces[$key]), $value);
+            }
+        }
+
+        return $value;
+    }
+
 }
