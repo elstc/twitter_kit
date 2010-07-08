@@ -118,34 +118,33 @@ class TwitterSourceTestCase extends CakeTestCase
     function testOauthAccessToken()
     {
 
-        if (0) {
+        return $this->skipIf(true);
 
-            $requestToken = $this->TestSource->oauth_request_token(Router::url('/openlist/twitter_kit/callback', true));
-            $authUrl = $this->TestSource->oauth_authorize();
+        $requestToken = $this->TestSource->oauth_request_token(Router::url('/openlist/twitter_kit/callback', true));
+        $authUrl = $this->TestSource->oauth_authorize();
 
-            debug($authUrl);
+        debug($authUrl);
 
-            $url = 'http://localhost/openlist/twitter_kit/callback?oauth_token=ly4DCCcq4gddZMuFNp7vbJgQiSna7Hoq4Xd7CuGOOk&oauth_verifier=Nvnw5OnMkVFv5S4tjLvKLLmsMbDyKEM92HeEILC6u7g';
+        $url = 'http://localhost/openlist/twitter_kit/callback?oauth_token=ly4DCCcq4gddZMuFNp7vbJgQiSna7Hoq4Xd7CuGOOk&oauth_verifier=Nvnw5OnMkVFv5S4tjLvKLLmsMbDyKEM92HeEILC6u7g';
 
-            $oauth_token = 'ly4DCCcq4gddZMuFNp7vbJgQiSna7Hoq4Xd7CuGOOk';
-            $oauth_verifier = 'Nvnw5OnMkVFv5S4tjLvKLLmsMbDyKEM92HeEILC6u7g';
+        $oauth_token = 'ly4DCCcq4gddZMuFNp7vbJgQiSna7Hoq4Xd7CuGOOk';
+        $oauth_verifier = 'Nvnw5OnMkVFv5S4tjLvKLLmsMbDyKEM92HeEILC6u7g';
 
-            $token = $this->TestSource->oauth_access_token($oauth_token, $oauth_verifier);
+        $token = $this->TestSource->oauth_access_token($oauth_token, $oauth_verifier);
 
-            if (is_string($token)) {
+        if (is_string($token)) {
 
-                $this->assertEqual('Invalid / expired Token', $token);
+            $this->assertEqual('Invalid / expired Token', $token);
 
-            } else {
+        } else {
 
-                $this->assertTrue(is_array($token));
-                $this->assertTrue(is_string($token['oauth_token']));
-                $this->assertTrue(is_string($token['oauth_token_secret']));
-                $this->assertTrue(is_string($token['user_id']));
-                $this->assertTrue(is_string($token['screen_name']));
-                $this->assertEqual($token['oauth_token'], $this->TestSource->oauth_token);
-                $this->assertEqual($token['oauth_token_secret'], $this->TestSource->oauth_token_secret);
-            }
+            $this->assertTrue(is_array($token));
+            $this->assertTrue(is_string($token['oauth_token']));
+            $this->assertTrue(is_string($token['oauth_token_secret']));
+            $this->assertTrue(is_string($token['user_id']));
+            $this->assertTrue(is_string($token['screen_name']));
+            $this->assertEqual($token['oauth_token'], $this->TestSource->oauth_token);
+            $this->assertEqual($token['oauth_token_secret'], $this->TestSource->oauth_token_secret);
 
         }
 
