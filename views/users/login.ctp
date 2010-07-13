@@ -29,4 +29,4 @@ $this->set('title_for_layout', __d('twitter_kit', 'Login', true));
 <p><?php echo $html->link(__d('twitter_kit', 'Logout', true), '/users/logout')?></p>
 </div>
 <?php endif ; ?>
-
+<?php echo $this->TwitterForm->Js->writeBuffer(); ?>
