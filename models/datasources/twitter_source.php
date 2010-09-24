@@ -1359,7 +1359,7 @@ class TwitterSource extends DataSource {
         }
 
         $url    = sprintf('http://api.twitter.com/1/%s/%s/members.json', $user, $list_id);
-        $method = 'POST';
+        $method = 'GET';
 
         // request
         return $this->_request($this->_buildRequest($url, $method, $params));
