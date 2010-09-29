@@ -1392,6 +1392,56 @@ class TwitterSource extends DataSource {
     }
 
     /**
+     * POST :user/:list_id/create_all
+     *
+     * Adds multiple members to a list, by specifying a comma-separated list of
+     * member ids or screen names. The authenticated user must own the list to
+     * be able to add members to it. Lists are limited to having 500 members,
+     * and you are limited to adding up to 100 members to a list at a time with
+     * this method.
+     *
+     * @param string $user
+     * @param string $list_id
+     * @param array  $params
+     *  *Optional*
+     *      user_id: A comma separated list of user IDs, up to 100 are allowed in a single request.
+     *      screen_name: A comma separated list of screen names, up to 100 are allowed in a single request.
+     *
+     * @return array|false
+     * @see http://dev.twitter.com/doc/post/:user/:list_id/create_all
+     *
+     * NOTE: http://groups.google.com/group/twitter-development-talk/browse_thread/thread/3e6ae4417160df39?pli=1
+     *       now POST URL is http://api.twitter.com/1/:user/:list_id/members/create_all.json
+     */
+    public function post_list_members_create_all($user, $list_id, $params = array()) {
+
+        if (empty($user) || empty($list_id)) {
+            return false;
+        }
+
+        // if $params = ('username1', 'username2', 'username3')
+        if (!empty($params) && Set::numeric(array_keys($params))) {
+            if (is_numeric($params[0])) {
+                $params = array('user_id' => $params);
+            } else {
+                $params = array('screen_name' => $params);
+            }
+        }
+
+        foreach (array('user_id', 'screen_name') as $key) {
+            if (!empty($params[$key]) && is_array($params[$key])) {
+                $params[$key] = join(',', $params[$key]);
+            }
+        }
+
+        $url = sprintf('http://api.twitter.com/1/%s/%s/members/create_all.json', $user, $list_id);
+        $method = 'POST';
+
+        // request
+        return $this->_request($this->_buildRequest($url, $method, $params));
+    }
+
+    /**
      * DELETE :user/:id/members
      *
      * @param string $user
