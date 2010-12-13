@@ -123,7 +123,7 @@ class TwitterFormHelper extends AppHelper {
 
         $this->Js->buffer("
             $.getJSON('{$request_url}', {}, function(data){
-            var link = $('<a>').attr('href', data.url).text('{$options['login']}');
+            var link = $('<a>').attr('href', data.url).html('{$options['login']}');
             $('#{$options['loginElementId']} .loading').remove();
             $('#{$options['loginElementId']}').append(link);
             });
