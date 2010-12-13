@@ -20,6 +20,7 @@ App::import('Behavior', 'TwitterKit.Twitter');
  * @subpackage twitter_kit.models.behaviors
  * @since      TwitterKit 1.0
  * @modifiedby nojimage <nojima at elasticconsultants.com>
+ * @deprecated
  */
 class TwitterFriendshipsBehavior extends TwitterBehavior {
 
