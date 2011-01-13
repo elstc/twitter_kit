@@ -111,13 +111,13 @@ class TwitterFormHelper extends AppHelper {
             'loading' => __d('twitter_kit', 'Loading...', true),
             'login' => __d('twitter_kit', 'Login Twitter', true), 
             'datasource' => 'twitter',
-            'authenticate' => false,
+            'authorize' => false,
             'loginElementId' => 'twitter-login-wrap',
         );
 
         $options = am($default, $options);
 
-        $action = $options['authenticate'] ? 'authenticate_url' : 'authorize_url';
+        $action = $options['authorize'] ? 'authorize_url' : 'authenticate_url';
 
         $request_url = $this->Html->url(array('plugin' => 'twitter_kit', 'controller' => 'oauth', 'action' => $action . '/' . urlencode($options['datasource'])), true);
 
