@@ -1,29 +1,28 @@
 <?php
-App::import('Helper', 'TwitterKit.TwitterForm');
 
-class TwitterFormTestCase extends CakeTestCase
-{
+App::import('Helper', 'TwitterKit.TwitterForm');
+App::import('Helper', 'TwitterKit.Twitter');
+
+class TwitterFormTestCase extends CakeTestCase {
 
     /**
      *
-     * @var TwitterForm
+     * @var TwitterFormHelper
      */
     var $TwitterForm;
 
-    function startTest()
-    {
+    function startTest() {
         $this->TwitterForm = new TwitterFormHelper();
+        $this->TwitterForm->Twitter = new TwitterHelper();
+        ClassRegistry::init('View', 'view');
     }
 
-    function endTest()
-    {
+    function endTest() {
         unset($this->TwitterForm);
         ClassRegistry::flush();
     }
 
-
-    function testLinkify()
-    {
+    function testLinkify() {
 
         $value = '@username';
         $result = '<a href="http://twitter.com/username">@username</a>';
@@ -92,6 +91,5 @@ class TwitterFormTestCase extends CakeTestCase
         $result = '<a href="http://search.twitter.com/search?q=%23hashtag">#hashtag</a> <a href="http://search.twitter.com/search?q=%23taghash">#taghash</a>';
         $this->assertEqual($this->TwitterForm->linkify($value), $result);
     }
-
 
 }

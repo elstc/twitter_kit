@@ -1,18 +1,18 @@
 <?php
 
-App::import('Helper', 'Html');
+App::import('Helper', 'TwitterKit.Twitter');
 
 /**
  * TwitteKit Twitter Goodies Helper
  *
- * Copyright 2010, ELASTIC Consultants Inc. http://elasticconsultants.com/
+ * Copyright 2011, ELASTIC Consultants Inc. http://elasticconsultants.com/
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @version    1.0
+ * @version    1.1
  * @author     nojimage <nojima at elasticconsultants.com>
- * @copyright  2010 ELASTIC Consultants Inc.
+ * @copyright  2011 ELASTIC Consultants Inc.
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
  * @link       http://elasticconsultants.com
  * @package    twitter_kit
@@ -22,12 +22,11 @@ App::import('Helper', 'Html');
  */
 class TwitterGoodiesHelper extends AppHelper {
 
-    public $helpers = array('Html');
     /**
      *
-     * @var HtmlHelper
+     * @var TwitterHelper
      */
-    public $Html;
+    public $Twitter;
 
     /**
      * create tweet button
@@ -40,46 +39,7 @@ class TwitterGoodiesHelper extends AppHelper {
      * @return string
      */
     public function tweetButton($label = null, $options = array(), $dataAttribute = false, $scriptInline = false) {
-
-        $attributes = array();
-
-        $defaults = array(
-            'class' => 'twitter-share-button',
-            'url' => '',
-            'via' => '',
-            'text' => '',
-            'related' => '',
-            'count' => 'horizontal', // 'none', 'vertical'
-            'lang' => 'en',
-            'counturl' => '',
-        );
-
-        if (empty($label)) {
-            $label = 'Tweet';
-        }
-
-        $options = am($defaults, $options);
-
-        $attributes['class'] = $options['class'];
-        unset($options['class']);
-
-        $options['count'] = strtolower($options['count']);
-        if (!in_array($options['count'], array('none', 'horizontal', 'vertical'))) {
-            $options['count'] = 'none';
-        }
-
-        $options = Set::filter($options);
-
-        if ($dataAttribute) {
-            foreach ($options as $key => $val) {
-                $attributes['data-' . $key] = $val;
-            }
-            $options = array();
-        }
-
-        $out = $this->Html->link($label, 'http://twitter.com/share' . Router::queryString($options), $attributes);
-        $out .= $this->Html->script('http://platform.twitter.com/widgets.js', array('inline' => $scriptInline));
-        return $this->output($out);
+        return $this->Twitter->tweetButton($label, $options, $dataAttribute, $scriptInline);
     }
 
 }

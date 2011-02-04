@@ -1,18 +1,21 @@
 <?php
 
+App::import('Helper', 'Html');
 App::import('Helper', 'TwitterKit.TwitterGoodies');
+App::import('Helper', 'TwitterKit.Twitter');
 
 class TwitterGoodiesTestCase extends CakeTestCase {
 
     /**
      *
-     * @var TwitterGoodies
+     * @var TwitterGoodiesHelper
      */
     var $TwitterGoodies;
 
     function startTest() {
         $this->TwitterGoodies = new TwitterGoodiesHelper();
-        $this->TwitterGoodies->Html = new HtmlHelper();
+        $this->TwitterGoodies->Twitter = new TwitterHelper();
+        $this->TwitterGoodies->Twitter->Html = new HtmlHelper();
         ClassRegistry::init('View', 'view');
     }
 
