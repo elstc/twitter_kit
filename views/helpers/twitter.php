@@ -224,4 +224,19 @@ class TwitterHelper extends AppHelper {
         return $this->output($out);
     }
 
+    /**
+     *
+     * @param string $path
+     * @param array  $options
+     * @return @return string completed img tag
+     */
+    public function image($path, $options = array()) {
+
+        if (preg_match('!^http://a[0-9]+\.twimg\.com/!', $path) && env('HTTPS')) {
+            $path = preg_replace('!^http://a[0-9]+\.twimg\.com/!', 'https://s3.amazonaws.com/twitter_production/', $path);
+        }
+
+        return $this->Html->image($path, $options);
+    }
+
 }
