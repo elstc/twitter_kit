@@ -32,11 +32,11 @@ class TwitterKitSchema extends CakeSchema {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 20, 'key' => 'primary'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'username' => array('type' => 'string', 'null' => false, 'default' => NULL, 'key' => 'unique'),
+		'username' => array('type' => 'string', 'null' => false, 'default' => NULL, 'key' => 'index'),
 		'password' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 40),
 		'oauth_token' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 128),
 		'oauth_token_secret' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 128),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'U_username' => array('column' => 'username', 'unique' => 1)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'IX_username' => array('column' => 'username', 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
     );
 }
