@@ -45,18 +45,24 @@ class AnywhereHelper extends AppHelper {
     /**
      * load Anywhere script
      *
-     * @param string $dataSource
-     * @param string $apiKey
-     * @param string $apiVersion
-     * @param string $options
+     * @param array $options
      * @return string
      */
-    public function loadScript($dataSource = 'twitter', $apiKey = null, $apiVersion = 1, $options = array()) {
+    public function loadScript($options = array()) {
+
+        $dataSource = $apiKey = $apiVersion = null;
 
         $defaults = array(
+            'dataSource' => 'twitter',
+            'apiKey' => null,
+            'apiVersion' => 1,
             'inline' => false,
         );
         $options = am($defaults, $options);
+        extract($options, EXTR_OVERWRITE);
+        unset($options['dataSource']);
+        unset($options['apiKey']);
+        unset($options['apiVersion']);
 
         if (empty($apiKey)) {
             /* @var $ds TwitterSource */
