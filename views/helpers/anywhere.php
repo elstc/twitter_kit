@@ -1,5 +1,7 @@
 <?php
+
 App::import('Helper', array('Html', 'Form', 'Js'));
+
 /**
  * TwitteKit @Anywhere Helper
  *
@@ -23,21 +25,17 @@ App::import('Helper', array('Html', 'Form', 'Js'));
 class AnywhereHelper extends AppHelper {
 
     public $helpers = array('Html', 'Form', 'Js');
-
     static $anywhereUri = 'http://platform.twitter.com/anywhere.js';
-
     /**
      *
      * @var HtmlHelper
      */
     public $Html;
-
     /**
      *
      * @var FormHelper
      */
     public $Form;
-
     /**
      *
      * @var JsHelper
@@ -50,8 +48,15 @@ class AnywhereHelper extends AppHelper {
      * @param string $dataSource
      * @param string $apiKey
      * @param string $apiVersion
+     * @param string $options
+     * @return string
      */
-    public function loadScript($dataSource = 'twitter', $apiKey = null, $apiVersion = 1) {
+    public function loadScript($dataSource = 'twitter', $apiKey = null, $apiVersion = 1, $options = array()) {
+
+        $defaults = array(
+            'inline' => false,
+        );
+        $options = am($defaults, $options);
 
         if (empty($apiKey)) {
             /* @var $ds TwitterSource */
@@ -62,7 +67,7 @@ class AnywhereHelper extends AppHelper {
         }
 
         $params = array('id' => $apiKey, 'v' => $apiVersion);
-        return $this->Html->script(self::$anywhereUri . Router::queryString($params, array(), true));
+        return $this->Html->script(self::$anywhereUri . Router::queryString($params, array(), true), $options);
     }
 
     /**
@@ -126,7 +131,6 @@ class AnywhereHelper extends AppHelper {
         ");
 
         return $out;
-
     }
 
     /**
@@ -177,6 +181,6 @@ class AnywhereHelper extends AppHelper {
         twttr.anywhere(function (T) {
             T('{$element}').hovercards({$opt});
         });");
-
     }
+
 }
