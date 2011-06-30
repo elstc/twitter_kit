@@ -52,7 +52,7 @@ class UsersController extends TwitterKitAppController {
 
     public function logout() {
         $this->Session->destroy();
-        $this->Session->setFlash(__d('twitter_kit', 'Signed out', true));
+        $this->Session->setFlash(__d('twitter_kit', 'Signed out'));
         $this->redirect($this->Auth->logoutRedirect);
     }
 

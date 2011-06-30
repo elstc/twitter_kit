@@ -97,7 +97,7 @@ class OauthController extends AppController {
         // 正当な返り値かチェック
         if (empty($this->params['url']['oauth_token']) || empty($this->params['url']['oauth_verifier'])) {
             $this->Twitter->deleteAuthorizeCookie();
-            $this->flash(__d('twitter_kit', 'Authorization failure.', true), '/', 5);
+            $this->flash(__d('twitter_kit', 'Authorization failure.'), '/', 5);
             return;
         }
 
@@ -106,7 +106,7 @@ class OauthController extends AppController {
 
         if (is_string($token)) {
 
-            $this->flash(__d('twitter_kit', 'Authorization Error: ', true) . $token, '/', 5);
+            $this->flash(__d('twitter_kit', 'Authorization Error: ') . $token, '/', 5);
             return;
 
         }
@@ -123,7 +123,7 @@ class OauthController extends AppController {
         $data = $model->createSaveDataByToken($token);
 
         if (!$model->save($data)) {
-            $this->flash(__d('twitter_kit', 'The user could not be saved', true), array('plugin' => 'twitter_kit', 'controller' => 'users', 'action' => 'login'), 5);
+            $this->flash(__d('twitter_kit', 'The user could not be saved'), array('plugin' => 'twitter_kit', 'controller' => 'users', 'action' => 'login'), 5);
             return;
         }
 
@@ -131,7 +131,7 @@ class OauthController extends AppController {
 
         // Redirect
         if (ini_get('session.referer_check') && env('HTTP_REFERER')) {
-            $this->flash(sprintf(__d('twiter_kit', 'Redirect to %s', true), Router::url($this->Auth->redirect(), true) . ini_get('session.referer_check')), $this->Auth->redirect(), 0);
+            $this->flash(sprintf(__d('twiter_kit', 'Redirect to %s'), Router::url($this->Auth->redirect(), true) . ini_get('session.referer_check')), $this->Auth->redirect(), 0);
             return;
         }
 
