@@ -1,4 +1,4 @@
-# TwitterKit Plugin for CakePHP 1.3+
+# TwitterKit Plugin for CakePHP 2.0+
 
 This plugin provides Twitter API DataSource, Behavior, Components, with OAuth support.
 
@@ -12,9 +12,9 @@ Copyright 2010, ELASTIC Consultants Inc. (http://elasticconsultants.com)
 
 ## Installation
 
-movo to APP/plugins/
+movo to app/Plugin/
 
-    git clone http://github.com/elstc/twitter_kit.git
+    git clone http://github.com/elstc/twitter_kit.git TwitterKit
 
 ## Usage
 
@@ -25,8 +25,8 @@ movo to APP/plugins/
      *
      * @var array
      */
-    var $twitter = array(
-        'driver' => 'TwitterKit.TwitterSource',
+    public $twitter = array(
+        'datasource' => 'TwitterKit.TwitterSource',
     );
 
 OR
@@ -36,8 +36,8 @@ OR
      *
      * @var array
      */
-    var $twitter = array(
-        'driver' => 'TwitterKit.TwitterSource',
+    public $twitter = array(
+        'datasource' => 'TwitterKit.TwitterSource',
         'oauth_consumer_key'    => 'YOUR_CONSUMER_KEY',
         'oauth_consumer_secret' => 'YOUR_CONSUMER_SECRET',
         'oauth_callback'        => 'PATH_TO_OAUTH_CALLBACK_URL',
@@ -48,15 +48,15 @@ OR
 
 in Controller append $components
 
-    var $components = array('TwitterKit.Twitter');
+    public $components = array('TwitterKit.Twitter');
 
 callback example:
 
     function oauth_callback() {
     
         // check params
-        if (empty($this->params['url']['oauth_token']) || empty($this->params['url']['oauth_verifier'])) {
-            $this->flash(__('invalid access.', true), '/', 5);
+        if (empty($this->request->query['oauth_token']) || empty($this->request->query['oauth_verifier'])) {
+            $this->flash(__('invalid access.'), '/', 5);
             return;
         }
     
@@ -65,7 +65,7 @@ callback example:
         $token = $this->Twitter->getAccessToken();
     
         if (is_string($token)) {
-            $this->flash(__('fail get access token.', true) . $token, '/', 5);
+            $this->flash(__('fail get access token.') . $token, '/', 5);
             return;
         }
     
@@ -79,7 +79,7 @@ callback example:
         );
     
         if (!$this->User->save($data)) {
-            $this->flash(__('user not saved.', true), 'login', 5);
+            $this->flash(__('user not saved.'), 'login', 5);
             return;
         }
 
@@ -93,7 +93,7 @@ callback example:
 
 in Model append $actsAs
 
-    var $actsAs = array('TwitterKit.Twitter');
+    public $actsAs = array('TwitterKit.Twitter');
 
 add methods
 
@@ -118,7 +118,7 @@ return authorize/authenticate url.
 
 ### Create Table 'twitter_users'
 
-    cake/console/cake schema create TwitterKit -path app/plugins/twitter_kit/config/schema/
+    app/Console/cake schema create TwitterKit -path app/plugins/twitter_kit/config/schema/
 
 ## License
 
