@@ -1,6 +1,6 @@
 <?php
-App::import('Core', 'ConnectionManager');
-App::import('Datasource', 'TwitterKit.TwitterSource');
+App::uses('ConnectionManager', 'Model');
+App::uses('DataSource', 'Model/DataSource');
 /**
  * TwitterKit Twitter Component
  *
@@ -22,13 +22,13 @@ App::import('Datasource', 'TwitterKit.TwitterSource');
  * @since      TwitterKit 1.0
  * @modifiedby nojimage <nojima at elasticconsultants.com>
  */
-class TwitterComponent extends Object {
+class TwitterComponent extends Component {
 
     public $name = 'Twitter';
 
-    public $components = array('Cookie');
+    public $components = array('Cookie' => array());
 
-    public $settings = array(
+    public static $defaultSettings = array(
         'datasource' => 'twitter',
         'fields' => array(
             'oauth_token' => 'oauth_token',
@@ -62,18 +62,33 @@ class TwitterComponent extends Object {
 
     /**
      *
-     * @param AppController $controller
-     * @param array         $settings
+     * @param ComponentCollection $collection
+     * @param array $settings
      */
-    public function initialize($controller, $settings = array()) {
+    public function __construct(ComponentCollection $collection, $settings = array()) {
 
-        $this->settings = Set::merge($this->settings, $settings);
+        $settings = Set::merge(self::$defaultSettings, $settings);
+        $this->components['Cookie'] += array('path' => Router::url('/'));
+        parent::__construct($collection, $settings);
 
-        $this->controller = $controller;
+        // seems hack but for lazy loading and auto complete with IDE(or text editor)
+        unset($this->Cookie, $this->DataSource);
 
-        $this->getTwitterSource();
+        $this->controller = $collection->getController();
 
-        $this->Cookie->path = Router::url('/');
+    }
+
+    /**
+     * loads DataSource or sub components lazily.
+     *
+     * @param string $name
+     */
+    public function __get($name) {
+        if ($name === 'DataSource') {
+            return $this->getTwitterSource();
+        }
+
+        return parent::__get($name);
     }
 
     /**
@@ -201,14 +216,14 @@ class TwitterComponent extends Object {
         // remove authorize/authenticate url cookie
         $this->deleteAuthorizeCookie();
 
-        if (empty($this->controller->params['url']['oauth_token']) || empty($this->controller->params['url']['oauth_verifier'])) {
+        if (empty($this->controller->request->query['oauth_token']) || empty($this->controller->request->query['oauth_verifier'])) {
 
             return false;
 
         }
 
-        $oauth_token    = $this->controller->params['url']['oauth_token'];
-        $oauth_verifier = $this->controller->params['url']['oauth_verifier'];
+        $oauth_token    = $this->controller->request->query['oauth_token'];
+        $oauth_verifier = $this->controller->request->query['oauth_verifier'];
 
         $token = $this->DataSource->oauth_access_token($oauth_token, $oauth_verifier);
 

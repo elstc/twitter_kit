@@ -21,8 +21,11 @@
  * @since      TwitterKit 1.0
  * @modifiedby nojimage <nojima at elasticconsultants.com>
  */
-App::import('Component', 'TwitterKit.Twitter');
-App::import('Controller', 'AppController');
+App::uses('TwitterComponent', 'TwitterKit.Controller/Component');
+App::uses('AppController', 'Controller');
+App::uses('ConnectionManager', 'Model');
+App::uses('Controller', 'Controller');
+App::uses('Component', 'Controller');
 
 ConnectionManager::create('twitter',
 array(
@@ -46,8 +49,14 @@ array(
 ) );
 
 
-class MockTwitterTestController extends Object
+class MockTwitterTestController extends Controller
 {
+
+    public $components = array(
+        'TwitterKit.Twitter' => array(
+            'datasource' => 'test_twitter',
+        ),
+    );
     public $stoped = false;
 
     public $status = 200;
@@ -68,30 +77,6 @@ class MockTwitterTestController extends Object
     }
 }
 
-class TestComponent extends TwitterComponent
-{
-
-    function _reset()
-    {
-        $this->initialize(new MockTwitterTestController(), array('datasource' => 'test_twitter'));
-        $this->DataSource->reset();
-
-        // -- init components
-        $this->components = Set::normalize($this->components);
-        foreach ($this->components as $Component => $config) {
-
-            if (empty($config)) {
-                $config = array();
-            }
-
-            App::import('Component', $Component);
-            $this->{$Component} = ClassRegistry::init($Component . 'Component', 'Component');
-            $this->{$Component}->initialize($this->controller, $config);
-        }
-    }
-
-}
-
 /**
  * @author nojima
  *
@@ -106,8 +91,7 @@ class TwitterTestCase extends CakeTestCase
 
     function startTest()
     {
-        $this->TestComponent = new TestComponent();
-        $this->TestComponent->_reset();
+        $this->_reset();
     }
 
     function endTest()
@@ -116,21 +100,32 @@ class TwitterTestCase extends CakeTestCase
         ClassRegistry::flush();
     }
 
-    function testInitialize()
+    function _reset($config = null)
+    {
+        $Controller = new MockTwitterTestcontroller(new CakeRequest);
+        if ($config !== null) {
+            $Controller->components['TwitterKit.Twitter'] = $config;
+        }
+        $Controller->constructClasses();
+        $this->TestComponent = $Controller->Twitter;
+        $this->TestComponent->DataSource->reset();
+        $Controller->startupProcess();
+    }
+
+
+    function testConstruct()
     {
 
-        unset($this->TestComponent);
-        $this->TestComponent = new TestComponent();
-        $this->TestComponent->initialize(new MockTwitterTestController());
+        $this->_reset(array());
         $this->assertIsA($this->TestComponent, 'TwitterComponent');
         $this->assertEqual('twitter', $this->TestComponent->settings['datasource']);
         $this->assertEqual('oauth_token', $this->TestComponent->settings['fields']['oauth_token']);
         $this->assertEqual('oauth_token_secret', $this->TestComponent->settings['fields']['oauth_token_secret']);
 
-        $this->TestComponent->initialize(null, array('datasource' => 'test_twitter'));
+        $this->_reset(array('datasource' => 'test_twitter'));
         $this->assertEqual('test_twitter', $this->TestComponent->settings['datasource']);
 
-        $this->TestComponent->initialize(null, array('fields' => array('oauth_token' => 'access_token', 'oauth_token_secret' => 'access_token_secret')));
+        $this->_reset(array('fields' => array('oauth_token' => 'access_token', 'oauth_token_secret' => 'access_token_secret')));
         $this->assertEqual('access_token', $this->TestComponent->settings['fields']['oauth_token']);
         $this->assertEqual('access_token_secret', $this->TestComponent->settings['fields']['oauth_token_secret']);
 
@@ -177,10 +172,11 @@ class TwitterTestCase extends CakeTestCase
         $this->assertFalse($result);
 
         $controller = new MockTwitterTestController();
-        $controller->params['url']['oauth_token']    = 'vkwlQH1uLWWahUNa7PNE6RbBTYGotugP9wh3NSoT0';
-        $controller->params['url']['oauth_verifier'] = 'DUWU7DpwCGYNgKbq1B9Pf3uhwVDLyv9XvTP3T3DVAo';
 
-        $this->TestComponent->controller = $controller;
+        $this->TestComponent->controller->request->query = array(
+            'oauth_token' => 'vkwlQH1uLWWahUNa7PNE6RbBTYGotugP9wh3NSoT0',
+            'oauth_verifier' => 'DUWU7DpwCGYNgKbq1B9Pf3uhwVDLyv9XvTP3T3DVAo',
+        );
         $result =  $this->TestComponent->getAccessToken();
 
         debug($result);

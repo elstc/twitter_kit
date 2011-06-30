@@ -1,8 +1,6 @@
 <?php
 
-App::import('Helper', 'Html');
-App::import('Helper', 'TwitterKit.TwitterGoodies');
-App::import('Helper', 'TwitterKit.Twitter');
+App::uses('View', 'View');
 
 class TwitterGoodiesTestCase extends CakeTestCase {
 
@@ -12,11 +10,15 @@ class TwitterGoodiesTestCase extends CakeTestCase {
      */
     var $TwitterGoodies;
 
+    /**
+     *
+     * @var View
+     */
+    var $View;
+
     function startTest() {
-        $this->TwitterGoodies = new TwitterGoodiesHelper();
-        $this->TwitterGoodies->Twitter = new TwitterHelper();
-        $this->TwitterGoodies->Twitter->Html = new HtmlHelper();
-        ClassRegistry::init('View', 'view');
+        $this->View = new View(null);
+        $this->TwitterGoodies = $this->View->loadHelper('TwitterKit.TwitterGoodies');
     }
 
     function endTest() {
@@ -26,15 +28,11 @@ class TwitterGoodiesTestCase extends CakeTestCase {
 
     function testTweetButton() {
 
-        $view = ClassRegistry::getObject('view');
-        /* @var $view View */
-
         $result = $this->TwitterGoodies->tweetButton();
         $ok = <<<OUTPUT_EOL
 <a href="http://twitter.com/share?count=horizontal&amp;lang=en" class="twitter-share-button">Tweet</a>
 OUTPUT_EOL;
         $this->assertEqual($result, $ok, 'default call %s');
-        $this->assertTrue(in_array('<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>', $view->__scripts));
 
         $result = $this->TwitterGoodies->tweetButton(null);
         $this->assertEqual($result, $ok, 'null label');

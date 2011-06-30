@@ -1,5 +1,5 @@
 <?php
-App::import('Behavior', 'TwitterKit.Twitter');
+App::uses('Twitter', 'TwitterKit.Model/Behavior');
 /**
  * TwitterKit Twitter Timeline Behavior
  *
@@ -41,7 +41,7 @@ class TwitterTimelineBehavior extends TwitterBehavior {
             'skip_user'     => true,
         );
 
-        $options = am($defaults, $options);
+        $options = array_merge($defaults, $options);
 
         $exclude_reply = $options['exclude_reply'];
         unset($options['exclude_reply']);

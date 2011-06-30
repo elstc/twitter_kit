@@ -1,6 +1,5 @@
 <?php
 
-App::import('Helper', 'TwitterKit.Twitter');
 
 /**
  * TwitteKit TwitterForm Helper
@@ -29,6 +28,18 @@ class TwitterFormHelper extends AppHelper {
      * @var TwitterHelper
      */
     public $Twitter;
+
+    /**
+     * Constructor.
+     * unsets sub helpers to hack auto complete
+     *
+     * @param View $View
+     * @param array $options
+     */
+    public function __construct(View $View, $settings = array()) {
+        unset($this->Twitter);
+        parent::__construct($View, $settings);
+    }
 
     /**
      * create tweet box

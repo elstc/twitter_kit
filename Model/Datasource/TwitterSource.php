@@ -1,5 +1,5 @@
 <?php
-App::import('Core', array('Xml', 'Cache'));
+App::uses('Xml', 'Utility');
 App::import('vendor', 'TwitterKit.HttpSocketOauth', array('file' => 'http_socket_oauth' . DS .'http_socket_oauth.php'));
 /**
  * Twitter API Datasource
@@ -183,7 +183,7 @@ class TwitterSource extends DataSource {
 
         if (empty($response)) {
 
-            $response = $this->Http->request($params);
+            $response = $this->Http->request($params)->body;
 
             if ($this->_cacheable($params)) {
                 // save Cache, only GET method
@@ -334,8 +334,8 @@ class TwitterSource extends DataSource {
      */
     protected function _getOAuthError($src) {
 
-        $xml = new Xml($src);
-        $result = $xml->toArray();
+        $xml = Xml::build($src);
+        $result = Xml::toArray($xml);
 
         return !empty($result['Hash']['error']) ? $result['Hash']['error'] : 'Error';
     }

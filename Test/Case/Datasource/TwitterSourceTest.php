@@ -21,9 +21,12 @@
  * @since      TwitterKit 1.0
  * @modifiedby nojimage <nojima at elasticconsultants.com>
  */
-App::import('Datasource', 'TwitterKit.TwitterSource');
-App::import('Model', array('AppModel', 'Model'));
-App::import('Core', array('Router'));
+App::uses('DataSource', 'Model/Datasource');
+App::uses('TwitterSource', 'TwitterKit.Model/Datasource');
+App::uses('Model', 'Model');
+App::uses('AppModel', 'Model');
+App::uses('ConnectionManager', 'Model');
+App::uses('Router', 'Routing');
 
 ConnectionManager::create('test_twitter_source',
 array(

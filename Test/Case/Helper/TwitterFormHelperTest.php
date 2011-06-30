@@ -1,7 +1,6 @@
 <?php
 
-App::import('Helper', 'TwitterKit.TwitterForm');
-App::import('Helper', 'TwitterKit.Twitter');
+App::uses('View', 'View');
 
 class TwitterFormTestCase extends CakeTestCase {
 
@@ -12,9 +11,8 @@ class TwitterFormTestCase extends CakeTestCase {
     var $TwitterForm;
 
     function startTest() {
-        $this->TwitterForm = new TwitterFormHelper();
-        $this->TwitterForm->Twitter = new TwitterHelper();
-        ClassRegistry::init('View', 'view');
+        $View = new View(null);
+        $this->TwitterForm = $View->loadHelper('TwitterKit.TwitterForm');
     }
 
     function endTest() {

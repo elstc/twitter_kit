@@ -1,5 +1,5 @@
 <?php
-App::import('Helper', array('Html', 'Form', 'Js'));
+
 /**
  * TwitteKit @Anywhere Helper
  *
@@ -43,6 +43,18 @@ class AnywhereHelper extends AppHelper {
      * @var JsHelper
      */
     public $Js;
+
+    /**
+     * Constructor.
+     * unsets sub helpers to hack auto complete
+     *
+     * @param View $View
+     * @param array $options
+     */
+    public function __construct(View $View, $settings = array()) {
+        unset($this->Html, $this->Form, $this->Js);
+        parent::__construct($View, $settings);
+    }
 
     /**
      * load Anywhere script

@@ -1,7 +1,5 @@
 <?php
 
-App::import('Helper', 'TwitterKit.Twitter');
-
 /**
  * TwitteKit Twitter Goodies Helper
  *
@@ -22,11 +20,25 @@ App::import('Helper', 'TwitterKit.Twitter');
  */
 class TwitterGoodiesHelper extends AppHelper {
 
+    public $helpers = array('Twitter');
+
     /**
      *
      * @var TwitterHelper
      */
     public $Twitter;
+
+    /**
+     * Constructor.
+     * unsets sub helpers to hack auto complete
+     *
+     * @param View $View
+     * @param array $options
+     */
+    public function __construct(View $View, $settings = array()) {
+        unset($this->Twitter);
+        parent::__construct($View, $settings);
+    }
 
     /**
      * create tweet button

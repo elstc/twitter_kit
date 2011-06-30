@@ -21,8 +21,10 @@
  * @since      TwitterKit 1.0
  * @modifiedby nojimage <nojima at elasticconsultants.com>
  */
-App::import('Core', array('AppModel', 'Model'));
-App::import('Behavior', array('TwitterKit.TwitterTimeline'));
+App::uses('Model', 'Model');
+App::uses('AppModel', 'Model');
+App::uses('TwitterTimelineBehavior', 'TwitterKit.Model/Behavior');
+App::uses('ConnectionManager', 'Model');
 
 ConnectionManager::create('test_twitter',
 array(
@@ -34,7 +36,6 @@ array(
         'api_key' => 'ePqJkNG4cSyNePJnOjAQw',
 ) );
 
-Mock::generate('AppModel', 'MockModel');
 
 class MockTwitterTimelineTestModel extends AppModel {
 
@@ -105,7 +106,7 @@ class TwitterTimelineBehaviorTest extends CakeTestCase
         $this->assertTrue(count($result) <= 10);
 
         // -- max_id
-        $last_id = $result[count($result) - 1]['id'];
+        $last_id = $result[count($result) - 1]['id_str'];
         $result = $this->TestModel->getUserTimeline(array('id' => 'nojimage', 'max_id' => $last_id));
         $this->assertEqual($result[0]['id'], $last_id);
 

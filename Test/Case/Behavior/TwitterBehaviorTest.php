@@ -21,8 +21,10 @@
  * @since      TwitterKit 1.0
  * @modifiedby nojimage <nojima at elasticconsultants.com>
  */
-App::import('Core', array('AppModel', 'Model'));
-App::import('Behavior', array('TwitterKit.Twitter'));
+App::uses('Model', 'Model');
+App::uses('AppModel', 'Model');
+App::uses('TwitterBehavior', 'TwitterKit.Model/Behavior');
+App::uses('ConnectionManager', 'Model');
 
 ConnectionManager::create('twitter',
 array(
@@ -45,7 +47,6 @@ array(
         'oauth_consumer_secret' => 'gOBMTs7Rw4Z3p5EhzqBey8ousRTwNDvreJskN8Z60',
 ) );
 
-Mock::generate('AppModel', 'MockModel');
 
 class MockTwitterTestModel extends AppModel {
 
@@ -278,7 +279,7 @@ class TwitterBehaviorTest extends CakeTestCase
         $this->TestModel->id = 4;
         $this->TestModel->twitterSetToken('dummy_token4', 'dummy_secret4');
         $result = $this->TestModel->twitterSaveToken();
-        $this->assertTrue($result);
+        $this->assertNotEmpty($result);
         $data = $this->TestModel->read();
         $this->assertEqual('dummy_token4', $data['UserToken']['oauth_token']);
         $this->assertEqual('dummy_secret4', $data['UserToken']['oauth_token_secret']);
@@ -289,7 +290,7 @@ class TwitterBehaviorTest extends CakeTestCase
         $this->TestModel->Behaviors->attach('TwitterKit.Twitter', array('fields' => array('oauth_token' => 'access_token', 'oauth_token_secret' => 'access_token_secret')));
         $this->TestModel->twitterSetToken('dummy_token5', 'dummy_secret5');
         $result = $this->TestModel->twitterSaveToken(5);
-        $this->assertTrue($result);
+        $this->assertNotEmpty($result);
         $data = $this->TestModel->read();
         $this->assertEqual('dummy_token5', $data['UserToken']['access_token']);
         $this->assertEqual('dummy_secret5', $data['UserToken']['access_token_secret']);
