@@ -45,7 +45,7 @@ class OauthController extends AppController {
     {
         parent::beforeFilter();
 
-        if (!empty($this->Auth) && is_object($this->Auth)) {
+        if ($this->Components->attached('Auth')) {
 
             $this->Auth->allow('authorize_url', 'authenticate_url', 'callback');
 
@@ -95,7 +95,7 @@ class OauthController extends AppController {
         $this->Twitter->setTwitterSource($datasource);
 
         // 正当な返り値かチェック
-        if (empty($this->params['url']['oauth_token']) || empty($this->params['url']['oauth_verifier'])) {
+        if (!$this->Twitter->isRequested()) {
             $this->Twitter->deleteAuthorizeCookie();
             $this->flash(__d('twitter_kit', 'Authorization failure.'), '/', 5);
             return;
@@ -106,12 +106,12 @@ class OauthController extends AppController {
 
         if (is_string($token)) {
 
-            $this->flash(__d('twitter_kit', 'Authorization Error: ') . $token, '/', 5);
+            $this->flash(__d('twitter_kit', 'Authorization Error: %s', $token), '/', 5);
             return;
 
         }
 
-        if ( ClassRegistry::isKeySet('TwitterUser') ) {
+        if (class_exists('TwitterUser') || ((true || App::uses('TwitterUser', 'Model')) && class_exists('TwitterUser'))) {
             /* @var $model TwitterUser */
             $model = ClassRegistry::init('TwitterUser');
         } else {
@@ -131,7 +131,7 @@ class OauthController extends AppController {
 
         // Redirect
         if (ini_get('session.referer_check') && env('HTTP_REFERER')) {
-            $this->flash(sprintf(__d('twiter_kit', 'Redirect to %s'), Router::url($this->Auth->redirect(), true) . ini_get('session.referer_check')), $this->Auth->redirect(), 0);
+            $this->flash(__d('twiter_kit', 'Redirect to %s', Router::url($this->Auth->redirect(), true) . ini_get('session.referer_check')), $this->Auth->redirect(), 0);
             return;
         }
 

@@ -19,7 +19,7 @@ msgid "Authorization failure."
 msgstr ""
 
 #: /controllers/oauth_controller.php:110
-msgid "Authorization Error: "
+msgid "Authorization Error: %s"
 msgstr ""
 
 #: /controllers/oauth_controller.php:128

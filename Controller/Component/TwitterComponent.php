@@ -118,7 +118,7 @@ class TwitterComponent extends Component {
     public function setTwitterSource($datasource) {
 
         if (empty($datasource)
-        || (!in_array($datasource, array_keys(get_class_vars('DATABASE_CONFIG'))) && !in_array($datasource, ConnectionManager::sourceList()))) {
+        || (!in_array($datasource, array_keys((array)get_class_vars('DATABASE_CONFIG'))) && !in_array($datasource, ConnectionManager::sourceList()))) {
 
             return;
 
@@ -207,6 +207,20 @@ class TwitterComponent extends Component {
     }
 
     /**
+     * Check OAuth parameters is given
+     *
+     * @return boolean success
+     */
+    public function isRequested() {
+
+        return
+            !empty($this->controller->request->query['oauth_token']) &&
+            !empty($this->controller->request->query['oauth_verifier'])
+        ;
+
+    }
+
+    /**
      * get OAuth Access Token
      *
      * @return array|false
@@ -216,7 +230,7 @@ class TwitterComponent extends Component {
         // remove authorize/authenticate url cookie
         $this->deleteAuthorizeCookie();
 
-        if (empty($this->controller->request->query['oauth_token']) || empty($this->controller->request->query['oauth_verifier'])) {
+        if (!$this->isRequested()) {
 
             return false;
 

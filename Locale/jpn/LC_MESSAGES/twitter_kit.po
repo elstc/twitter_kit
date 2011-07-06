@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TwitterKit 1.0\n"
 "POT-Creation-Date: 2010-06-25 17:58+0900\n"
-"PO-Revision-Date: 2010-06-25 18:04+0900\n"
-"Last-Translator: nojimage <nojimage@gmail.com>\n"
+"PO-Revision-Date: 2011-07-04 08:25+0900\n"
+"Last-Translator: hiromi <hiromi2424@gmail.com>\n"
 "Language-Team: ELASTIC Consultants Inc. <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -20,8 +20,8 @@ msgid "Authorization failure."
 msgstr "認証に失敗しました。"
 
 #: /controllers/oauth_controller.php:110
-msgid "Authorization Error: "
-msgstr "認証エラー:"
+msgid "Authorization Error: %s"
+msgstr "認証エラー: %s"
 
 #: /controllers/oauth_controller.php:128
 msgid "The user could not be saved"
