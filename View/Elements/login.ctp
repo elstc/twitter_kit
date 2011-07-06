@@ -2,7 +2,7 @@
 /**
  * Create twitter link
  *
- * for CakePHP 1.3+
+ * for CakePHP 2.0+
  * PHP version 5.2+
  * and use jQuery
  *

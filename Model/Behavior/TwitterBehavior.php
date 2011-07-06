@@ -4,7 +4,7 @@ App::uses('TwitterSource', 'TwitterKit.Datasource');
 /**
  * TwitterKit Twitter Behavior
  *
- * for CakePHP 1.3+
+ * for CakePHP 2.0+
  * PHP version 5.2+
  *
  * Copyright 2010, ELASTIC Consultants Inc. (http://elasticconsultants.com)
