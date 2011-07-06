@@ -12,13 +12,13 @@ Copyright 2010, ELASTIC Consultants Inc. (http://elasticconsultants.com)
 
 ## Installation
 
-movo to app/Plugin/
+move to app/Plugin/
 
     git clone http://github.com/elstc/twitter_kit.git TwitterKit
 
 ## Usage
 
-### setup APP/config/database.php
+### setup APP/Config/database.php
 
     /**
      * TwitterSource for none auth
@@ -55,7 +55,7 @@ callback example:
     function oauth_callback() {
     
         // check params
-        if (empty($this->request->query['oauth_token']) || empty($this->request->query['oauth_verifier'])) {
+        if (!$this->Twitter->isRequested()) {
             $this->flash(__('invalid access.'), '/', 5);
             return;
         }
@@ -118,7 +118,7 @@ return authorize/authenticate url.
 
 ### Create Table 'twitter_users'
 
-    app/Console/cake schema create TwitterKit -path app/plugins/twitter_kit/config/schema/
+    app/Console/cake schema create --plugin TwitterKit
 
 ## License
 
