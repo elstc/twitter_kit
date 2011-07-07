@@ -1,8 +1,10 @@
 <?php
 
 App::uses('View', 'View');
+App::uses('Helper', 'View');
+App::uses('AppHelper', 'View/Helper');
 
-class TwitterFormTestCase extends CakeTestCase {
+class TwitterFormHelperTestCase extends CakeTestCase {
 
     /**
      *

@@ -1,14 +1,22 @@
 <?php
 
 App::uses('View', 'View');
+App::uses('Helper', 'View');
+App::uses('AppHelper', 'View/Helper');
 
-class TwitterTestCase extends CakeTestCase {
+class TwitterHelperTestCase extends CakeTestCase {
 
     /**
      *
      * @var TwitterHelper
      */
     var $Twitter;
+
+    /**
+     *
+     * @var View
+     */
+    var $View;
 
     function startTest() {
         $View = new View(null);

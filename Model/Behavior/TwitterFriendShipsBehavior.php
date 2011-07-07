@@ -1,5 +1,5 @@
 <?php
-App::uses('Twitter', 'TwitterKit.Model/Behavior');
+App::uses('TwitterBehavior', 'TwitterKit.Model/Behavior');
 /**
  * TwitterKit Twitter Friendships Behavior
  *
