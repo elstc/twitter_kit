@@ -60,13 +60,14 @@ class OauthController extends AppController {
     public function authorize_url($datasource = null) {
 
         Configure::write('debug', 0);
-        $this->layout = 'ajax';
 
         // -- set datasource
         $this->Twitter->setTwitterSource($datasource);
 
         // set Authorize Url
-        $this->set('url', $this->Twitter->getAuthorizeUrl(null, true));
+        $url = $this->Twitter->getAuthorizeUrl(null, true);
+        echo json_encode(compact('url'));
+		exit;
     }
 
     /**
@@ -77,13 +78,14 @@ class OauthController extends AppController {
     public function authenticate_url($datasource = null) {
 
         Configure::write('debug', 0);
-        $this->layout = 'ajax';
 
         // -- set datasource
         $this->Twitter->setTwitterSource($datasource);
 
         // set Authenticate Url
-        $this->set('url', $this->Twitter->getAuthenticateUrl(null, true));
+        $url = $this->Twitter->getAuthenticateUrl(null, true);
+        echo json_encode(compact('url'));
+		exit;
     }
 
 
