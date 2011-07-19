@@ -21,7 +21,7 @@
  * @license    MIT License (http://www.opensource.org/licenses/mit-license.php)
  *
  * */
-class UsersController extends TwitterKitAppController {
+class UsersController extends AppController {
 
     public $name = 'Users';
     public $uses = array();
