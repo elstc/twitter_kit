@@ -19,7 +19,7 @@
  * @since      TwitterKit 1.0
  * @license    MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
-class OauthController extends AppController {
+class OauthController extends TwitterKitAppController {
 
     public $uses = array();
 
