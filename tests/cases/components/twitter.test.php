@@ -60,6 +60,7 @@ class MockTwitterTestController extends Object
     }
 
     function redirect($url, $status = null, $exit = true) {
+        $this->redirectUrl = $url;
         $this->status = $status;
     }
 
@@ -242,4 +243,17 @@ class TwitterTestCase extends CakeTestCase
         $this->assertEqual('dummy_secret2', $this->TestComponent->DataSource->oauth_token_secret);
 
     }
+
+    // =========================================================================
+    function testConnect() {
+        $this->TestComponent->connect();
+        $this->assertPattern('!http://api\.twitter\.com/oauth/authenticate\?oauth_token=.+!', $this->TestComponent->controller->redirectUrl);
+    }
+
+    function testConnect_authorize() {
+        $this->TestComponent->controller->params['named']['authorize'] = 'true';
+        $this->TestComponent->connect();
+        $this->assertPattern('!http://api\.twitter\.com/oauth/authorize\?oauth_token=.+!', $this->TestComponent->controller->redirectUrl);
+    }
+
 }

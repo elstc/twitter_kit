@@ -56,6 +56,7 @@ class OauthController extends AppController {
      * get authorize url
      *
      * @param string $datasource
+     * @deprecated
      */
     public function authorize_url($datasource = null) {
 
@@ -73,6 +74,7 @@ class OauthController extends AppController {
      * get authenthicate url
      *
      * @param string $datasource
+     * @deprecated
      */
     public function authenticate_url($datasource = null) {
 
@@ -86,6 +88,12 @@ class OauthController extends AppController {
         $this->set('url', $this->Twitter->getAuthenticateUrl(null, true));
     }
 
+    /**
+     * redirect twitter authorize page
+     */
+    public function connect() {
+        $this->Twitter->connect();
+    }
 
     /**
      * OAuth callback

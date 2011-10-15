@@ -217,6 +217,34 @@ class TwitterComponent extends Object {
     }
 
     /**
+     * redirect Twitter authorize page
+     * 
+     * @see Twitter-API-Plugin TwitterAuthComponent::connect()
+     */
+    public function connect() {
+
+        $dataSource = $authorize = false;
+
+        if (!empty($this->controller->params['named']['datasource'])) {
+            $dataSource = $this->controller->params['named']['datasource'];
+        }
+
+        if (!empty($this->controller->params['named']['authorize'])) {
+            $authorize = $this->controller->params['named']['authorize'];
+        }
+
+        if ($dataSource !== false) {
+            $this->setTwitterSource($dataSource);
+        }
+
+        if ($authorize) {
+            $this->controller->redirect($this->getAuthorizeUrl());
+        } else {
+            $this->controller->redirect($this->getAuthenticateUrl());
+        }
+    }
+
+    /**
      * set OAuth Access Token
      *
      * @param mixed $token
