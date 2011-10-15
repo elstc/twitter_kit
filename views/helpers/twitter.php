@@ -23,16 +23,19 @@ App::import('Helper', 'Form');
 class TwitterHelper extends AppHelper {
 
     public $helpers = array('Html', 'Form', 'Js');
+
     /**
      *
      * @var HtmlHelper
      */
     public $Html;
+
     /**
      *
      * @var FormHelper
      */
     public $Form;
+
     /**
      *
      * @var JsHelper
@@ -106,7 +109,6 @@ class TwitterHelper extends AppHelper {
     public function oauthLink($options = array()) {
 
         $default = array(
-            'loading' => __d('twitter_kit', 'Loading...', true),
             'login' => __d('twitter_kit', 'Login Twitter', true),
             'datasource' => 'twitter',
             'authorize' => false,
@@ -115,19 +117,18 @@ class TwitterHelper extends AppHelper {
 
         $options = am($default, $options);
 
-        $action = $options['authorize'] ? 'authorize_url' : 'authenticate_url';
+        $oauthUrl = array(
+            'plugin' => 'twitter_kit',
+            'controller' => 'oauth',
+            'action' => 'connect',
+            'datasource' => $options['datasource'],
+        );
+        if ($options['authorize']) {
+            $oauthUrl['authorize'] = true;
+        }
+        $oauthUrl = $this->Html->url($oauthUrl);
 
-        $request_url = $this->Html->url(array('plugin' => 'twitter_kit', 'controller' => 'oauth', 'action' => $action . '/' . urlencode($options['datasource'])), true);
-
-        $this->Js->buffer("
-            $.getJSON('{$request_url}', {}, function(data){
-            var link = $('<a>').attr('href', data.url).html('{$options['login']}');
-            $('#{$options['loginElementId']} .loading').remove();
-            $('#{$options['loginElementId']}').append(link);
-            });
-        ");
-
-        $out = sprintf('<span id="%s"><span class="loading">%s</span></span>', $options['loginElementId'], $options['loading']);
+        $out = sprintf('<span id="%s"><a href="%s">%s</a></span>', $options['loginElementId'], $oauthUrl, $options['login']);
 
         return $this->output($out);
     }
