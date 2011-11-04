@@ -1,5 +1,5 @@
 <?php
-App::uses('ConnectionManager', 'Utility');
+App::uses('ConnectionManager', 'Model');
 App::uses('TwitterSource', 'TwitterKit.Datasource');
 /**
  * TwitterKit Twitter Behavior
