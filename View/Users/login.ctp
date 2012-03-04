@@ -26,7 +26,7 @@ $this->set('title_for_layout', __d('twitter_kit', 'Login'));
 <?php echo $this->Twitter->oauthLink($linkOptions); ?>
 <?php else: ?>
 <div id="logout-wrap">
-<p><?php echo $this->Html->link(__d('twitter_kit', 'Logout'), '/users/logout')?></p>
+<p><?php echo $this->Html->link(__d('twitter_kit', 'Logout'), '/twitter_kit/users/logout')?></p>
 </div>
 <?php endif ; ?>
 <?php echo $this->Twitter->Js->writeBuffer(); ?>
