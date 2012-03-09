@@ -47,7 +47,7 @@ class OauthController extends AppController {
 
         if (!empty($this->Auth) && is_object($this->Auth)) {
 
-            $this->Auth->allow('authorize_url', 'authenticate_url', 'callback');
+            $this->Auth->allow('authorize_url', 'authenticate_url', 'callback', 'connect');
 
         }
     }
