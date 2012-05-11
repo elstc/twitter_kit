@@ -1007,13 +1007,51 @@ class TwitterSource extends DataSource {
  *
  * @return array|false
  * @see http://dev.twitter.com/doc/post/:user/lists/:id
+ * @deprecated
  */
-	public function post_lists_id($user, $id, $params = array()) {
+	public function post_lists_id($user, $list_id, $params = array()) {
 		if (empty($user) || empty($id)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/lists/%s.json', $user, $id);
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
+			if (is_numeric($user)) {
+				$params['owner_id'] = $user;
+			} else {
+				$params['owner_screen_name'] = $user;
+			}
+		} else {
+			$params['list_id'] = $list_id;
+		}
+
+		// request
+		return $this->lists_update($params);
+	}
+
+/**
+ * POST lists/update
+ *
+ * @param array  $params
+ *		list_id:
+ *		slug:
+ *      name:         Full name associated with the profile. Maximum of 20 characters.
+ *      mode:         Whether your list is public or private. Values can be public or private.
+ *      description:  A description of the user owning the account. Maximum of 160 characters.
+ *		owner_screen_name:
+ *		owner_id:
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/post/lists/update
+ */
+	public function lists_update($params) {
+		if ((empty($params['list_id']) && empty($params['slug']))
+			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
+		) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/update.json';
 		$method = 'POST';
 
 		// request
