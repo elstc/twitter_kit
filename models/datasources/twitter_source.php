@@ -1434,13 +1434,57 @@ class TwitterSource extends DataSource {
  *
  * @return array|false
  * @see http://dev.twitter.com/doc/post/:user/:list_id/members
+ * @deprecated
  */
 	public function post_list_members($user, $list_id, $params = array()) {
 		if (empty($user) || empty($list_id)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/%s/members.json', $user, $list_id);
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
+			if (is_numeric($user)) {
+				$params['owner_id'] = $user;
+			} else {
+				$params['owner_screen_name'] = $user;
+			}
+		} else {
+			$params['list_id'] = $list_id;
+		}
+		if (!is_numeric($params['user_id'])) {
+			$params['screen_name'] = $user;
+		} else {
+			$params['user_id'] = $user;
+		}
+
+		// request
+		return $this->lists_members_create($params);
+	}
+
+/**
+ * POST lists/members/create
+ *
+ * @param array  $params
+ *      list_id:
+ *      slug:
+ *      user_id:
+ *      screen_name:
+ *      owner_screen_name:
+ *      owner_id:
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/post/lists/members/create
+ * @deprecated
+ */
+	public function lists_members_create($params) {
+		if ((empty($params['list_id']) && empty($params['slug']))
+			|| (empty($params['user_id']) && empty($params['screen_name']))
+			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
+		) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/members/create.json';
 		$method = 'POST';
 
 		// request
