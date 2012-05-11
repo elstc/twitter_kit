@@ -1656,9 +1656,9 @@ class TwitterSource extends DataSource {
 			$params['list_id'] = $list_id;
 		}
 		if (!is_numeric($params['user_id'])) {
-			$params['screen_name'] = $user;
+			$params['screen_name'] = $params['user_id'];
 		} else {
-			$params['user_id'] = $user;
+			$params['user_id'] = $params['user_id'];
 		}
 
 		return $this->lists_members_destory($params);
