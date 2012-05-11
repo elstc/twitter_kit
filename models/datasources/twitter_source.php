@@ -1409,13 +1409,49 @@ class TwitterSource extends DataSource {
  *
  * @return array|false
  * @see http://dev.twitter.com/doc/get/:user/:list_id/members
+ * @deprecated
  */
 	public function get_list_members($user, $list_id, $params = array()) {
 		if (empty($user) || empty($list_id)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/%s/members.json', $user, $list_id);
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
+			if (is_numeric($user)) {
+				$params['owner_id'] = $user;
+			} else {
+				$params['owner_screen_name'] = $user;
+			}
+		} else {
+			$params['list_id'] = $list_id;
+		}
+
+		// request
+		return $this->lists_members($params);
+	}
+
+/**
+ * GET lists/members
+ *
+ * @param array  $params
+ *		list_id:
+ *		slig:
+ *		owner_screen_name:
+ *		owner_id:
+ *      cursor:
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/get/lists/members
+ */
+	public function lists_members($params) {
+		if ((empty($params['list_id']) && empty($params['slug']))
+			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
+		) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/members.json';
 		$method = 'GET';
 
 		// request
