@@ -1377,10 +1377,10 @@ class TwitterSource extends DataSource {
 		} else {
 			$params['list_id'] = $list_id;
 		}
-		if (!is_numeric($user)) {
-			$params['owner_screen_name'] = $user;
+		if (!is_numeric($params['user_id'])) {
+			$params['screen_name'] = $user;
 		} else {
-			$params['owner_id'] = $user;
+			$params['user_id'] = $user;
 		}
 
 		return $this->lists_members_destory($params);
