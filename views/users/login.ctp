@@ -19,14 +19,14 @@
  * @subpackage twitter_kit.views.users
  * @since      TwitterKit 1.0
  * @license    MIT License (http://www.opensource.org/licenses/mit-license.php)
- **/
+ * */
 $this->set('title_for_layout', __d('twitter_kit', 'Login', true));
 ?>
-<?php if (!$session->check('Auth.User')) : /* 未ログインの場合 */ ?>
-<?php echo $this->Twitter->oauthLink($linkOptions); ?>
+<?php if (!$this->Session->check('Auth.User')) : /* 未ログインの場合 */ ?>
+	<?php echo $this->Twitter->oauthLink($linkOptions); ?>
 <?php else: ?>
-<div id="logout-wrap">
-<p><?php echo $html->link(__d('twitter_kit', 'Logout', true), '/users/logout')?></p>
-</div>
-<?php endif ; ?>
+	<div id="logout-wrap">
+		<p><?php echo $this->Html->link(__d('twitter_kit', 'Logout', true), '/users/logout') ?></p>
+	</div>
+<?php endif; ?>
 <?php echo $this->Twitter->Js->writeBuffer(); ?>

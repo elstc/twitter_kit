@@ -1,5 +1,7 @@
 <?php
+
 App::import('Behavior', 'TwitterKit.Twitter');
+
 /**
  * TwitterKit Twitter Friendships Behavior
  *
@@ -24,16 +26,15 @@ App::import('Behavior', 'TwitterKit.Twitter');
  */
 class TwitterFriendshipsBehavior extends TwitterBehavior {
 
-    /**
-     * follow user
-     *
-     * @param AppModel $model
-     * @param string $id user id or screen name
-     */
-    public function follow($model, $id)
-    {
-        $result = $this->getTwitterSource($model)->friendships_create($id);
-        return $result;
-    }
+/**
+ * follow user
+ *
+ * @param AppModel $model
+ * @param string $id user id or screen name
+ */
+	public function follow($model, $id) {
+		$result = $this->getTwitterSource($model)->friendships_create($id);
+		return $result;
+	}
 
 }

@@ -1,5 +1,7 @@
 <?php
+
 App::import('Behavior', 'TwitterKit.Twitter');
+
 /**
  * TwitterKit Twitter Timeline Behavior
  *
@@ -24,50 +26,50 @@ App::import('Behavior', 'TwitterKit.Twitter');
  */
 class TwitterTimelineBehavior extends TwitterBehavior {
 
-    /**
-     * get user timeline
-     *
-     * @param AppModel $model
-     * @param mixed    $options
-     */
-    function getUserTimeline($model, $options = array()) {
+/**
+ * get user timeline
+ *
+ * @param AppModel $model
+ * @param mixed    $options
+ */
+	public function getUserTimeline($model, $options = array()) {
+		if (is_scalar($options)) {
+			$options = array('id' => $options);
+		}
 
-        if (is_scalar($options)) {
-            $options = array('id' => $options);
-        }
+		$defaults = array(
+			'exclude_reply' => false,
+			'skip_user' => true,
+		);
 
-        $defaults = array(
-            'exclude_reply' => false,
-            'skip_user'     => true,
-        );
+		$options = am($defaults, $options);
 
-        $options = am($defaults, $options);
+		$exclude_reply = $options['exclude_reply'];
+		unset($options['exclude_reply']);
 
-        $exclude_reply = $options['exclude_reply'];
-        unset($options['exclude_reply']);
+		// -- set model data id
+		if (empty($options['id']) && !empty($model->data[$model->alias][$model->primaryKey])) {
+			$options['id'] = $model->data[$model->alias][$model->primaryKey];
+		}
 
-        // -- set model data id
-        if (empty($options['id']) && !empty($model->data[$model->alias][$model->primaryKey])) {
-            $options['id'] = $model->data[$model->alias][$model->primaryKey];
-        }
+		// -- get timeline
+		$timeline = $this->DataSource->statuses_user_timeline($options);
 
-        // -- get timeline
-        $timeline = $this->DataSource->statuses_user_timeline($options);
+		// -- eclude replay
+		if ($exclude_reply) {
+			$timeline = array_values(array_filter($timeline, array($this, '_exculudeReply')));
+		}
 
-        // -- eclude replay
-        if ($exclude_reply) {
-            $timeline = array_values(array_filter($timeline, array($this, '_exculudeReply')));
-        }
+		return $timeline;
+	}
 
-        return $timeline;
-    }
+/**
+ * filter reply
+ *
+ * @return boolean
+ */
+	protected function _exculudeReply($data) {
+		return preg_match('/^[^@]/u', $data['text']);
+	}
 
-    /**
-     * filter reply
-     *
-     * @return boolean
-     */
-    function _exculudeReply($data) {
-        return preg_match('/^[^@]/u', $data['text']);
-    }
 }

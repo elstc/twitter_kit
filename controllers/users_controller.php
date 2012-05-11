@@ -23,37 +23,39 @@
  * */
 class UsersController extends TwitterKitAppController {
 
-    public $name = 'Users';
-    public $uses = array();
-    public $helpers = array('Html', 'Form', 'Js', 'TwitterKit.Twitter');
+	public $name = 'Users';
 
-    /**
-     * (non-PHPdoc)
-     * @see cake/libs/controller/Controller#beforeFilter()
-     */
-    public function beforeFilter() {
-        parent::beforeFilter();
-        $this->Auth->allow('login', 'logout');
-    }
+	public $uses = array();
 
-    public function login() {
-        $linkOptions = array();
+	public $helpers = array('Html', 'Form', 'Js', 'TwitterKit.Twitter');
 
-        if (!empty($this->params['named']['datasource'])) {
-            $linkOptions['datasource'] = $this->params['named']['datasource'];
-        }
+/**
+ * (non-PHPdoc)
+ * @see cake/libs/controller/Controller#beforeFilter()
+ */
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->Auth->allow('login', 'logout');
+	}
 
-        if (!empty($this->params['named']['authenticate'])) {
-            $linkOptions['authenticate'] = $this->params['named']['authenticate'];
-        }
+	public function login() {
+		$linkOptions = array();
 
-        $this->set('linkOptions', $linkOptions);
-    }
+		if (!empty($this->params['named']['datasource'])) {
+			$linkOptions['datasource'] = $this->params['named']['datasource'];
+		}
 
-    public function logout() {
-        $this->Session->destroy();
-        $this->Session->setFlash(__d('twitter_kit', 'Signed out', true));
-        $this->redirect($this->Auth->logoutRedirect);
-    }
+		if (!empty($this->params['named']['authenticate'])) {
+			$linkOptions['authenticate'] = $this->params['named']['authenticate'];
+		}
+
+		$this->set('linkOptions', $linkOptions);
+	}
+
+	public function logout() {
+		$this->Session->destroy();
+		$this->Session->setFlash(__d('twitter_kit', 'Signed out', true));
+		$this->redirect($this->Auth->logoutRedirect);
+	}
 
 }

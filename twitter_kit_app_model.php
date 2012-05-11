@@ -1,4 +1,5 @@
 <?php
+
 /**
  * TwitterKit App Model
  *
@@ -17,7 +18,7 @@
  * @subpackage twitter_kit
  * @since      TwitterKit 1.0
  * @license    MIT License (http://www.opensource.org/licenses/mit-license.php)
- **/
+ * */
 class TwitterKitAppModel extends AppModel {
-
+	//
 }

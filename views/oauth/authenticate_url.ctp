@@ -1,4 +1,5 @@
 <?php
+
 /**
  * twitter_kit/oauth/autheticate_url
  *
@@ -19,6 +20,5 @@
  * @subpackage twitter_kit.views.oauth
  * @since      TwitterKit 1.0
  * @license    MIT License (http://www.opensource.org/licenses/mit-license.php)
- **/
-?>
-<?php echo json_encode(compact('url'))?>
+ * */
+echo json_encode(compact('url'));
