@@ -1545,6 +1545,7 @@ class TwitterSource extends DataSource {
  *
  * @return array|false
  * @see http://dev.twitter.com/doc/post/:user/:list_id/create_all
+ * @deprecated
  *
  * NOTE: http://groups.google.com/group/twitter-development-talk/browse_thread/thread/3e6ae4417160df39?pli=1
  *       now POST URL is http://api.twitter.com/1/:user/:list_id/members/create_all.json
@@ -1569,7 +1570,56 @@ class TwitterSource extends DataSource {
 			}
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/%s/members/create_all.json', $user, $list_id);
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
+			if (is_numeric($user)) {
+				$params['owner_id'] = $user;
+			} else {
+				$params['owner_screen_name'] = $user;
+			}
+		} else {
+			$params['list_id'] = $list_id;
+		}
+
+		// request
+		return $this->lists_members_create_all($params);
+	}
+
+/**
+ * POST :user/:list_id/create_all
+ *
+ * Adds multiple members to a list, by specifying a comma-separated list of
+ * member ids or screen names. The authenticated user must own the list to
+ * be able to add members to it. Lists are limited to having 500 members,
+ * and you are limited to adding up to 100 members to a list at a time with
+ * this method.
+ *
+ * @param array  $params
+ *		list_id:
+ *		slug:
+ *		owner_screen_name:
+ *		owner_id:
+ *      user_id: A comma separated list of user IDs, up to 100 are allowed in a single request.
+ *      screen_name: A comma separated list of screen names, up to 100 are allowed in a single request.
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/post/lists/members/create_all
+ */
+	public function lists_members_create_all($params) {
+		if ((empty($params['list_id']) && empty($params['slug']))
+			|| (empty($params['user_id']) && empty($params['screen_name']))
+			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
+		) {
+			return false;
+		}
+
+		foreach (array('user_id', 'screen_name') as $key) {
+			if (!empty($params[$key]) && is_array($params[$key])) {
+				$params[$key] = join(',', $params[$key]);
+			}
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/members/create_all.json';
 		$method = 'POST';
 
 		// request
