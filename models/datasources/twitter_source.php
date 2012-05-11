@@ -1256,16 +1256,62 @@ class TwitterSource extends DataSource {
  *      user_id: Specfies the ID of the user for whom to return results for. Helpful for disambiguating when a valid user ID is also a valid screen name.
  *
  * @return array|false
- * @see http://dev.twitter.com/doc/delete/:user/:id/members
+ * @see https://dev.twitter.com/docs/api/1/delete/%3Auser/%3Alist_id/members
+ * @deprecated
  */
 	public function delete_list_members($user, $list_id, $params = array()) {
 		if (empty($user) || empty($list_id)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/%s/members.json', $user, $list_id);
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
+			if (is_numeric($user)) {
+				$params['owner_id'] = $user;
+			} else {
+				$params['owner_screen_name'] = $user;
+			}
+		} else {
+			$params['list_id'] = $list_id;
+		}
+		if (!is_numeric($user)) {
+			$params['owner_screen_name'] = $user;
+		} else {
+			$params['owner_id'] = $user;
+		}
+
+		return $this->lists_members_destory($params);
+	}
+
+/**
+ * POST lists/members/destroy
+ *
+ * @param string $user
+ * @param string $list_id
+ * @param array  $params
+ *  *Optional*
+ *      list_id:     The numerical id of the list.
+ *      slug:        You can identify a list by its slug instead of its numerical id.
+ *                   If you decide to do so, note that you'll also have to specify
+ *                   the list owner using the owner_id or owner_screen_name parameters.
+ *      user_id:     The ID of the user to remove from the list. Helpful for disambiguating when a valid user ID is also a valid screen name.
+ *      screen_name: The screen name of the user for whom to remove from the list. Helpful for disambiguating when a valid screen name is also a user ID.
+ *      owner_screen_name: The screen name of the user who owns the list being requested by a slug.
+ *      owner_id:          The user ID of the user who owns the list being requested by a slug.
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/post/lists/members/destroy
+ */
+	public function lists_members_destory($params = array()) {
+		if ((empty($params['list_id']) && empty($params['slug']))
+			|| (empty($params['user_id']) && empty($params['screen_name']))
+			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
+		) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE . '1/lists/members/destroy.json';
 		$method = 'POST';
-		$params['_method'] = 'DELETE';
 
 		// request
 		return $this->_request($this->_buildRequest($url, $method, $params));
