@@ -15,6 +15,7 @@ App::import('vendor', 'TwitterKit.HttpSocketOauth', array('file' => 'http_socket
  * Redistributions of files must retain the above copyright notice.
  *
  * @version    1.0
+ * @filesource
  * @author     nojimage <nojima at elasticconsultants.com>
  * @copyright  2010, ELASTIC Consultants Inc.
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
@@ -34,15 +35,13 @@ App::import('vendor', 'TwitterKit.HttpSocketOauth', array('file' => 'http_socket
  *
  * Thank you.
  */
+
+/**
+ * @property HttpSocketOauth $Http
+ */
 class TwitterSource extends DataSource {
 
 	public $description = 'Twitter API';
-
-/**
- *
- * @var HttpSocketOauth
- */
-	public $Http;
 
 /**
  *
