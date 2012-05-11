@@ -506,26 +506,6 @@ class TwitterSource extends DataSource {
 	// ====================================================
 
 /**
- * GET statuses/public_timeline
- *
- * @param array  $params
- *  *Optional*
- *      skip_user:
- *      include_rts:
- *      include_entities:
- *
- * @return array|false
- * @see http://dev.twitter.com/doc/get/statuses/public_timeline
- */
-	public function statuses_public_timeline($params = array()) {
-		$url = 'http://api.twitter.com/1/statuses/public_timeline.json';
-		$method = 'GET';
-
-		// request
-		return $this->_request($this->_buildRequest($url, $method, $params));
-	}
-
-/**
  * GET statuses/home_timeline
  *
  * @param array  $params
@@ -542,30 +522,6 @@ class TwitterSource extends DataSource {
  */
 	public function statuses_home_timeline($params = array()) {
 		$url = 'http://api.twitter.com/1/statuses/home_timeline.json';
-		$method = 'GET';
-
-		// request
-		return $this->_request($this->_buildRequest($url, $method, $params));
-	}
-
-/**
- * GET statuses/friends_timeline
- *
- * @param array  $params
- *  *Optional*
- *     since_id:  Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
- *     max_id:    Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
- *     count:     Specifies the number of statuses to retrieve. May not be greater than 200.
- *     page:      Specifies the page of results to retrieve. Note: there are pagination limits.
- *     skip_user:
- *     include_rts:
- *     include_entities:
- *
- * @return array|false
- * @see http://dev.twitter.com/doc/get/statuses/friends_timeline
- */
-	public function statuses_friends_timeline($params = array()) {
-		$url = 'http://api.twitter.com/1/statuses/friends_timeline.json';
 		$method = 'GET';
 
 		// request
@@ -980,58 +936,6 @@ class TwitterSource extends DataSource {
 
 		$url = sprintf('http://api.twitter.com/1/users/suggestions/%s.json', $slug);
 		$method = 'GET';
-
-		// request
-		return $this->_request($this->_buildRequest($url, $method, $params));
-	}
-
-/**
- * GET statuses/friends
- *
- * @param array  $params
- *  *Optional*
- *      id:           The ID or screen name of the user for whom to request a list of friends.
- *      user_id:      Specfies the ID of the user for whom to return the list of friends. Helpful for disambiguating when a valid user ID is also a valid screen name.
- *      screen_name:  Specfies the screen name of the user for whom to return the list of friends. Helpful for disambiguating when a valid screen name is also a user ID.
- *      cursor.       Breaks the results into pages. A single page contains 100 users. This is recommended for users who are following many users.
- *                              Provide a value of  -1 to begin paging. Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
- *
- * @return array|false
- * @see http://dev.twitter.com/doc/get/statuses/friends
- */
-	public function statuses_friends($params = array()) {
-		$url = 'http://api.twitter.com/1/statuses/friends.json';
-		$method = 'GET';
-
-		if (is_scalar($params)) {
-			$params = array('id' => $params);
-		}
-
-		// request
-		return $this->_request($this->_buildRequest($url, $method, $params));
-	}
-
-/**
- * GET statuses/followers
- *
- * @param array  $params
- *  *Optional*
- *      id:           The ID or screen name of the user for whom to request a list of friends.
- *      user_id:      Specfies the ID of the user for whom to return the list of friends. Helpful for disambiguating when a valid user ID is also a valid screen name.
- *      screen_name:  Specfies the screen name of the user for whom to return the list of friends. Helpful for disambiguating when a valid screen name is also a user ID.
- *      cursor.       Breaks the results into pages. A single page contains 100 users. This is recommended for users who are following many users.
- *                    Provide a value of  -1 to begin paging. Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
- *
- * @return array|false
- * @see http://dev.twitter.com/doc/get/statuses/followers
- */
-	public function statuses_followers($params = array()) {
-		$url = 'http://api.twitter.com/1/statuses/followers.json';
-		$method = 'GET';
-
-		if (is_scalar($params)) {
-			$params = array('id' => $params);
-		}
 
 		// request
 		return $this->_request($this->_buildRequest($url, $method, $params));
