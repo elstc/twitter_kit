@@ -79,6 +79,8 @@ class TwitterSource extends DataSource {
 
 	const TWITTER_API_URL_BASE = 'http://api.twitter.com/';
 
+	const TWITTER_API_URL_BASE_HTTPS = 'https://api.twitter.com/';
+
 	const ANYWHERE_IDENTITY = 'twitter_anywhere_identity';
 
 /**
@@ -2402,7 +2404,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/post/oauth/request_token
  */
 	public function oauth_request_token($oauth_callback = null) {
-		$url = 'http://api.twitter.com/oauth/request_token';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . 'oauth/request_token';
 		$method = 'GET';
 
 		// get Request param
@@ -2441,7 +2443,7 @@ class TwitterSource extends DataSource {
  * @see    http://dev.twitter.com/doc/get/oauth/authorize
  */
 	public function oauth_authorize($oauth_token = '') {
-		$url = 'http://api.twitter.com/oauth/authorize';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . 'oauth/authorize';
 
 		if (empty($oauth_token)) {
 			$oauth_token = $this->oauth_token;
@@ -2458,7 +2460,7 @@ class TwitterSource extends DataSource {
  * @see    http://dev.twitter.com/doc/get/oauth/authenticate
  */
 	public function oauth_authenticate($oauth_token = '') {
-		$url = 'http://api.twitter.com/oauth/authenticate';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . 'oauth/authenticate';
 
 		if (empty($oauth_token)) {
 			$oauth_token = $this->oauth_token;
@@ -2476,7 +2478,7 @@ class TwitterSource extends DataSource {
  * @see    http://dev.twitter.com/doc/post/oauth/access_token
  */
 	public function oauth_access_token($oauth_token, $oauth_verifier) {
-		$url = 'http://api.twitter.com/oauth/access_token';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . 'oauth/access_token';
 		$method = 'POST';
 
 		// get Request param
