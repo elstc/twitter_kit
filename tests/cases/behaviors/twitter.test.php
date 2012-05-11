@@ -110,7 +110,7 @@ class TwitterBehaviorTest extends CakeTestCase {
 	function testTwitterAuthorizedUrl() {
 		$callback = Router::url('/twitter_kit/oauth/callback', true);
 		$result = $this->TestModel->twitterAuthorizeUrl($callback);
-		$this->assertPattern('!http://api\.twitter\.com/oauth/authorize\?oauth_token=.+!', $result);
+		$this->assertPattern('!https://api\.twitter\.com/oauth/authorize\?oauth_token=.+!', $result);
 
 		// for testGetOAuthAccessToken
 		debug($result);
@@ -119,7 +119,7 @@ class TwitterBehaviorTest extends CakeTestCase {
 	function testTwitterAuthenticateUrl() {
 		$callback = Router::url('/twitter_kit/oauth/callback', true);
 		$result = $this->TestModel->twitterAuthenticateUrl($callback);
-		$this->assertPattern('!http://api\.twitter\.com/oauth/authenticate\?oauth_token=.+!', $result);
+		$this->assertPattern('!https://api\.twitter\.com/oauth/authenticate\?oauth_token=.+!', $result);
 	}
 
 	function testTwitterAccessToken() {
