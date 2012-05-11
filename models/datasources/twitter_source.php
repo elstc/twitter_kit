@@ -79,6 +79,8 @@ class TwitterSource extends DataSource {
 
 	const TWITTER_API_URL_BASE = 'http://api.twitter.com/';
 
+	const TWITTER_API_URL_BASE_HTTPS = 'https://api.twitter.com/';
+
 	const ANYWHERE_IDENTITY = 'twitter_anywhere_identity';
 
 /**
@@ -240,7 +242,7 @@ class TwitterSource extends DataSource {
 
 		// extract path
 		if (!preg_match('!^http!', $url)) {
-			$url = self::TWITTER_API_URL_BASE . $url;
+			$url = self::TWITTER_API_URL_BASE_HTTPS . $url;
 		}
 
 		$uri = parse_url($url);
@@ -504,26 +506,6 @@ class TwitterSource extends DataSource {
 	// ====================================================
 
 /**
- * GET statuses/public_timeline
- *
- * @param array  $params
- *  *Optional*
- *      skip_user:
- *      include_rts:
- *      include_entities:
- *
- * @return array|false
- * @see http://dev.twitter.com/doc/get/statuses/public_timeline
- */
-	public function statuses_public_timeline($params = array()) {
-		$url = 'http://api.twitter.com/1/statuses/public_timeline.json';
-		$method = 'GET';
-
-		// request
-		return $this->_request($this->_buildRequest($url, $method, $params));
-	}
-
-/**
  * GET statuses/home_timeline
  *
  * @param array  $params
@@ -539,31 +521,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/statuses/home_timeline
  */
 	public function statuses_home_timeline($params = array()) {
-		$url = 'http://api.twitter.com/1/statuses/home_timeline.json';
-		$method = 'GET';
-
-		// request
-		return $this->_request($this->_buildRequest($url, $method, $params));
-	}
-
-/**
- * GET statuses/friends_timeline
- *
- * @param array  $params
- *  *Optional*
- *     since_id:  Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
- *     max_id:    Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
- *     count:     Specifies the number of statuses to retrieve. May not be greater than 200.
- *     page:      Specifies the page of results to retrieve. Note: there are pagination limits.
- *     skip_user:
- *     include_rts:
- *     include_entities:
- *
- * @return array|false
- * @see http://dev.twitter.com/doc/get/statuses/friends_timeline
- */
-	public function statuses_friends_timeline($params = array()) {
-		$url = 'http://api.twitter.com/1/statuses/friends_timeline.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/home_timeline.json';
 		$method = 'GET';
 
 		// request
@@ -590,7 +548,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/statuses/user_timeline
  */
 	public function statuses_user_timeline($params = array()) {
-		$url = 'http://api.twitter.com/1/statuses/user_timeline.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/user_timeline.json';
 		$method = 'GET';
 
 		if (is_scalar($params)) {
@@ -617,7 +575,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/statuses/mentions
  */
 	public function statuses_mentions($params = array()) {
-		$url = 'http://api.twitter.com/1/statuses/mentions.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/mentions.json';
 		$method = 'GET';
 
 		// request
@@ -638,7 +596,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/statuses/retweeted_by_me
  */
 	public function statuses_retweeted_by_me($params = array()) {
-		$url = 'http://api.twitter.com/1/statuses/retweeted_by_me.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/retweeted_by_me.json';
 		$method = 'GET';
 
 		// request
@@ -659,7 +617,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/statuses/retweeted_to_me
  */
 	public function statuses_retweeted_to_me($params = array()) {
-		$url = 'http://api.twitter.com/1/statuses/retweeted_to_me.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/retweeted_to_me.json';
 		$method = 'GET';
 
 		// request
@@ -680,7 +638,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/statuses/retweets_of_me
  */
 	public function statuses_retweets_of_me($params = array()) {
-		$url = 'http://api.twitter.com/1/statuses/retweets_of_me.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/retweets_of_me.json';
 		$method = 'GET';
 
 		// request
@@ -710,7 +668,7 @@ class TwitterSource extends DataSource {
 			$params = array('id' => $params);
 		}
 
-		$url = 'http://api.twitter.com/1/statuses/show.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/show.json';
 		$method = 'GET';
 
 		// request
@@ -738,7 +696,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/statuses/update.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/update.json';
 		$method = 'POST';
 
 		if (is_scalar($params)) {
@@ -765,7 +723,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/statuses/destroy/%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/destroy/%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -785,7 +743,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/statuses/retweet/%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/retweet/%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -813,7 +771,7 @@ class TwitterSource extends DataSource {
 			$params = array('id' => $params);
 		}
 
-		$url = 'http://api.twitter.com/1/statuses/retweets.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/retweets.json';
 		$method = 'GET';
 
 		// request
@@ -837,7 +795,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/statuses/%s/retweeted_by.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/%s/retweeted_by.json', $id);
 		$method = 'GET';
 
 		// request
@@ -861,7 +819,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/statuses/%s/retweeted_by/ids.josn', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/%s/retweeted_by/ids.josn', $id);
 		$method = 'GET';
 
 		// request
@@ -893,7 +851,7 @@ class TwitterSource extends DataSource {
 			$params = array('id' => $params);
 		}
 
-		$url = 'http://api.twitter.com/1/users/show.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/users/show.json';
 		$method = 'GET';
 
 		// request
@@ -912,7 +870,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/users/lookup
  */
 	public function users_lookup($params = array()) {
-		$url = 'http://api.twitter.com/1/users/lookup.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/users/lookup.json';
 		$method = 'GET';
 
 		// request
@@ -937,7 +895,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/users/search.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/users/search.json';
 		$method = 'GET';
 
 		if (is_scalar($params)) {
@@ -956,7 +914,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/users/suggestions
  */
 	public function users_suggestions($params = array()) {
-		$url = 'http://api.twitter.com/1/users/suggestions.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/users/suggestions.json';
 		$method = 'GET';
 
 		// request
@@ -976,60 +934,8 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/users/suggestions/%s.json', $slug);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/users/suggestions/%s.json', $slug);
 		$method = 'GET';
-
-		// request
-		return $this->_request($this->_buildRequest($url, $method, $params));
-	}
-
-/**
- * GET statuses/friends
- *
- * @param array  $params
- *  *Optional*
- *      id:           The ID or screen name of the user for whom to request a list of friends.
- *      user_id:      Specfies the ID of the user for whom to return the list of friends. Helpful for disambiguating when a valid user ID is also a valid screen name.
- *      screen_name:  Specfies the screen name of the user for whom to return the list of friends. Helpful for disambiguating when a valid screen name is also a user ID.
- *      cursor.       Breaks the results into pages. A single page contains 100 users. This is recommended for users who are following many users.
- *                              Provide a value of  -1 to begin paging. Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
- *
- * @return array|false
- * @see http://dev.twitter.com/doc/get/statuses/friends
- */
-	public function statuses_friends($params = array()) {
-		$url = 'http://api.twitter.com/1/statuses/friends.json';
-		$method = 'GET';
-
-		if (is_scalar($params)) {
-			$params = array('id' => $params);
-		}
-
-		// request
-		return $this->_request($this->_buildRequest($url, $method, $params));
-	}
-
-/**
- * GET statuses/followers
- *
- * @param array  $params
- *  *Optional*
- *      id:           The ID or screen name of the user for whom to request a list of friends.
- *      user_id:      Specfies the ID of the user for whom to return the list of friends. Helpful for disambiguating when a valid user ID is also a valid screen name.
- *      screen_name:  Specfies the screen name of the user for whom to return the list of friends. Helpful for disambiguating when a valid screen name is also a user ID.
- *      cursor.       Breaks the results into pages. A single page contains 100 users. This is recommended for users who are following many users.
- *                    Provide a value of  -1 to begin paging. Provide values as returned to in the response body's next_cursor and previous_cursor attributes to page back and forth in the list.
- *
- * @return array|false
- * @see http://dev.twitter.com/doc/get/statuses/followers
- */
-	public function statuses_followers($params = array()) {
-		$url = 'http://api.twitter.com/1/statuses/followers.json';
-		$method = 'GET';
-
-		if (is_scalar($params)) {
-			$params = array('id' => $params);
-		}
 
 		// request
 		return $this->_request($this->_buildRequest($url, $method, $params));
@@ -1052,13 +958,36 @@ class TwitterSource extends DataSource {
  *
  * @return array|false
  * @see http://dev.twitter.com/doc/post/:user/lists
+ * @deprecated
  */
 	public function post_lists($user, $params = array()) {
 		if (empty($user)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/lists.json', $user);
+		return $this->lists_create($params);
+	}
+
+/**
+ * POST lists/create
+ *
+ * @param array  $params
+ *  *Required*
+ *      name:         The name of the list you are creating.
+ *  *Optional*
+ *      mode:         Whether your list is public or private. Values can be public or private.
+ *      description:  A description of the user owning the account. Maximum of 160 characters.
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/post/lists/create
+ * @deprecated
+ */
+	public function lists_create($params) {
+		if (empty($params['name'])) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/create.json';
 		$method = 'POST';
 
 		// request
@@ -1069,7 +998,7 @@ class TwitterSource extends DataSource {
  * POST :user/lists/:id (update)
  *
  * @param string $user
- * @param string $id
+ * @param string $list_id
  * @param array  $params
  *  *Optional*
  *      name:         Full name associated with the profile. Maximum of 20 characters.
@@ -1078,13 +1007,51 @@ class TwitterSource extends DataSource {
  *
  * @return array|false
  * @see http://dev.twitter.com/doc/post/:user/lists/:id
+ * @deprecated
  */
-	public function post_lists_id($user, $id, $params = array()) {
+	public function post_lists_id($user, $list_id, $params = array()) {
 		if (empty($user) || empty($id)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/lists/%s.json', $user, $id);
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
+			if (is_numeric($user)) {
+				$params['owner_id'] = $user;
+			} else {
+				$params['owner_screen_name'] = $user;
+			}
+		} else {
+			$params['list_id'] = $list_id;
+		}
+
+		// request
+		return $this->lists_update($params);
+	}
+
+/**
+ * POST lists/update
+ *
+ * @param array  $params
+ *		list_id:
+ *		slug:
+ *      name:         Full name associated with the profile. Maximum of 20 characters.
+ *      mode:         Whether your list is public or private. Values can be public or private.
+ *      description:  A description of the user owning the account. Maximum of 160 characters.
+ *		owner_screen_name:
+ *		owner_id:
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/post/lists/update
+ */
+	public function lists_update($params) {
+		if ((empty($params['list_id']) && empty($params['slug']))
+			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
+		) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/update.json';
 		$method = 'POST';
 
 		// request
@@ -1101,13 +1068,41 @@ class TwitterSource extends DataSource {
  *
  * @return array|false
  * @see http://dev.twitter.com/doc/get/:user/lists
+ * @deprecated
  */
 	public function get_lists($user, $params = array()) {
 		if (empty($user)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/lists.json', $user);
+		if (!is_numeric($user)) {
+			$params['screen_name'] = $user;
+		} else {
+			$params['user_id'] = $user;
+		}
+
+		// request
+		return $this->lists($params);
+	}
+
+/**
+ * GET lists
+ *
+ * @param array  $params
+ *		user_id:
+ *      screen_name:
+ *      cursor:
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/get/lists
+ * @deprecated
+ */
+	public function lists($params) {
+		if (empty($params['user_id']) && empty($params['screen_name'])) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists.json';
 		$method = 'GET';
 
 		// request
@@ -1118,20 +1113,56 @@ class TwitterSource extends DataSource {
  * GET :user/lists/:id (show)
  *
  * @param string $user
- * @param string $id
+ * @param string $list_id
  * @param array  $params
  *  *Optional*
  *      id: The id or slug of the list.
  *
  * @return array|false
  * @see http://dev.twitter.com/doc/get/:user/lists/:id
+ * @deprecated
  */
-	public function get_lists_id($user, $id, $params = array()) {
+	public function get_lists_id($user, $list_id, $params = array()) {
 		if (empty($user) || empty($id)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/lists/%s.json', $user, $id);
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
+			if (is_numeric($user)) {
+				$params['owner_id'] = $user;
+			} else {
+				$params['owner_screen_name'] = $user;
+			}
+		} else {
+			$params['list_id'] = $list_id;
+		}
+
+		return $this->lists_show($params);
+	}
+
+/**
+ * GET lists/show
+ *
+ * @param string $user
+ * @param string $id
+ * @param array  $params
+ *		list_id:
+ *		slug:
+ *		owner_screen_name:
+ *		owner_id:
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/get/lists/show
+ */
+	public function lists_show($params) {
+		if ((empty($params['list_id']) && empty($params['slug']))
+			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
+		) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/show.json';
 		$method = 'GET';
 
 		// request
@@ -1142,22 +1173,56 @@ class TwitterSource extends DataSource {
  * DELETE :user/lists/:id (destroy)
  *
  * @param string $user
- * @param string $id
+ * @param string $list_id
  * @param array  $params
  *  *Optional*
  *      id: The id or slug of the list.
  *
  * @return array|false
  * @see http://dev.twitter.com/doc/delete/:user/lists/:id
+ * @deprecated
  */
-	public function delete_lists_id($user, $id, $params = array()) {
+	public function delete_lists_id($user, $list_id, $params = array()) {
 		if (empty($user) || empty($id)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/lists/%s.json', $user, $id);
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
+			if (is_numeric($user)) {
+				$params['owner_id'] = $user;
+			} else {
+				$params['owner_screen_name'] = $user;
+			}
+		} else {
+			$params['list_id'] = $list_id;
+		}
+
+		// request
+		return $this->lists_destory($params);
+	}
+
+/**
+ * POST lists/destroy
+ *
+ * @param array  $params
+ *		list_id:
+ *		slug:
+ *		owner_screen_name:
+ *		owner_id:
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/post/lists/destroy
+ */
+	public function lists_destory($params) {
+		if ((empty($params['list_id']) && empty($params['slug']))
+			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
+		) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/destroy.json';
 		$method = 'POST';
-		$params['_method'] = 'DELETE';
 
 		// request
 		return $this->_request($this->_buildRequest($url, $method, $params));
@@ -1177,13 +1242,53 @@ class TwitterSource extends DataSource {
  *
  * @return array|false
  * @see http://dev.twitter.com/doc/get/:user/lists/:id/statuses
+ * @deprecated
  */
 	public function get_lists_statuses($user, $list_id, $params = array()) {
 		if (empty($user) || empty($list_id)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/lists/%s/statuses.json', $user, $list_id);
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
+			if (is_numeric($user)) {
+				$params['owner_id'] = $user;
+			} else {
+				$params['owner_screen_name'] = $user;
+			}
+		} else {
+			$params['list_id'] = $list_id;
+		}
+
+		return $this->lists_statuses($params);
+	}
+
+/**
+ * GET lists/statuses
+ *
+ * @param array  $params
+ *		list_id:
+ *		slig:
+ *		owner_screen_name:
+ *		owner_id:
+ *      since_id: Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+ *      max_id:   Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+ *      per_page: Specifies the number of statuses to retrieve. May not be greater than 200.
+ *      page:     Specifies the page of results to retrieve. Note: there are pagination limits.
+ *		include_entities:
+ *		include_rts:
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/get/lists/statuses
+ */
+	public function lists_statuses($params) {
+		if ((empty($params['list_id']) && empty($params['slug']))
+			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
+		) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/statuses.json';
 		$method = 'GET';
 
 		// request
@@ -1200,13 +1305,39 @@ class TwitterSource extends DataSource {
  *
  * @return array|false
  * @see http://dev.twitter.com/doc/get/:user/lists/memberships
+ * @deprecated
  */
 	public function get_lists_memberships($user, $params = array()) {
 		if (empty($user)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/lists/memberships.json', $user);
+		if (!is_numeric($user)) {
+			$params['screen_name'] = $user;
+		} else {
+			$params['user_id'] = $user;
+		}
+
+		return $this->lists_memberships($params);
+	}
+
+/**
+ * GET lists/memberships
+ *
+ * @param array  $params
+ *		user_id:
+ *		screen_name:
+ *      cursor:
+ *
+ * @return array|false
+ * @see http://dev.twitter.com/doc/get/:user/lists/memberships
+ */
+	public function lists_memberships($params) {
+		if (empty($params)) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/memberships.json';
 		$method = 'GET';
 
 		// request
@@ -1223,13 +1354,39 @@ class TwitterSource extends DataSource {
  *
  * @return array|false
  * @see http://dev.twitter.com/doc/get/:user/lists/subscriptions
+ * @deprecated
  */
 	public function get_lists_subscriptions($user, $params = array()) {
 		if (empty($user)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/lists/subscriptions.json', $user);
+		if (!is_numeric($user)) {
+			$params['screen_name'] = $user;
+		} else {
+			$params['user_id'] = $user;
+		}
+
+		// request
+		return $this->lists_subscriptions($params);
+	}
+
+/**
+ * GET lists/subscriptions
+ *
+ * @param array  $params
+ *  *Optional*
+ *      cursor:
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/get/lists/subscriptions
+ */
+	public function lists_subscriptions($params) {
+		if (empty($params)) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/subscriptions.json';
 		$method = 'GET';
 
 		// request
@@ -1252,13 +1409,49 @@ class TwitterSource extends DataSource {
  *
  * @return array|false
  * @see http://dev.twitter.com/doc/get/:user/:list_id/members
+ * @deprecated
  */
 	public function get_list_members($user, $list_id, $params = array()) {
 		if (empty($user) || empty($list_id)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/%s/members.json', $user, $list_id);
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
+			if (is_numeric($user)) {
+				$params['owner_id'] = $user;
+			} else {
+				$params['owner_screen_name'] = $user;
+			}
+		} else {
+			$params['list_id'] = $list_id;
+		}
+
+		// request
+		return $this->lists_members($params);
+	}
+
+/**
+ * GET lists/members
+ *
+ * @param array  $params
+ *		list_id:
+ *		slig:
+ *		owner_screen_name:
+ *		owner_id:
+ *      cursor:
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/get/lists/members
+ */
+	public function lists_members($params) {
+		if ((empty($params['list_id']) && empty($params['slug']))
+			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
+		) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/members.json';
 		$method = 'GET';
 
 		// request
@@ -1277,13 +1470,57 @@ class TwitterSource extends DataSource {
  *
  * @return array|false
  * @see http://dev.twitter.com/doc/post/:user/:list_id/members
+ * @deprecated
  */
 	public function post_list_members($user, $list_id, $params = array()) {
 		if (empty($user) || empty($list_id)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/%s/members.json', $user, $list_id);
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
+			if (is_numeric($user)) {
+				$params['owner_id'] = $user;
+			} else {
+				$params['owner_screen_name'] = $user;
+			}
+		} else {
+			$params['list_id'] = $list_id;
+		}
+		if (!is_numeric($params['user_id'])) {
+			$params['screen_name'] = $user;
+		} else {
+			$params['user_id'] = $user;
+		}
+
+		// request
+		return $this->lists_members_create($params);
+	}
+
+/**
+ * POST lists/members/create
+ *
+ * @param array  $params
+ *      list_id:
+ *      slug:
+ *      user_id:
+ *      screen_name:
+ *      owner_screen_name:
+ *      owner_id:
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/post/lists/members/create
+ * @deprecated
+ */
+	public function lists_members_create($params) {
+		if ((empty($params['list_id']) && empty($params['slug']))
+			|| (empty($params['user_id']) && empty($params['screen_name']))
+			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
+		) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/members/create.json';
 		$method = 'POST';
 
 		// request
@@ -1308,6 +1545,7 @@ class TwitterSource extends DataSource {
  *
  * @return array|false
  * @see http://dev.twitter.com/doc/post/:user/:list_id/create_all
+ * @deprecated
  *
  * NOTE: http://groups.google.com/group/twitter-development-talk/browse_thread/thread/3e6ae4417160df39?pli=1
  *       now POST URL is http://api.twitter.com/1/:user/:list_id/members/create_all.json
@@ -1332,7 +1570,56 @@ class TwitterSource extends DataSource {
 			}
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/%s/members/create_all.json', $user, $list_id);
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
+			if (is_numeric($user)) {
+				$params['owner_id'] = $user;
+			} else {
+				$params['owner_screen_name'] = $user;
+			}
+		} else {
+			$params['list_id'] = $list_id;
+		}
+
+		// request
+		return $this->lists_members_create_all($params);
+	}
+
+/**
+ * POST :user/:list_id/create_all
+ *
+ * Adds multiple members to a list, by specifying a comma-separated list of
+ * member ids or screen names. The authenticated user must own the list to
+ * be able to add members to it. Lists are limited to having 500 members,
+ * and you are limited to adding up to 100 members to a list at a time with
+ * this method.
+ *
+ * @param array  $params
+ *		list_id:
+ *		slug:
+ *		owner_screen_name:
+ *		owner_id:
+ *      user_id: A comma separated list of user IDs, up to 100 are allowed in a single request.
+ *      screen_name: A comma separated list of screen names, up to 100 are allowed in a single request.
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/post/lists/members/create_all
+ */
+	public function lists_members_create_all($params) {
+		if ((empty($params['list_id']) && empty($params['slug']))
+			|| (empty($params['user_id']) && empty($params['screen_name']))
+			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
+		) {
+			return false;
+		}
+
+		foreach (array('user_id', 'screen_name') as $key) {
+			if (!empty($params[$key]) && is_array($params[$key])) {
+				$params[$key] = join(',', $params[$key]);
+			}
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/members/create_all.json';
 		$method = 'POST';
 
 		// request
@@ -1350,16 +1637,62 @@ class TwitterSource extends DataSource {
  *      user_id: Specfies the ID of the user for whom to return results for. Helpful for disambiguating when a valid user ID is also a valid screen name.
  *
  * @return array|false
- * @see http://dev.twitter.com/doc/delete/:user/:id/members
+ * @see https://dev.twitter.com/docs/api/1/delete/%3Auser/%3Alist_id/members
+ * @deprecated
  */
 	public function delete_list_members($user, $list_id, $params = array()) {
 		if (empty($user) || empty($list_id)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/%s/members.json', $user, $list_id);
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
+			if (is_numeric($user)) {
+				$params['owner_id'] = $user;
+			} else {
+				$params['owner_screen_name'] = $user;
+			}
+		} else {
+			$params['list_id'] = $list_id;
+		}
+		if (!is_numeric($params['user_id'])) {
+			$params['screen_name'] = $params['user_id'];
+		} else {
+			$params['user_id'] = $params['user_id'];
+		}
+
+		return $this->lists_members_destory($params);
+	}
+
+/**
+ * POST lists/members/destroy
+ *
+ * @param string $user
+ * @param string $list_id
+ * @param array  $params
+ *  *Optional*
+ *      list_id:     The numerical id of the list.
+ *      slug:        You can identify a list by its slug instead of its numerical id.
+ *                   If you decide to do so, note that you'll also have to specify
+ *                   the list owner using the owner_id or owner_screen_name parameters.
+ *      user_id:     The ID of the user to remove from the list. Helpful for disambiguating when a valid user ID is also a valid screen name.
+ *      screen_name: The screen name of the user for whom to remove from the list. Helpful for disambiguating when a valid screen name is also a user ID.
+ *      owner_screen_name: The screen name of the user who owns the list being requested by a slug.
+ *      owner_id:          The user ID of the user who owns the list being requested by a slug.
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/post/lists/members/destroy
+ */
+	public function lists_members_destory($params) {
+		if ((empty($params['list_id']) && empty($params['slug']))
+			|| (empty($params['user_id']) && empty($params['screen_name']))
+			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
+		) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE . '1/lists/members/destroy.json';
 		$method = 'POST';
-		$params['_method'] = 'DELETE';
 
 		// request
 		return $this->_request($this->_buildRequest($url, $method, $params));
@@ -1378,13 +1711,58 @@ class TwitterSource extends DataSource {
  *
  * @return array|false
  * @see http://dev.twitter.com/doc/get/:user/:list_id/members/:id
+ * @deprecated
  */
 	public function get_list_members_id($user, $list_id, $id, $params = array()) {
 		if (empty($user) || empty($list_id) || empty($id)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/%s/members/%s.json', $user, $list_id, $id);
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
+			if (is_numeric($user)) {
+				$params['owner_id'] = $user;
+			} else {
+				$params['owner_screen_name'] = $user;
+			}
+		} else {
+			$params['list_id'] = $list_id;
+		}
+		if (!is_numeric($id)) {
+			$params['screen_name'] = $id;
+		} else {
+			$params['user_id'] = $id;
+		}
+
+		// request
+		return $this->_request($this->_buildRequest($url, $method, $params));
+	}
+
+/**
+ * GET lists/members/show
+ *
+ * @param array  $params
+ *		list_id:
+ *		slug:
+ *		user_id:
+ *		screen_name:
+ *		owner_screen_name:
+ *		owner_id:
+ *		include_entities:
+ *		skip_status:
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/get/lists/members/show
+ */
+	public function lists_members_show($params) {
+		if ((empty($params['list_id']) && empty($params['slug']))
+			|| (empty($params['user_id']) && empty($params['screen_name']))
+			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
+		) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/members/show.json';
 		$method = 'GET';
 
 		// request
@@ -1406,14 +1784,49 @@ class TwitterSource extends DataSource {
  *
  * @return array|false
  * @see http://dev.twitter.com/doc/get/:user/:list_id/subscribers
+ * @deprecated
  */
 	public function get_list_subscribers($user, $list_id, $params = array()) {
 		if (empty($user) || empty($list_id)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/%s/subscribers.json', $user, $list_id);
-		$method = 'POST';
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
+			if (is_numeric($user)) {
+				$params['owner_id'] = $user;
+			} else {
+				$params['owner_screen_name'] = $user;
+			}
+		} else {
+			$params['list_id'] = $list_id;
+		}
+
+		return $this->lists_subscribers($params);
+	}
+
+/**
+ * GET lists/subscribers
+ *
+ * @param array  $params
+ *		list_id:
+ *		slig:
+ *		owner_screen_name:
+ *		owner_id:
+ *      cursor:
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/get/lists/subscribers
+ */
+	public function lists_subscribers($params) {
+		if ((empty($params['list_id']) && empty($params['slug']))
+			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
+		) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/subscribers.json';
+		$method = 'GET';
 
 		// request
 		return $this->_request($this->_buildRequest($url, $method, $params));
@@ -1433,7 +1846,41 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/%s/subscribers.json', $user, $list_id);
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
+			if (is_numeric($user)) {
+				$params['owner_id'] = $user;
+			} else {
+				$params['owner_screen_name'] = $user;
+			}
+		} else {
+			$params['list_id'] = $list_id;
+		}
+
+		return $this->lists_subscribers_create($params);
+	}
+
+/**
+ * POST lists/subscribers/create
+ *
+ * @param array  $params
+ *      list_id:
+ *      slug:
+ *      owner_screen_name:
+ *      owner_id:
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/post/lists/subscribers/create
+ * @deprecated
+ */
+	public function lists_subscribers_create($params) {
+		if ((empty($params['list_id']) && empty($params['slug']))
+			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
+		) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/subscribers/create.json';
 		$method = 'POST';
 
 		// request
@@ -1448,20 +1895,50 @@ class TwitterSource extends DataSource {
  * @param array  $params
  * @return array|false
  * @see http://dev.twitter.com/doc/delete/:user/:id/subscribers
+ * @deprecated
  */
 	public function delete_list_subscribers($user, $list_id, $params = array()) {
 		if (empty($user) || empty($list_id) || empty($params)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/%s/subscribers.json', $user, $list_id);
-		$method = 'POST';
-
-		if (is_scalar($params)) {
-			$params = array('id' => $params);
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
+			if (is_numeric($user)) {
+				$params['owner_id'] = $user;
+			} else {
+				$params['owner_screen_name'] = $user;
+			}
+		} else {
+			$params['list_id'] = $list_id;
 		}
 
-		$params['_method'] = 'DELETE';
+		return $this->lists_subscribers_destory($params);
+	}
+
+/**
+ * POST lists/subscribers/destroy
+ *
+ * @param string $user
+ * @param string $list_id
+ * @param array  $params
+ *      list_id:
+ *      slug
+ *      owner_screen_name:
+ *      owner_id:
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/post/lists/subscribers/destroy
+ */
+	public function lists_subscribers_destory($params) {
+		if ((empty($params['list_id']) && empty($params['slug']))
+			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
+		) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE . '1/lists/subscribers/destroy.json';
+		$method = 'POST';
 
 		// request
 		return $this->_request($this->_buildRequest($url, $method, $params));
@@ -1476,13 +1953,57 @@ class TwitterSource extends DataSource {
  * @param array  $params
  * @return array|false
  * @see http://dev.twitter.com/doc/get/:user/:list_id/subscribers/:id
+ * @deprecated
  */
 	public function get_list_subscribers_id($user, $list_id, $id, $params = array()) {
 		if (empty($user) || empty($list_id) || empty($id)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/%s/subscribers/%s.json', $user, $list_id, $id);
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
+			if (is_numeric($user)) {
+				$params['owner_id'] = $user;
+			} else {
+				$params['owner_screen_name'] = $user;
+			}
+		} else {
+			$params['list_id'] = $list_id;
+		}
+		if (!is_numeric($id)) {
+			$params['screen_name'] = $id;
+		} else {
+			$params['user_id'] = $id;
+		}
+
+		return $this->lists_subscribers_show($params);
+	}
+
+/**
+ * GET lists/subscribers/show
+ *
+ * @param array  $params
+ *		list_id:
+ *		slug:
+ *		user_id:
+ *		screen_name:
+ *		owner_screen_name:
+ *		owner_id:
+ *		include_entities:
+ *		skip_status:
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/get/lists/subscribers/show
+ */
+	public function lists_subscribers_show($params) {
+		if ((empty($params['list_id']) && empty($params['slug']))
+			|| (empty($params['user_id']) && empty($params['screen_name']))
+			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
+		) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/subscribers/show.json';
 		$method = 'GET';
 
 		// request
@@ -1507,7 +2028,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/direct_messages
  */
 	public function direct_messages($params = array()) {
-		$url = 'http://api.twitter.com/1/direct_messages.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/direct_messages.json';
 		$method = 'GET';
 
 		// request
@@ -1528,7 +2049,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/direct_messages/sent
  */
 	public function direct_messages_sent($params = array()) {
-		$url = 'http://api.twitter.com/1/direct_messages/sent.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/direct_messages/sent.json';
 		$method = 'GET';
 
 		// request
@@ -1551,7 +2072,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/direct_messages/new.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/direct_messages/new.json';
 		$method = 'POST';
 
 		// request
@@ -1571,7 +2092,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/direct_messages/destroy/%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/direct_messages/destroy/%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -1611,7 +2132,7 @@ class TwitterSource extends DataSource {
 			unset($params['id']);
 		}
 
-		$url = sprintf('http://api.twitter.com/1/friendships/create%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/friendships/create%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -1645,7 +2166,7 @@ class TwitterSource extends DataSource {
 			unset($params['id']);
 		}
 
-		$url = sprintf('http://api.twitter.com/1/friendships/destroy%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/friendships/destroy%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -1669,7 +2190,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/friendships/exists.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/friendships/exists.json';
 		$method = 'GET';
 
 		// request
@@ -1696,7 +2217,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/friendships/show.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/friendships/show.json';
 		$method = 'GET';
 
 		// request
@@ -1718,7 +2239,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/friendships/incoming.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/friendships/incoming.json';
 		$method = 'GET';
 
 		// request
@@ -1740,7 +2261,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/friendships/outgoing.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/friendships/outgoing.json';
 		$method = 'GET';
 
 		// request
@@ -1775,7 +2296,7 @@ class TwitterSource extends DataSource {
 			unset($params['id']);
 		}
 
-		$url = sprintf('http://api.twitter.com/1/friends/ids%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/friends/ids%s.json', $id);
 		$method = 'GET';
 
 		// request
@@ -1805,7 +2326,7 @@ class TwitterSource extends DataSource {
 			unset($params['id']);
 		}
 
-		$url = sprintf('http://api.twitter.com/1/followers/ids%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/followers/ids%s.json', $id);
 		$method = 'GET';
 
 		// request
@@ -1824,7 +2345,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/account/verify_credentials
  */
 	public function account_verify_credentials($params = array()) {
-		$url = 'http://api.twitter.com/1/account/verify_credentials.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/account/verify_credentials.json';
 		$method = 'GET';
 
 		// request
@@ -1839,7 +2360,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/account/rate_limit_status
  */
 	public function account_rate_limit_status($params = array()) {
-		$url = 'http://api.twitter.com/1/account/rate_limit_status.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/account/rate_limit_status.json';
 		$method = 'GET';
 
 		// request
@@ -1854,7 +2375,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/post/account/end_session
  */
 	public function account_end_session($params = array()) {
-		$url = 'http://api.twitter.com/1/account/end_session.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/account/end_session.json';
 		$method = 'POST';
 
 		// request
@@ -1876,7 +2397,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/account/update_delivery_device.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/account/update_delivery_device.json';
 		$method = 'POST';
 
 		if (is_scalar($params)) {
@@ -1906,7 +2427,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/account/update_profile_colors.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/account/update_profile_colors.json';
 		$method = 'POST';
 
 		if (is_scalar($params)) {
@@ -1935,7 +2456,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/account/update_profile_image.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/account/update_profile_image.json';
 		$method = 'POST';
 
 		// request
@@ -1963,7 +2484,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/account/update_profile_background_image.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/account/update_profile_background_image.json';
 		$method = 'POST';
 
 		// request
@@ -1988,7 +2509,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/account/update_profile.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/account/update_profile.json';
 		$method = 'POST';
 
 		// request
@@ -2011,7 +2532,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/favorites
  */
 	public function favorites($params = array()) {
-		$url = 'http://api.twitter.com/1/favorites.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/favorites.json';
 		$method = 'GET';
 
 		// request
@@ -2031,7 +2552,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/favorites/create/%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/favorites/create/%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -2051,7 +2572,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/favorites/destroy/%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/favorites/destroy/%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -2091,7 +2612,7 @@ class TwitterSource extends DataSource {
 			unset($params['id']);
 		}
 
-		$url = sprintf('http://api.twitter.com/1/notifications/follow%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/notifications/follow%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -2127,7 +2648,7 @@ class TwitterSource extends DataSource {
 			unset($params['id']);
 		}
 
-		$url = sprintf('http://api.twitter.com/1/notifications/leave%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/notifications/leave%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -2165,7 +2686,7 @@ class TwitterSource extends DataSource {
 			unset($params['id']);
 		}
 
-		$url = sprintf('http://api.twitter.com/1/blocks/create%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/blocks/create%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -2199,7 +2720,7 @@ class TwitterSource extends DataSource {
 			unset($params['id']);
 		}
 
-		$url = sprintf('http://api.twitter.com/1/blocks/destroy%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/blocks/destroy%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -2234,7 +2755,7 @@ class TwitterSource extends DataSource {
 			unset($params['id']);
 		}
 
-		$url = sprintf('http://api.twitter.com/1/blocks/exists%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/blocks/exists%s.json', $id);
 		$method = 'GET';
 
 		// request
@@ -2251,7 +2772,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/blocks/blocking
  */
 	public function blocks_blocking($params = array()) {
-		$url = 'http://api.twitter.com/1/blocks/blocking.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/blocks/blocking.json';
 		$method = 'GET';
 
 		// request
@@ -2266,7 +2787,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/blocks/blocking/ids
  */
 	public function blocks_blocking_ids($params = array()) {
-		$url = 'http://api.twitter.com/1/blocks/blocking/ids.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/blocks/blocking/ids.json';
 		$method = 'GET';
 
 		// request
@@ -2298,7 +2819,7 @@ class TwitterSource extends DataSource {
 			$params = array('id' => $params);
 		}
 
-		$url = 'http://api.twitter.com/1/report_spam.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/report_spam.json';
 		$method = 'POST';
 
 		// request
@@ -2317,7 +2838,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/saved_searches
  */
 	public function saved_searches($params = array()) {
-		$url = 'http://api.twitter.com/1/saved_searches.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/saved_searches.json';
 		$method = 'GET';
 
 		// request
@@ -2337,7 +2858,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/saved_searches/show/%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/saved_searches/show/%s.json', $id);
 		$method = 'GET';
 
 		// request
@@ -2363,7 +2884,7 @@ class TwitterSource extends DataSource {
 			$params = array('query' => $params);
 		}
 
-		$url = 'http://api.twitter.com/1/saved_searches/create.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/saved_searches/create.json';
 		$method = 'POST';
 
 		// request
@@ -2383,7 +2904,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/saved_searches/destroy/%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/saved_searches/destroy/%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -2402,7 +2923,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/post/oauth/request_token
  */
 	public function oauth_request_token($oauth_callback = null) {
-		$url = 'http://api.twitter.com/oauth/request_token';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . 'oauth/request_token';
 		$method = 'GET';
 
 		// get Request param
@@ -2441,7 +2962,7 @@ class TwitterSource extends DataSource {
  * @see    http://dev.twitter.com/doc/get/oauth/authorize
  */
 	public function oauth_authorize($oauth_token = '') {
-		$url = 'http://api.twitter.com/oauth/authorize';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . 'oauth/authorize';
 
 		if (empty($oauth_token)) {
 			$oauth_token = $this->oauth_token;
@@ -2458,7 +2979,7 @@ class TwitterSource extends DataSource {
  * @see    http://dev.twitter.com/doc/get/oauth/authenticate
  */
 	public function oauth_authenticate($oauth_token = '') {
-		$url = 'http://api.twitter.com/oauth/authenticate';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . 'oauth/authenticate';
 
 		if (empty($oauth_token)) {
 			$oauth_token = $this->oauth_token;
@@ -2476,7 +2997,7 @@ class TwitterSource extends DataSource {
  * @see    http://dev.twitter.com/doc/post/oauth/access_token
  */
 	public function oauth_access_token($oauth_token, $oauth_verifier) {
-		$url = 'http://api.twitter.com/oauth/access_token';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . 'oauth/access_token';
 		$method = 'POST';
 
 		// get Request param
@@ -2521,7 +3042,7 @@ class TwitterSource extends DataSource {
  * @see http://developer.yahoo.com/geo/geoplanet/
  */
 	public function trends_available($params = array()) {
-		$url = 'http://api.twitter.com/1/trends/available.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/trends/available.json';
 		$method = 'GET';
 
 		// request
@@ -2542,7 +3063,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/trends/%s.json', $woeid);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/trends/%s.json', $woeid);
 		$method = 'GET';
 
 		// request
@@ -2574,7 +3095,7 @@ class TwitterSource extends DataSource {
  * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-geo-nearby_places
  */
 	public function geo_nearby_places($params = array()) {
-		$url = 'http://api.twitter.com/1/geo/nearby_places.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/geo/nearby_places.json';
 		$method = 'GET';
 
 		// request
@@ -2603,7 +3124,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/geo/reverse_geocode
  */
 	public function geo_reverse_geocode($params = array()) {
-		$url = 'http://api.twitter.com/1/geo/reverse_geocode.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/geo/reverse_geocode.json';
 		$method = 'GET';
 
 		// request
@@ -2623,7 +3144,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/geo/id/%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/geo/id/%s.json', $id);
 		$method = 'GET';
 
 		// request
@@ -2642,7 +3163,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/help/test
  */
 	public function help_test($params = array()) {
-		$url = 'http://api.twitter.com/1/help/test.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/help/test.json';
 		$method = 'GET';
 
 		// request

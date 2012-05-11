@@ -142,7 +142,7 @@ class TwitterComponentTestCase extends CakeTestCase {
 	function testGetAuthorizedUrl() {
 		$callback = Router::url('/twitter_kit/oauth/callback', true);
 		$result = $this->TestComponent->getAuthorizeUrl($callback);
-		$this->assertPattern('!http://api\.twitter\.com/oauth/authorize\?oauth_token=.+!', $result);
+		$this->assertPattern('!https://api\.twitter\.com/oauth/authorize\?oauth_token=.+!', $result);
 
 		// for testGetAccessToken
 		debug($result);
@@ -151,7 +151,7 @@ class TwitterComponentTestCase extends CakeTestCase {
 	function testGetAuthenticateUrl() {
 		$callback = Router::url('/twitter_kit/oauth/callback', true);
 		$result = $this->TestComponent->getAuthenticateUrl($callback);
-		$this->assertPattern('!http://api\.twitter\.com/oauth/authenticate\?oauth_token=.+!', $result);
+		$this->assertPattern('!https://api\.twitter\.com/oauth/authenticate\?oauth_token=.+!', $result);
 	}
 
 	function testGetAccessToken() {
@@ -224,13 +224,13 @@ class TwitterComponentTestCase extends CakeTestCase {
 	// =========================================================================
 	function testConnect() {
 		$this->TestComponent->connect();
-		$this->assertPattern('!http://api\.twitter\.com/oauth/authenticate\?oauth_token=.+!', $this->TestComponent->controller->redirectUrl);
+		$this->assertPattern('!https://api\.twitter\.com/oauth/authenticate\?oauth_token=.+!', $this->TestComponent->controller->redirectUrl);
 	}
 
 	function testConnect_authorize() {
 		$this->TestComponent->controller->params['named']['authorize'] = 'true';
 		$this->TestComponent->connect();
-		$this->assertPattern('!http://api\.twitter\.com/oauth/authorize\?oauth_token=.+!', $this->TestComponent->controller->redirectUrl);
+		$this->assertPattern('!https://api\.twitter\.com/oauth/authorize\?oauth_token=.+!', $this->TestComponent->controller->redirectUrl);
 	}
 
 }

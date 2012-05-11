@@ -84,20 +84,20 @@ class TwitterSourceTestCase extends CakeTestCase {
 
 	function testOauthAuthorize() {
 		$result = $this->TestSource->oauth_authorize('dummy_token');
-		$this->assertEqual('http://api.twitter.com/oauth/authorize?oauth_token=dummy_token', $result);
+		$this->assertEqual('https://api.twitter.com/oauth/authorize?oauth_token=dummy_token', $result);
 
 		$token = $this->TestSource->oauth_request_token(Router::url('/twitter_kit/callback', true));
 		$result = $this->TestSource->oauth_authorize();
-		$this->assertEqual('http://api.twitter.com/oauth/authorize?oauth_token=' . $token['oauth_token'], $result);
+		$this->assertEqual('https://api.twitter.com/oauth/authorize?oauth_token=' . $token['oauth_token'], $result);
 	}
 
 	function testOauthAuthenticate() {
 		$result = $this->TestSource->oauth_authenticate('dummy_token');
-		$this->assertEqual('http://api.twitter.com/oauth/authenticate?oauth_token=dummy_token', $result);
+		$this->assertEqual('https://api.twitter.com/oauth/authenticate?oauth_token=dummy_token', $result);
 
 		$token = $this->TestSource->oauth_request_token(Router::url('/twitter_kit/callback', true));
 		$result = $this->TestSource->oauth_authenticate();
-		$this->assertEqual('http://api.twitter.com/oauth/authenticate?oauth_token=' . $token['oauth_token'], $result);
+		$this->assertEqual('https://api.twitter.com/oauth/authenticate?oauth_token=' . $token['oauth_token'], $result);
 	}
 
 	function testOauthAccessToken() {
