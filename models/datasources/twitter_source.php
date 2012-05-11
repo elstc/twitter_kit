@@ -1846,7 +1846,41 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/%s/subscribers.json', $user, $list_id);
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
+			if (is_numeric($user)) {
+				$params['owner_id'] = $user;
+			} else {
+				$params['owner_screen_name'] = $user;
+			}
+		} else {
+			$params['list_id'] = $list_id;
+		}
+
+		return $this->lists_subscribers_create($params);
+	}
+
+/**
+ * POST lists/subscribers/create
+ *
+ * @param array  $params
+ *      list_id:
+ *      slug:
+ *      owner_screen_name:
+ *      owner_id:
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/post/lists/subscribers/create
+ * @deprecated
+ */
+	public function lists_subscribers_create($params) {
+		if ((empty($params['list_id']) && empty($params['slug']))
+			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
+		) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/subscribers/create.json';
 		$method = 'POST';
 
 		// request
