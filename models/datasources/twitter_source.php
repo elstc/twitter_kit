@@ -958,13 +958,36 @@ class TwitterSource extends DataSource {
  *
  * @return array|false
  * @see http://dev.twitter.com/doc/post/:user/lists
+ * @deprecated
  */
 	public function post_lists($user, $params = array()) {
 		if (empty($user)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/lists.json', $user);
+		return $this->lists_create($params);
+	}
+
+/**
+ * POST lists/create
+ *
+ * @param array  $params
+ *  *Required*
+ *      name:         The name of the list you are creating.
+ *  *Optional*
+ *      mode:         Whether your list is public or private. Values can be public or private.
+ *      description:  A description of the user owning the account. Maximum of 160 characters.
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/post/lists/create
+ * @deprecated
+ */
+	public function lists_create($params = array()) {
+		if (empty($params['name'])) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/create.json';
 		$method = 'POST';
 
 		// request
