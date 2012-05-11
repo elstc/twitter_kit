@@ -982,7 +982,7 @@ class TwitterSource extends DataSource {
  * @see https://dev.twitter.com/docs/api/1/post/lists/create
  * @deprecated
  */
-	public function lists_create($params = array()) {
+	public function lists_create($params) {
 		if (empty($params['name'])) {
 			return false;
 		}
@@ -998,7 +998,7 @@ class TwitterSource extends DataSource {
  * POST :user/lists/:id (update)
  *
  * @param string $user
- * @param string $id
+ * @param string $list_id
  * @param array  $params
  *  *Optional*
  *      name:         Full name associated with the profile. Maximum of 20 characters.
@@ -1059,7 +1059,7 @@ class TwitterSource extends DataSource {
  * @see https://dev.twitter.com/docs/api/1/get/lists
  * @deprecated
  */
-	public function lists($params = array()) {
+	public function lists($params) {
 		if (empty($params['user_id']) && empty($params['screen_name'])) {
 			return false;
 		}
@@ -1075,7 +1075,7 @@ class TwitterSource extends DataSource {
  * GET :user/lists/:id (show)
  *
  * @param string $user
- * @param string $id
+ * @param string $list_id
  * @param array  $params
  *  *Optional*
  *      id: The id or slug of the list.
@@ -1084,13 +1084,13 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/:user/lists/:id
  * @deprecated
  */
-	public function get_lists_id($user, $id, $params = array()) {
+	public function get_lists_id($user, $list_id, $params = array()) {
 		if (empty($user) || empty($id)) {
 			return false;
 		}
 
-		if (!is_numeric($id)) {
-			$params['slug'] = $id;
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
 			if (is_numeric($user)) {
 				$params['owner_id'] = $user;
 			} else {
@@ -1117,7 +1117,7 @@ class TwitterSource extends DataSource {
  * @return array|false
  * @see https://dev.twitter.com/docs/api/1/get/lists/show
  */
-	public function lists_show($params = array()) {
+	public function lists_show($params) {
 		if ((empty($params['list_id']) && empty($params['slug']))
 			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
 		) {
@@ -1177,8 +1177,8 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		if (!is_numeric($id)) {
-			$params['slug'] = $id;
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
 			if (is_numeric($user)) {
 				$params['owner_id'] = $user;
 			} else {
@@ -1209,7 +1209,7 @@ class TwitterSource extends DataSource {
  * @return array|false
  * @see https://dev.twitter.com/docs/api/1/get/lists/statuses
  */
-	public function lists_statuses($params = array()) {
+	public function lists_statuses($params) {
 		if ((empty($params['list_id']) && empty($params['slug']))
 			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
 		) {
@@ -1260,7 +1260,7 @@ class TwitterSource extends DataSource {
  * @return array|false
  * @see http://dev.twitter.com/doc/get/:user/lists/memberships
  */
-	public function lists_memberships($params = array()) {
+	public function lists_memberships($params) {
 		if (empty($params)) {
 			return false;
 		}
@@ -1309,7 +1309,7 @@ class TwitterSource extends DataSource {
  * @return array|false
  * @see https://dev.twitter.com/docs/api/1/get/lists/subscriptions
  */
-	public function lists_subscriptions($params = array()) {
+	public function lists_subscriptions($params) {
 		if (empty($params)) {
 			return false;
 		}
@@ -1481,7 +1481,7 @@ class TwitterSource extends DataSource {
  * @return array|false
  * @see https://dev.twitter.com/docs/api/1/post/lists/members/destroy
  */
-	public function lists_members_destory($params = array()) {
+	public function lists_members_destory($params) {
 		if ((empty($params['list_id']) && empty($params['slug']))
 			|| (empty($params['user_id']) && empty($params['screen_name']))
 			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
