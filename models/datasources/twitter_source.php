@@ -1170,13 +1170,53 @@ class TwitterSource extends DataSource {
  *
  * @return array|false
  * @see http://dev.twitter.com/doc/get/:user/lists/:id/statuses
+ * @deprecated
  */
 	public function get_lists_statuses($user, $list_id, $params = array()) {
 		if (empty($user) || empty($list_id)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/lists/%s/statuses.json', $user, $list_id);
+		if (!is_numeric($id)) {
+			$params['slug'] = $id;
+			if (is_numeric($user)) {
+				$params['owner_id'] = $user;
+			} else {
+				$params['owner_screen_name'] = $user;
+			}
+		} else {
+			$params['list_id'] = $list_id;
+		}
+
+		return $this->lists_statuses($params);
+	}
+
+/**
+ * GET lists/statuses
+ *
+ * @param array  $params
+ *		list_id:
+ *		slig:
+ *		owner_screen_name:
+ *		owner_id:
+ *      since_id: Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+ *      max_id:   Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+ *      per_page: Specifies the number of statuses to retrieve. May not be greater than 200.
+ *      page:     Specifies the page of results to retrieve. Note: there are pagination limits.
+ *		include_entities:
+ *		include_rts:
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/get/lists/statuses
+ */
+	public function lists_statuses($params = array()) {
+		if ((empty($params['list_id']) && empty($params['slug']))
+			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
+		) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/statuses.json';
 		$method = 'GET';
 
 		// request
