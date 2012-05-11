@@ -1206,13 +1206,39 @@ class TwitterSource extends DataSource {
  *
  * @return array|false
  * @see http://dev.twitter.com/doc/get/:user/lists/subscriptions
+ * @deprecated
  */
 	public function get_lists_subscriptions($user, $params = array()) {
 		if (empty($user)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/lists/subscriptions.json', $user);
+		if (!is_numeric($user)) {
+			$params['screen_name'] = $user;
+		} else {
+			$params['user_id'] = $user;
+		}
+
+		// request
+		return $this->lists_subscriptions($params);
+	}
+
+/**
+ * GET lists/subscriptions
+ *
+ * @param array  $params
+ *  *Optional*
+ *      cursor:
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/get/lists/subscriptions
+ */
+	public function lists_subscriptions($params = array()) {
+		if (empty($params)) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/lists/subscriptions.json';
 		$method = 'GET';
 
 		// request
