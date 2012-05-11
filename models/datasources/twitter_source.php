@@ -242,7 +242,7 @@ class TwitterSource extends DataSource {
 
 		// extract path
 		if (!preg_match('!^http!', $url)) {
-			$url = self::TWITTER_API_URL_BASE . $url;
+			$url = self::TWITTER_API_URL_BASE_HTTPS . $url;
 		}
 
 		$uri = parse_url($url);
@@ -521,7 +521,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/statuses/home_timeline
  */
 	public function statuses_home_timeline($params = array()) {
-		$url = 'http://api.twitter.com/1/statuses/home_timeline.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/home_timeline.json';
 		$method = 'GET';
 
 		// request
@@ -548,7 +548,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/statuses/user_timeline
  */
 	public function statuses_user_timeline($params = array()) {
-		$url = 'http://api.twitter.com/1/statuses/user_timeline.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/user_timeline.json';
 		$method = 'GET';
 
 		if (is_scalar($params)) {
@@ -575,7 +575,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/statuses/mentions
  */
 	public function statuses_mentions($params = array()) {
-		$url = 'http://api.twitter.com/1/statuses/mentions.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/mentions.json';
 		$method = 'GET';
 
 		// request
@@ -596,7 +596,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/statuses/retweeted_by_me
  */
 	public function statuses_retweeted_by_me($params = array()) {
-		$url = 'http://api.twitter.com/1/statuses/retweeted_by_me.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/retweeted_by_me.json';
 		$method = 'GET';
 
 		// request
@@ -617,7 +617,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/statuses/retweeted_to_me
  */
 	public function statuses_retweeted_to_me($params = array()) {
-		$url = 'http://api.twitter.com/1/statuses/retweeted_to_me.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/retweeted_to_me.json';
 		$method = 'GET';
 
 		// request
@@ -638,7 +638,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/statuses/retweets_of_me
  */
 	public function statuses_retweets_of_me($params = array()) {
-		$url = 'http://api.twitter.com/1/statuses/retweets_of_me.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/retweets_of_me.json';
 		$method = 'GET';
 
 		// request
@@ -668,7 +668,7 @@ class TwitterSource extends DataSource {
 			$params = array('id' => $params);
 		}
 
-		$url = 'http://api.twitter.com/1/statuses/show.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/show.json';
 		$method = 'GET';
 
 		// request
@@ -696,7 +696,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/statuses/update.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/update.json';
 		$method = 'POST';
 
 		if (is_scalar($params)) {
@@ -723,7 +723,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/statuses/destroy/%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/destroy/%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -743,7 +743,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/statuses/retweet/%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/retweet/%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -771,7 +771,7 @@ class TwitterSource extends DataSource {
 			$params = array('id' => $params);
 		}
 
-		$url = 'http://api.twitter.com/1/statuses/retweets.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/retweets.json';
 		$method = 'GET';
 
 		// request
@@ -795,7 +795,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/statuses/%s/retweeted_by.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/%s/retweeted_by.json', $id);
 		$method = 'GET';
 
 		// request
@@ -819,7 +819,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/statuses/%s/retweeted_by/ids.josn', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/statuses/%s/retweeted_by/ids.josn', $id);
 		$method = 'GET';
 
 		// request
@@ -851,7 +851,7 @@ class TwitterSource extends DataSource {
 			$params = array('id' => $params);
 		}
 
-		$url = 'http://api.twitter.com/1/users/show.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/users/show.json';
 		$method = 'GET';
 
 		// request
@@ -870,7 +870,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/users/lookup
  */
 	public function users_lookup($params = array()) {
-		$url = 'http://api.twitter.com/1/users/lookup.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/users/lookup.json';
 		$method = 'GET';
 
 		// request
@@ -895,7 +895,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/users/search.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/users/search.json';
 		$method = 'GET';
 
 		if (is_scalar($params)) {
@@ -914,7 +914,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/users/suggestions
  */
 	public function users_suggestions($params = array()) {
-		$url = 'http://api.twitter.com/1/users/suggestions.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/users/suggestions.json';
 		$method = 'GET';
 
 		// request
@@ -934,7 +934,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/users/suggestions/%s.json', $slug);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/users/suggestions/%s.json', $slug);
 		$method = 'GET';
 
 		// request
@@ -2028,7 +2028,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/direct_messages
  */
 	public function direct_messages($params = array()) {
-		$url = 'http://api.twitter.com/1/direct_messages.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/direct_messages.json';
 		$method = 'GET';
 
 		// request
@@ -2049,7 +2049,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/direct_messages/sent
  */
 	public function direct_messages_sent($params = array()) {
-		$url = 'http://api.twitter.com/1/direct_messages/sent.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/direct_messages/sent.json';
 		$method = 'GET';
 
 		// request
@@ -2072,7 +2072,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/direct_messages/new.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/direct_messages/new.json';
 		$method = 'POST';
 
 		// request
@@ -2092,7 +2092,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/direct_messages/destroy/%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/direct_messages/destroy/%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -2132,7 +2132,7 @@ class TwitterSource extends DataSource {
 			unset($params['id']);
 		}
 
-		$url = sprintf('http://api.twitter.com/1/friendships/create%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/friendships/create%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -2166,7 +2166,7 @@ class TwitterSource extends DataSource {
 			unset($params['id']);
 		}
 
-		$url = sprintf('http://api.twitter.com/1/friendships/destroy%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/friendships/destroy%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -2190,7 +2190,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/friendships/exists.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/friendships/exists.json';
 		$method = 'GET';
 
 		// request
@@ -2217,7 +2217,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/friendships/show.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/friendships/show.json';
 		$method = 'GET';
 
 		// request
@@ -2239,7 +2239,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/friendships/incoming.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/friendships/incoming.json';
 		$method = 'GET';
 
 		// request
@@ -2261,7 +2261,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/friendships/outgoing.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/friendships/outgoing.json';
 		$method = 'GET';
 
 		// request
@@ -2296,7 +2296,7 @@ class TwitterSource extends DataSource {
 			unset($params['id']);
 		}
 
-		$url = sprintf('http://api.twitter.com/1/friends/ids%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/friends/ids%s.json', $id);
 		$method = 'GET';
 
 		// request
@@ -2326,7 +2326,7 @@ class TwitterSource extends DataSource {
 			unset($params['id']);
 		}
 
-		$url = sprintf('http://api.twitter.com/1/followers/ids%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/followers/ids%s.json', $id);
 		$method = 'GET';
 
 		// request
@@ -2345,7 +2345,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/account/verify_credentials
  */
 	public function account_verify_credentials($params = array()) {
-		$url = 'http://api.twitter.com/1/account/verify_credentials.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/account/verify_credentials.json';
 		$method = 'GET';
 
 		// request
@@ -2360,7 +2360,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/account/rate_limit_status
  */
 	public function account_rate_limit_status($params = array()) {
-		$url = 'http://api.twitter.com/1/account/rate_limit_status.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/account/rate_limit_status.json';
 		$method = 'GET';
 
 		// request
@@ -2375,7 +2375,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/post/account/end_session
  */
 	public function account_end_session($params = array()) {
-		$url = 'http://api.twitter.com/1/account/end_session.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/account/end_session.json';
 		$method = 'POST';
 
 		// request
@@ -2397,7 +2397,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/account/update_delivery_device.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/account/update_delivery_device.json';
 		$method = 'POST';
 
 		if (is_scalar($params)) {
@@ -2427,7 +2427,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/account/update_profile_colors.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/account/update_profile_colors.json';
 		$method = 'POST';
 
 		if (is_scalar($params)) {
@@ -2456,7 +2456,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/account/update_profile_image.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/account/update_profile_image.json';
 		$method = 'POST';
 
 		// request
@@ -2484,7 +2484,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/account/update_profile_background_image.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/account/update_profile_background_image.json';
 		$method = 'POST';
 
 		// request
@@ -2509,7 +2509,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = 'http://api.twitter.com/1/account/update_profile.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/account/update_profile.json';
 		$method = 'POST';
 
 		// request
@@ -2532,7 +2532,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/favorites
  */
 	public function favorites($params = array()) {
-		$url = 'http://api.twitter.com/1/favorites.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/favorites.json';
 		$method = 'GET';
 
 		// request
@@ -2552,7 +2552,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/favorites/create/%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/favorites/create/%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -2572,7 +2572,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/favorites/destroy/%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/favorites/destroy/%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -2612,7 +2612,7 @@ class TwitterSource extends DataSource {
 			unset($params['id']);
 		}
 
-		$url = sprintf('http://api.twitter.com/1/notifications/follow%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/notifications/follow%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -2648,7 +2648,7 @@ class TwitterSource extends DataSource {
 			unset($params['id']);
 		}
 
-		$url = sprintf('http://api.twitter.com/1/notifications/leave%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/notifications/leave%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -2686,7 +2686,7 @@ class TwitterSource extends DataSource {
 			unset($params['id']);
 		}
 
-		$url = sprintf('http://api.twitter.com/1/blocks/create%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/blocks/create%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -2720,7 +2720,7 @@ class TwitterSource extends DataSource {
 			unset($params['id']);
 		}
 
-		$url = sprintf('http://api.twitter.com/1/blocks/destroy%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/blocks/destroy%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -2755,7 +2755,7 @@ class TwitterSource extends DataSource {
 			unset($params['id']);
 		}
 
-		$url = sprintf('http://api.twitter.com/1/blocks/exists%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/blocks/exists%s.json', $id);
 		$method = 'GET';
 
 		// request
@@ -2772,7 +2772,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/blocks/blocking
  */
 	public function blocks_blocking($params = array()) {
-		$url = 'http://api.twitter.com/1/blocks/blocking.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/blocks/blocking.json';
 		$method = 'GET';
 
 		// request
@@ -2787,7 +2787,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/blocks/blocking/ids
  */
 	public function blocks_blocking_ids($params = array()) {
-		$url = 'http://api.twitter.com/1/blocks/blocking/ids.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/blocks/blocking/ids.json';
 		$method = 'GET';
 
 		// request
@@ -2819,7 +2819,7 @@ class TwitterSource extends DataSource {
 			$params = array('id' => $params);
 		}
 
-		$url = 'http://api.twitter.com/1/report_spam.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/report_spam.json';
 		$method = 'POST';
 
 		// request
@@ -2838,7 +2838,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/saved_searches
  */
 	public function saved_searches($params = array()) {
-		$url = 'http://api.twitter.com/1/saved_searches.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/saved_searches.json';
 		$method = 'GET';
 
 		// request
@@ -2858,7 +2858,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/saved_searches/show/%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/saved_searches/show/%s.json', $id);
 		$method = 'GET';
 
 		// request
@@ -2884,7 +2884,7 @@ class TwitterSource extends DataSource {
 			$params = array('query' => $params);
 		}
 
-		$url = 'http://api.twitter.com/1/saved_searches/create.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/saved_searches/create.json';
 		$method = 'POST';
 
 		// request
@@ -2904,7 +2904,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/saved_searches/destroy/%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/saved_searches/destroy/%s.json', $id);
 		$method = 'POST';
 
 		// request
@@ -3042,7 +3042,7 @@ class TwitterSource extends DataSource {
  * @see http://developer.yahoo.com/geo/geoplanet/
  */
 	public function trends_available($params = array()) {
-		$url = 'http://api.twitter.com/1/trends/available.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/trends/available.json';
 		$method = 'GET';
 
 		// request
@@ -3063,7 +3063,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/trends/%s.json', $woeid);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/trends/%s.json', $woeid);
 		$method = 'GET';
 
 		// request
@@ -3095,7 +3095,7 @@ class TwitterSource extends DataSource {
  * @see http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-geo-nearby_places
  */
 	public function geo_nearby_places($params = array()) {
-		$url = 'http://api.twitter.com/1/geo/nearby_places.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/geo/nearby_places.json';
 		$method = 'GET';
 
 		// request
@@ -3124,7 +3124,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/geo/reverse_geocode
  */
 	public function geo_reverse_geocode($params = array()) {
-		$url = 'http://api.twitter.com/1/geo/reverse_geocode.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/geo/reverse_geocode.json';
 		$method = 'GET';
 
 		// request
@@ -3144,7 +3144,7 @@ class TwitterSource extends DataSource {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/geo/id/%s.json', $id);
+		$url = sprintf(self::TWITTER_API_URL_BASE_HTTPS . '1/geo/id/%s.json', $id);
 		$method = 'GET';
 
 		// request
@@ -3163,7 +3163,7 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/help/test
  */
 	public function help_test($params = array()) {
-		$url = 'http://api.twitter.com/1/help/test.json';
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1/help/test.json';
 		$method = 'GET';
 
 		// request
