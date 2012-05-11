@@ -1,4 +1,5 @@
 <?php
+
 /**
  * TwitterKit TwitterUser Model
  *
@@ -18,23 +19,23 @@
  * @subpackage twitter_kit.models
  * @since      TwitterKit 1.0
  * @license    MIT License (http://www.opensource.org/licenses/mit-license.php)
- **/
+ * */
 class TwitterKitUser extends TwitterKitAppModel {
 
-    public $name = 'TwitterKitUser';
+	public $name = 'TwitterKitUser';
 
-    public $alias = 'TwitterUser';
+	public $alias = 'TwitterUser';
 
-    public $useTable = 'twitter_users';
+	public $useTable = 'twitter_users';
 
-    public $displayField = 'username';
+	public $displayField = 'username';
 
-    public $validate = array(
+	public $validate = array(
 		'username' => array(
 			'notempty' => array('rule' => array('notempty'))));
 
-    public $actsAs = array(
-        'TwitterKit.Twitter',
-    );
+	public $actsAs = array(
+		'TwitterKit.Twitter',
+	);
 
 }

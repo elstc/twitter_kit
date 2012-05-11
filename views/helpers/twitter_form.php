@@ -23,54 +23,55 @@ App::import('Helper', 'TwitterKit.Twitter');
  */
 class TwitterFormHelper extends AppHelper {
 
-    public $helpers = array('TwitterKit.Twitter');
-    /**
-     *
-     * @var TwitterHelper
-     */
-    public $Twitter;
+	public $helpers = array('TwitterKit.Twitter');
 
-    /**
-     * create tweet box
-     *
-     * @param $fieldName
-     * @param $options
-     *      type: element type (default: textarea)
-     *      maxLength:   text max length (default: 140)
-     *      counterText: length message
-     *      submit: submit button message. if set to false, not create.
-     *      jqueryCharCount: path to charCount.js (jquery plugin)
-     *      other keys set to input element options.
-     */
-    public function tweet($fieldName, $options = array()) {
-        return $this->Twitter->tweet($fieldName, $options);
-    }
+/**
+ *
+ * @var TwitterHelper
+ */
+	public $Twitter;
 
-    /**
-     * create OAuth Link
-     *
-     * @param $options
-     *  loading:      loading message
-     *  login:        login link text
-     *  datasource:   datasource name (default: twitter)
-     *  authenticate: use authenticate link (default: false)
-     */
-    public function oauthLink($options = array()) {
-        return $this->Twitter->oauthLink($options);
-    }
+/**
+ * create tweet box
+ *
+ * @param $fieldName
+ * @param $options
+ *      type: element type (default: textarea)
+ *      maxLength:   text max length (default: 140)
+ *      counterText: length message
+ *      submit: submit button message. if set to false, not create.
+ *      jqueryCharCount: path to charCount.js (jquery plugin)
+ *      other keys set to input element options.
+ */
+	public function tweet($fieldName, $options = array()) {
+		return $this->Twitter->tweet($fieldName, $options);
+	}
 
-    /**
-     * linkify text
-     *
-     * @param string $value
-     * @param array  $options
-     *    username: linkify username. eg. @username
-     *    hashtag : linkify hashtag. eg. #hashtag
-     *    url     : linkify url. eg. http://example.com/
-     * @return string
-     */
-    public function linkify($value, $options = array()) {
-        return $this->Twitter->linkify($value, $options);
-    }
+/**
+ * create OAuth Link
+ *
+ * @param $options
+ *  loading:      loading message
+ *  login:        login link text
+ *  datasource:   datasource name (default: twitter)
+ *  authenticate: use authenticate link (default: false)
+ */
+	public function oauthLink($options = array()) {
+		return $this->Twitter->oauthLink($options);
+	}
+
+/**
+ * linkify text
+ *
+ * @param string $value
+ * @param array  $options
+ *    username: linkify username. eg. @username
+ *    hashtag : linkify hashtag. eg. #hashtag
+ *    url     : linkify url. eg. http://example.com/
+ * @return string
+ */
+	public function linkify($value, $options = array()) {
+		return $this->Twitter->linkify($value, $options);
+	}
 
 }

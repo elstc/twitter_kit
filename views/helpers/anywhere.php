@@ -24,101 +24,103 @@ App::import('Helper', array('Html', 'Form', 'Js'));
  */
 class AnywhereHelper extends AppHelper {
 
-    public $helpers = array('Html', 'Form', 'Js');
-    static $anywhereUri = 'http://platform.twitter.com/anywhere.js';
-    /**
-     *
-     * @var HtmlHelper
-     */
-    public $Html;
-    /**
-     *
-     * @var FormHelper
-     */
-    public $Form;
-    /**
-     *
-     * @var JsHelper
-     */
-    public $Js;
+	public $helpers = array('Html', 'Form', 'Js');
 
-    /**
-     * load Anywhere script
-     *
-     * @param array $options
-     * @return string
-     */
-    public function loadScript($options = array()) {
+	static $anywhereUri = 'http://platform.twitter.com/anywhere.js';
 
-        $dataSource = $apiKey = $apiVersion = null;
+/**
+ *
+ * @var HtmlHelper
+ */
+	public $Html;
 
-        $defaults = array(
-            'dataSource' => 'twitter',
-            'apiKey' => null,
-            'apiVersion' => 1,
-            'inline' => false,
-        );
-        $options = am($defaults, $options);
-        extract($options, EXTR_OVERWRITE);
-        unset($options['dataSource']);
-        unset($options['apiKey']);
-        unset($options['apiVersion']);
+/**
+ *
+ * @var FormHelper
+ */
+	public $Form;
 
-        if (empty($apiKey)) {
-            /* @var $ds TwitterSource */
-            $ds = ConnectionManager::getDataSource($dataSource);
-            if (!empty($ds->config['api_key'])) {
-                $apiKey = $ds->config['api_key'];
-            }
-        }
+/**
+ *
+ * @var JsHelper
+ */
+	public $Js;
 
-        $params = array('id' => $apiKey, 'v' => $apiVersion);
-        return $this->Html->script(self::$anywhereUri . Router::queryString($params, array(), true), $options);
-    }
+/**
+ * load Anywhere script
+ *
+ * @param array $options
+ * @return string
+ */
+	public function loadScript($options = array()) {
+		$dataSource = $apiKey = $apiVersion = null;
 
-    /**
-     * Create Login Button
-     *
-     * @param $elementId
-     * @param $options
-     * @deprecated
-     * TODO: not testing
-     */
-    public function connectButton($elementId = 'login', $options = array()) {
+		$defaults = array(
+			'dataSource' => 'twitter',
+			'apiKey' => null,
+			'apiVersion' => 1,
+			'inline' => false,
+		);
+		$options = am($defaults, $options);
+		extract($options, EXTR_OVERWRITE);
+		unset($options['dataSource']);
+		unset($options['apiKey']);
+		unset($options['apiVersion']);
 
-        $defaults = array('size' => 'large', 'createElement' => true, 'authComplete' => 'location.reload();', 'signOut' => '', 'callbackUrl' => null);
+		if (empty($apiKey)) {
+			/* @var $ds TwitterSource */
+			$ds = ConnectionManager::getDataSource($dataSource);
+			if (!empty($ds->config['api_key'])) {
+				$apiKey = $ds->config['api_key'];
+			}
+		}
 
-        extract(am($defaults, $options));
+		$params = array('id' => $apiKey, 'v' => $apiVersion);
+		return $this->Html->script(self::$anywhereUri . Router::queryString($params, array(), true), $options);
+	}
 
-        $out = '';
+/**
+ * Create Login Button
+ *
+ * @param $elementId
+ * @param $options
+ * @deprecated
+ * TODO: not testing
+ */
+	public function connectButton($elementId = 'login', $options = array()) {
+		$defaults = array('size' => 'large', 'createElement' => true, 'authComplete' => 'location.reload();', 'signOut' => '', 'callbackUrl' => null);
 
-        // -- create element
-        if ($createElement) {
-            $out = $this->Html->tag('span', '', array('id' => $elementId));
-        }
+		extract(am($defaults, $options));
 
-        // -- modifiy callback functions
-        $authComplete = trim($authComplete);
-        if (!preg_match('/^function/', $authComplete)) {
-            $authComplete = "function (user) { {$authComplete} }";
-        }
+		$out = '';
 
-        $signOut = trim($signOut);
-        if (!preg_match('/^function/', $signOut)) {
-            $signOut = "function () { {$signOut} }";
-        }
+		// -- create element
+		if ($createElement) {
+			$out = $this->Html->tag('span', '', array('id' => $elementId));
+		}
 
-        // -- modify callback Url
-        if (!empty($callbackUrl)) {
-            $callbackUrl = "twttr.anywhere.config({ callbackURL: '{$this->url($callbackUrl, true)}' });";
-        }
+		// -- modifiy callback functions
+		$authComplete = trim($authComplete);
+		if (!preg_match('/^function/', $authComplete)) {
+			$authComplete = "function (user) { {$authComplete} }";
+		}
 
-        /// -- logout
-        if (empty($logout)) {
-            $logout = '<button type="button">Logout</button>';
-        }
+		$signOut = trim($signOut);
+		if (!preg_match('/^function/', $signOut)) {
+			$signOut = "function () { {$signOut} }";
+		}
 
-        $out .= $this->Html->scriptBlock("
+		// -- modify callback Url
+		if (!empty($callbackUrl)) {
+			$callbackUrl = "twttr.anywhere.config({ callbackURL: '{$this->url($callbackUrl, true)}' });";
+		}
+
+		/// -- logout
+		if (empty($logout)) {
+			$logout = '<button type="button">Logout</button>';
+		}
+
+		$out .= $this->Html->scriptBlock("
     twttr.anywhere(function (T) {
 
         {$callbackUrl}
@@ -136,57 +138,55 @@ class AnywhereHelper extends AppHelper {
     });
         ");
 
-        return $out;
-    }
+		return $out;
+	}
 
-    /**
-     * create follow me button
-     *
-     * @param string $screen_name
-     * @param string $elementId
-     */
-    function followMe($screen_name, $elementId = 'followMe') {
+/**
+ * create follow me button
+ *
+ * @param string $screen_name
+ * @param string $elementId
+ */
+	public function followMe($screen_name, $elementId = 'followMe') {
+		$out = $this->Html->tag('span', '', array('id' => $elementId));
 
-        $out = $this->Html->tag('span', '', array('id' => $elementId));
-
-        $out .= $this->Html->scriptBlock("
+		$out .= $this->Html->scriptBlock("
         twttr.anywhere(function (T) {
             T('#{$elementId}').followButton('{$screen_name}');
         });");
 
-        return $out;
-    }
+		return $out;
+	}
 
-    /**
-     * create Hovercards
-     *
-     * @param string $element
-     * @param array  $options
-     */
-    function hovercards($element = '.content', $options = array()) {
+/**
+ * create Hovercards
+ *
+ * @param string $element
+ * @param array  $options
+ */
+	public function hovercards($element = '.content', $options = array()) {
+		if (!empty($options['username'])) {
+			$username = $options['username'];
+			unset($options['username']);
+		}
 
-        if (!empty($options['username'])) {
-            $username = $options['username'];
-            unset($options['username']);
-        }
+		$opt = '';
+		if (!empty($options)) {
+			$opt = json_encode($options);
+		}
 
-        $opt = '';
-        if (!empty($options)) {
-            $opt = json_encode($options);
-        }
+		if (!empty($username)) {
+			if (empty($options)) {
+				$opt = "{ username: {$username} }";
+			} else {
+				$opt = preg_replace('/^{/', "{ username: {$username},", $opt);
+			}
+		}
 
-        if (!empty($username)) {
-            if (empty($options)) {
-                $opt = "{ username: {$username} }";
-            } else {
-                $opt = preg_replace('/^{/', "{ username: {$username},", $opt);
-            }
-        }
-
-        $this->Js->buffer("
+		$this->Js->buffer("
         twttr.anywhere(function (T) {
             T('{$element}').hovercards({$opt});
         });");
-    }
+	}
 
 }

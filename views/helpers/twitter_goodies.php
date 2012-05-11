@@ -22,24 +22,24 @@ App::import('Helper', 'TwitterKit.Twitter');
  */
 class TwitterGoodiesHelper extends AppHelper {
 
-    /**
-     *
-     * @var TwitterHelper
-     */
-    public $Twitter;
+/**
+ *
+ * @var TwitterHelper
+ */
+	public $Twitter;
 
-    /**
-     * create tweet button
-     *
-     * @see http://dev.twitter.com/pages/tweet_button
-     * @param string  $label
-     * @param array   $options
-     * @param boolean $dataAttribute
-     * @param boolean $scriptInline
-     * @return string
-     */
-    public function tweetButton($label = null, $options = array(), $dataAttribute = false, $scriptInline = false) {
-        return $this->Twitter->tweetButton($label, $options, $dataAttribute, $scriptInline);
-    }
+/**
+ * create tweet button
+ *
+ * @see http://dev.twitter.com/pages/tweet_button
+ * @param string  $label
+ * @param array   $options
+ * @param boolean $dataAttribute
+ * @param boolean $scriptInline
+ * @return string
+ */
+	public function tweetButton($label = null, $options = array(), $dataAttribute = false, $scriptInline = false) {
+		return $this->Twitter->tweetButton($label, $options, $dataAttribute, $scriptInline);
+	}
 
 }

@@ -1,5 +1,7 @@
 <?php
+
 App::import('Behavior', 'TwitterKit.Twitter');
+
 /**
  * TwitterKit Twitter Tweet Behavior
  *
@@ -24,54 +26,50 @@ App::import('Behavior', 'TwitterKit.Twitter');
  */
 class TwitterTweetBehavior extends TwitterBehavior {
 
-    /**
-     * update status
-     *
-     * @param AppModel $model
-     * @param mixed $message
-     * @param array $params
-     */
-    public function tweet($model, $message, $params = array())
-    {
-        if (is_string($message)) {
-            $message = array('status' => $message);
-        }
+/**
+ * update status
+ *
+ * @param AppModel $model
+ * @param mixed $message
+ * @param array $params
+ */
+	public function tweet($model, $message, $params = array()) {
+		if (is_string($message)) {
+			$message = array('status' => $message);
+		}
 
-        $result = $this->getTwitterSource($model)->statuses_update(am($message, $params));
-        return $result;
-    }
+		$result = $this->getTwitterSource($model)->statuses_update(am($message, $params));
+		return $result;
+	}
 
-    /**
-     * reply message
-     *
-     * @param AppModel $model
-     * @param string $message
-     * @param string $inReplyToStatusId
-     * @param array $params
-     */
-    public function reply($model, $message, $inReplyToStatusId, $params = array())
-    {
-        if (is_string($message)) {
-            $message = array('status' => $message);
-        }
+/**
+ * reply message
+ *
+ * @param AppModel $model
+ * @param string $message
+ * @param string $inReplyToStatusId
+ * @param array $params
+ */
+	public function reply($model, $message, $inReplyToStatusId, $params = array()) {
+		if (is_string($message)) {
+			$message = array('status' => $message);
+		}
 
-        $message = am($message, array('in_reply_to_status_id' => $inReplyToStatusId));
+		$message = am($message, array('in_reply_to_status_id' => $inReplyToStatusId));
+		$result = $this->getTwitterSource($model)->statuses_update(am($message, $params));
+		return $result;
+	}
 
-        $result = $this->getTwitterSource($model)->statuses_update(am($message, $params));
-        return $result;
-    }
-
-    /**
-     * post retweet
-     *
-     * @param AppModel $model
-     * @param sting $id
-     * @param array $params
-     */
-    public function retweet($model, $id, $params = array())
-    {
-        $result = $this->getTwitterSource($model)->statuses_retweet($id, $params);
-        return $result;
-    }
+/**
+ * post retweet
+ *
+ * @param AppModel $model
+ * @param sting $id
+ * @param array $params
+ */
+	public function retweet($model, $id, $params = array()) {
+		$result = $this->getTwitterSource($model)->statuses_retweet($id, $params);
+		return $result;
+	}
 
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Twitter API Datasource Test Case
  *
@@ -25,158 +26,135 @@ App::import('Datasource', 'TwitterKit.TwitterSource');
 App::import('Model', array('AppModel', 'Model'));
 App::import('Core', array('Router'));
 
-ConnectionManager::create('test_twitter_source',
-array(
-        'datasource' => 'TwitterKit.TwitterSource',
-        'oauth_consumer_key'    => 'cvEPr1xe1dxqZZd1UaifFA',
-        'oauth_consumer_secret' => 'gOBMTs7Rw4Z3p5EhzqBey8ousRTwNDvreJskN8Z60',
-) );
+ConnectionManager::create('test_twitter_source', array(
+	'datasource' => 'TwitterKit.TwitterSource',
+	'oauth_consumer_key' => 'cvEPr1xe1dxqZZd1UaifFA',
+	'oauth_consumer_secret' => 'gOBMTs7Rw4Z3p5EhzqBey8ousRTwNDvreJskN8Z60',
+));
 
 class TestModel extends CakeTestModel {
 
-    public $name = 'TestModel';
+	public $name = 'TestModel';
 
-    public $useDbConfig = 'test_twitter_source';
+	public $useDbConfig = 'test_twitter_source';
 
-    public $useTable = false;
+	public $useTable = false;
 
 }
 
-class TwitterSourceTestCase extends CakeTestCase
-{
+class TwitterSourceTestCase extends CakeTestCase {
 
-    /**
-     *
-     * @var TwitterSource
-     */
-    public $TestSource;
+/**
+ *
+ * @var TwitterSource
+ */
+	public $TestSource;
 
-    /**
-     *
-     * @var TestModel
-     */
-    public $TestModel;
+/**
+ *
+ * @var TestModel
+ */
+	public $TestModel;
 
+	function startTest() {
+		$this->TestSource = ConnectionManager::getDataSource('test_twitter_source');
 
-    function startTest()
-    {
-        $this->TestSource = ConnectionManager::getDataSource('test_twitter_source');
+		$this->TestModel = new TestModel();
+	}
 
-        $this->TestModel = new TestModel();
+	function endTest() {
+		unset($this->TestSource);
+		unset($this->TestModel);
+	}
 
-    }
+	function testInit() {
+		$this->assertIsA($this->TestSource, 'TwitterSource');
+		$this->assertIsA($this->TestModel->getDataSource(), 'TwitterSource');
+	}
 
-    function endTest()
-    {
-        unset($this->TestSource);
-        unset($this->TestModel);
-    }
+	function testOauthRequestToken() {
+		$result = $this->TestSource->oauth_request_token(Router::url('/twitter_kit/callback', true));
 
-    function testInit()
-    {
+		$this->assertTrue(is_array($result));
+		$this->assertTrue(is_string($result['oauth_token']));
+		$this->assertTrue(is_string($result['oauth_token_secret']));
+		$this->assertTrue(is_string($result['oauth_callback_confirmed']));
+		$this->assertEqual($result['oauth_token'], $this->TestSource->oauth_token);
+	}
 
-        $this->assertIsA($this->TestSource, 'TwitterSource');
+	function testOauthAuthorize() {
+		$result = $this->TestSource->oauth_authorize('dummy_token');
+		$this->assertEqual('http://api.twitter.com/oauth/authorize?oauth_token=dummy_token', $result);
 
-        $this->assertIsA($this->TestModel->getDataSource(), 'TwitterSource');
+		$token = $this->TestSource->oauth_request_token(Router::url('/twitter_kit/callback', true));
+		$result = $this->TestSource->oauth_authorize();
+		$this->assertEqual('http://api.twitter.com/oauth/authorize?oauth_token=' . $token['oauth_token'], $result);
+	}
 
-    }
+	function testOauthAuthenticate() {
+		$result = $this->TestSource->oauth_authenticate('dummy_token');
+		$this->assertEqual('http://api.twitter.com/oauth/authenticate?oauth_token=dummy_token', $result);
 
-    function testOauthRequestToken()
-    {
-        $result = $this->TestSource->oauth_request_token(Router::url('/twitter_kit/callback', true));
+		$token = $this->TestSource->oauth_request_token(Router::url('/twitter_kit/callback', true));
+		$result = $this->TestSource->oauth_authenticate();
+		$this->assertEqual('http://api.twitter.com/oauth/authenticate?oauth_token=' . $token['oauth_token'], $result);
+	}
 
-        $this->assertTrue(is_array($result));
-        $this->assertTrue(is_string($result['oauth_token']));
-        $this->assertTrue(is_string($result['oauth_token_secret']));
-        $this->assertTrue(is_string($result['oauth_callback_confirmed']));
-        $this->assertEqual($result['oauth_token'], $this->TestSource->oauth_token);
-    }
+	function testOauthAccessToken() {
+		return $this->skipIf(true);
 
-    function testOauthAuthorize()
-    {
+		$requestToken = $this->TestSource->oauth_request_token(Router::url('/openlist/twitter_kit/callback', true));
+		$authUrl = $this->TestSource->oauth_authorize();
 
-        $result = $this->TestSource->oauth_authorize('dummy_token');
-        $this->assertEqual('http://api.twitter.com/oauth/authorize?oauth_token=dummy_token', $result);
+		debug($authUrl);
 
-        $token = $this->TestSource->oauth_request_token(Router::url('/twitter_kit/callback', true));
-        $result = $this->TestSource->oauth_authorize();
-        $this->assertEqual('http://api.twitter.com/oauth/authorize?oauth_token=' . $token['oauth_token'], $result);
-    }
+		$url = 'http://localhost/openlist/twitter_kit/callback?oauth_token=ly4DCCcq4gddZMuFNp7vbJgQiSna7Hoq4Xd7CuGOOk&oauth_verifier=Nvnw5OnMkVFv5S4tjLvKLLmsMbDyKEM92HeEILC6u7g';
 
-    function testOauthAuthenticate()
-    {
+		$oauth_token = 'ly4DCCcq4gddZMuFNp7vbJgQiSna7Hoq4Xd7CuGOOk';
+		$oauth_verifier = 'Nvnw5OnMkVFv5S4tjLvKLLmsMbDyKEM92HeEILC6u7g';
 
-        $result = $this->TestSource->oauth_authenticate('dummy_token');
-        $this->assertEqual('http://api.twitter.com/oauth/authenticate?oauth_token=dummy_token', $result);
+		$token = $this->TestSource->oauth_access_token($oauth_token, $oauth_verifier);
 
-        $token = $this->TestSource->oauth_request_token(Router::url('/twitter_kit/callback', true));
-        $result = $this->TestSource->oauth_authenticate();
-        $this->assertEqual('http://api.twitter.com/oauth/authenticate?oauth_token=' . $token['oauth_token'], $result);
-    }
+		if (is_string($token)) {
 
+			$this->assertEqual('Invalid / expired Token', $token);
+		} else {
 
-    function testOauthAccessToken()
-    {
+			$this->assertTrue(is_array($token));
+			$this->assertTrue(is_string($token['oauth_token']));
+			$this->assertTrue(is_string($token['oauth_token_secret']));
+			$this->assertTrue(is_string($token['user_id']));
+			$this->assertTrue(is_string($token['screen_name']));
+			$this->assertEqual($token['oauth_token'], $this->TestSource->oauth_token);
+			$this->assertEqual($token['oauth_token_secret'], $this->TestSource->oauth_token_secret);
+		}
+	}
 
-        return $this->skipIf(true);
+	function testSetToken() {
+		$this->TestSource->reset();
+		$result = $this->TestSource->setToken('');
+		$this->assertFalse($result);
+		$this->assertEqual('', $this->TestSource->oauth_token);
+		$this->assertEqual('', $this->TestSource->oauth_token_secret);
 
-        $requestToken = $this->TestSource->oauth_request_token(Router::url('/openlist/twitter_kit/callback', true));
-        $authUrl = $this->TestSource->oauth_authorize();
+		$this->TestSource->reset();
+		$result = $this->TestSource->setToken(array('oauth_token' => 'dummy_token', 'oauth_token_secret' => 'dummy_secret'));
+		$this->assertTrue($result);
+		$this->assertEqual('dummy_token', $this->TestSource->oauth_token);
+		$this->assertEqual('dummy_secret', $this->TestSource->oauth_token_secret);
 
-        debug($authUrl);
+		$this->TestSource->reset();
+		$this->assertEqual('', $this->TestSource->oauth_token);
+		$this->assertEqual('', $this->TestSource->oauth_token_secret);
 
-        $url = 'http://localhost/openlist/twitter_kit/callback?oauth_token=ly4DCCcq4gddZMuFNp7vbJgQiSna7Hoq4Xd7CuGOOk&oauth_verifier=Nvnw5OnMkVFv5S4tjLvKLLmsMbDyKEM92HeEILC6u7g';
+		$result = $this->TestSource->setToken('dummy_token2', 'dummy_secret2');
+		$this->assertTrue($result);
+		$this->assertEqual('dummy_token2', $this->TestSource->oauth_token);
+		$this->assertEqual('dummy_secret2', $this->TestSource->oauth_token_secret);
+	}
 
-        $oauth_token = 'ly4DCCcq4gddZMuFNp7vbJgQiSna7Hoq4Xd7CuGOOk';
-        $oauth_verifier = 'Nvnw5OnMkVFv5S4tjLvKLLmsMbDyKEM92HeEILC6u7g';
+	function testGetAnywhereIdentity() {
+		$this->assertEqual($this->TestSource->getAnywhereIdentity(15982041), '15982041:7f25bf8e58f67fb01857dee740169456ee65a885');
+	}
 
-        $token = $this->TestSource->oauth_access_token($oauth_token, $oauth_verifier);
-
-        if (is_string($token)) {
-
-            $this->assertEqual('Invalid / expired Token', $token);
-
-        } else {
-
-            $this->assertTrue(is_array($token));
-            $this->assertTrue(is_string($token['oauth_token']));
-            $this->assertTrue(is_string($token['oauth_token_secret']));
-            $this->assertTrue(is_string($token['user_id']));
-            $this->assertTrue(is_string($token['screen_name']));
-            $this->assertEqual($token['oauth_token'], $this->TestSource->oauth_token);
-            $this->assertEqual($token['oauth_token_secret'], $this->TestSource->oauth_token_secret);
-
-        }
-
-    }
-
-    function testSetToken()
-    {
-
-        $this->TestSource->reset();
-        $result = $this->TestSource->setToken('');
-        $this->assertFalse($result);
-        $this->assertEqual('', $this->TestSource->oauth_token);
-        $this->assertEqual('', $this->TestSource->oauth_token_secret);
-
-        $this->TestSource->reset();
-        $result = $this->TestSource->setToken(array('oauth_token' => 'dummy_token', 'oauth_token_secret' => 'dummy_secret'));
-        $this->assertTrue($result);
-        $this->assertEqual('dummy_token',  $this->TestSource->oauth_token);
-        $this->assertEqual('dummy_secret', $this->TestSource->oauth_token_secret);
-
-        $this->TestSource->reset();
-        $this->assertEqual('', $this->TestSource->oauth_token);
-        $this->assertEqual('', $this->TestSource->oauth_token_secret);
-
-        $result = $this->TestSource->setToken('dummy_token2', 'dummy_secret2');
-        $this->assertTrue($result);
-        $this->assertEqual('dummy_token2',  $this->TestSource->oauth_token);
-        $this->assertEqual('dummy_secret2', $this->TestSource->oauth_token_secret);
-    }
-
-    function testGetAnywhereIdentity()
-    {
-        $this->assertEqual($this->TestSource->getAnywhereIdentity(15982041), '15982041:7f25bf8e58f67fb01857dee740169456ee65a885');
-    }
 }

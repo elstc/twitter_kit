@@ -1,4 +1,5 @@
 <?php
+
 /**
  * TwitterKit Oauth Controller
  *
@@ -18,133 +19,125 @@
  * @subpackage twitter_kit.controller
  * @since      TwitterKit 1.0
  * @license    MIT License (http://www.opensource.org/licenses/mit-license.php)
- **/
+ */
 class OauthController extends AppController {
 
-    public $uses = array();
+	public $uses = array();
 
-    public $components = array('TwitterKit.Twitter');
+	public $components = array('TwitterKit.Twitter');
 
-    /**
-     *
-     * @var TwitterComponent
-     */
-    public $Twitter;
+/**
+ *
+ * @var TwitterComponent
+ */
+	public $Twitter;
 
-    /**
-     *
-     * @var AuthComponent
-     */
-    public $Auth;
+/**
+ *
+ * @var AuthComponent
+ */
+	public $Auth;
 
-    /**
-     * (non-PHPdoc)
-     * @see cake/libs/controller/Controller#beforeFilter()
-     */
-    public function beforeFilter()
-    {
-        parent::beforeFilter();
+/**
+ * (non-PHPdoc)
+ * @see cake/libs/controller/Controller#beforeFilter()
+ */
+	public function beforeFilter() {
+		parent::beforeFilter();
 
-        if (!empty($this->Auth) && is_object($this->Auth)) {
+		if (!empty($this->Auth) && is_object($this->Auth)) {
+			$this->Auth->allow('authorize_url', 'authenticate_url', 'callback', 'connect');
+		}
+	}
 
-            $this->Auth->allow('authorize_url', 'authenticate_url', 'callback', 'connect');
+/**
+ * get authorize url
+ *
+ * @param string $datasource
+ * @deprecated
+ */
+	public function authorize_url($datasource = null) {
+		Configure::write('debug', 0);
+		$this->layout = 'ajax';
 
-        }
-    }
+		// -- set datasource
+		$this->Twitter->setTwitterSource($datasource);
 
-    /**
-     * get authorize url
-     *
-     * @param string $datasource
-     * @deprecated
-     */
-    public function authorize_url($datasource = null) {
+		// set Authorize Url
+		$this->set('url', $this->Twitter->getAuthorizeUrl(null, true));
+	}
 
-        Configure::write('debug', 0);
-        $this->layout = 'ajax';
+/**
+ * get authenthicate url
+ *
+ * @param string $datasource
+ * @deprecated
+ */
+	public function authenticate_url($datasource = null) {
+		Configure::write('debug', 0);
+		$this->layout = 'ajax';
 
-        // -- set datasource
-        $this->Twitter->setTwitterSource($datasource);
+		// -- set datasource
+		$this->Twitter->setTwitterSource($datasource);
 
-        // set Authorize Url
-        $this->set('url', $this->Twitter->getAuthorizeUrl(null, true));
-    }
+		// set Authenticate Url
+		$this->set('url', $this->Twitter->getAuthenticateUrl(null, true));
+	}
 
-    /**
-     * get authenthicate url
-     *
-     * @param string $datasource
-     * @deprecated
-     */
-    public function authenticate_url($datasource = null) {
+/**
+ * redirect twitter authorize page
+ */
+	public function connect() {
+		$this->Twitter->connect();
+	}
 
-        Configure::write('debug', 0);
-        $this->layout = 'ajax';
+/**
+ * OAuth callback
+ */
+	public function callback($datasource = null) {
+		$this->Twitter->setTwitterSource($datasource);
 
-        // -- set datasource
-        $this->Twitter->setTwitterSource($datasource);
+		// 正当な返り値かチェック
+		if (empty($this->params['url']['oauth_token']) || empty($this->params['url']['oauth_verifier'])) {
+			$this->Twitter->deleteAuthorizeCookie();
+			$this->flash(__d('twitter_kit', 'Authorization failure.', true), '/', 5);
+			return;
+		}
 
-        // set Authenticate Url
-        $this->set('url', $this->Twitter->getAuthenticateUrl(null, true));
-    }
+		// $tokenを取得
+		$token = $this->Twitter->getAccessToken();
 
-    /**
-     * redirect twitter authorize page
-     */
-    public function connect() {
-        $this->Twitter->connect();
-    }
+		if (is_string($token)) {
 
-    /**
-     * OAuth callback
-     */
-    public function callback($datasource = null)
-    {
-        $this->Twitter->setTwitterSource($datasource);
+			$this->flash(__d('twitter_kit', 'Authorization Error: ', true) . $token, '/', 5);
+			return;
+		}
 
-        // 正当な返り値かチェック
-        if (empty($this->params['url']['oauth_token']) || empty($this->params['url']['oauth_verifier'])) {
-            $this->Twitter->deleteAuthorizeCookie();
-            $this->flash(__d('twitter_kit', 'Authorization failure.', true), '/', 5);
-            return;
-        }
+		if (ClassRegistry::isKeySet('TwitterUser')) {
+			/* @var $model TwitterUser */
+			$model = ClassRegistry::init('TwitterUser');
+		} else {
+			/* @var $model TwitterKitUser */
+			$model = ClassRegistry::init('TwitterKit.TwitterKitUser');
+		}
 
-        // $tokenを取得
-        $token = $this->Twitter->getAccessToken();
+		// 保存データの作成
+		$data = $model->createSaveDataByToken($token);
 
-        if (is_string($token)) {
+		if (!$model->save($data)) {
+			$this->flash(__d('twitter_kit', 'The user could not be saved', true), array('plugin' => 'twitter_kit', 'controller' => 'users', 'action' => 'login'), 5);
+			return;
+		}
 
-            $this->flash(__d('twitter_kit', 'Authorization Error: ', true) . $token, '/', 5);
-            return;
+		$this->Auth->login($data);
 
-        }
+		// Redirect
+		if (ini_get('session.referer_check') && env('HTTP_REFERER')) {
+			$this->flash(sprintf(__d('twiter_kit', 'Redirect to %s', true), Router::url($this->Auth->redirect(), true) . ini_get('session.referer_check')), $this->Auth->redirect(), 0);
+			return;
+		}
 
-        if ( ClassRegistry::isKeySet('TwitterUser') ) {
-            /* @var $model TwitterUser */
-            $model = ClassRegistry::init('TwitterUser');
-        } else {
-            /* @var $model TwitterKitUser */
-            $model = ClassRegistry::init('TwitterKit.TwitterKitUser');
-        }
-
-        // 保存データの作成
-        $data = $model->createSaveDataByToken($token);
-
-        if (!$model->save($data)) {
-            $this->flash(__d('twitter_kit', 'The user could not be saved', true), array('plugin' => 'twitter_kit', 'controller' => 'users', 'action' => 'login'), 5);
-            return;
-        }
-
-        $this->Auth->login($data);
-
-        // Redirect
-        if (ini_get('session.referer_check') && env('HTTP_REFERER')) {
-            $this->flash(sprintf(__d('twiter_kit', 'Redirect to %s', true), Router::url($this->Auth->redirect(), true) . ini_get('session.referer_check')), $this->Auth->redirect(), 0);
-            return;
-        }
-
-        $this->redirect($this->Auth->redirect());
-
-    }
+		$this->redirect($this->Auth->redirect());
+	}
 
 }

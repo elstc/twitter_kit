@@ -1,5 +1,7 @@
 <?php
+
 App::import('Behavior', 'TwitterKit.Twitter');
+
 /**
  * TwitterKit Twitter DirectMessage Behavior
  *
@@ -24,18 +26,16 @@ App::import('Behavior', 'TwitterKit.Twitter');
  */
 class TwitterDirectMessageBehavior extends TwitterBehavior {
 
-    /**
-     * send DirectMessage
-     *
-     * @param AppModel $model
-     * @param string $to
-     * @param string $message
-     */
-    public function sendDirectMessage($model, $to, $message)
-    {
-        $result = $this->getTwitterSource($model)->direct_messages_new(array('user' => $to, 'text' => $message));
-        return $result;
-    }
-
+/**
+ * send DirectMessage
+ *
+ * @param AppModel $model
+ * @param string $to
+ * @param string $message
+ */
+	public function sendDirectMessage($model, $to, $message) {
+		$result = $this->getTwitterSource($model)->direct_messages_new(array('user' => $to, 'text' => $message));
+		return $result;
+	}
 
 }
