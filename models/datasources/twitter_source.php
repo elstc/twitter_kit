@@ -1895,20 +1895,50 @@ class TwitterSource extends DataSource {
  * @param array  $params
  * @return array|false
  * @see http://dev.twitter.com/doc/delete/:user/:id/subscribers
+ * @deprecated
  */
 	public function delete_list_subscribers($user, $list_id, $params = array()) {
 		if (empty($user) || empty($list_id) || empty($params)) {
 			return false;
 		}
 
-		$url = sprintf('http://api.twitter.com/1/%s/%s/subscribers.json', $user, $list_id);
-		$method = 'POST';
-
-		if (is_scalar($params)) {
-			$params = array('id' => $params);
+		if (!is_numeric($list_id)) {
+			$params['slug'] = $list_id;
+			if (is_numeric($user)) {
+				$params['owner_id'] = $user;
+			} else {
+				$params['owner_screen_name'] = $user;
+			}
+		} else {
+			$params['list_id'] = $list_id;
 		}
 
-		$params['_method'] = 'DELETE';
+		return $this->lists_subscribers_destory($params);
+	}
+
+/**
+ * POST lists/subscribers/destroy
+ *
+ * @param string $user
+ * @param string $list_id
+ * @param array  $params
+ *      list_id:
+ *      slug
+ *      owner_screen_name:
+ *      owner_id:
+ *
+ * @return array|false
+ * @see https://dev.twitter.com/docs/api/1/post/lists/subscribers/destroy
+ */
+	public function lists_subscribers_destory($params) {
+		if ((empty($params['list_id']) && empty($params['slug']))
+			|| (isset($params['slug']) && empty($params['owner_screen_name']) && empty($params['owner_id']))
+		) {
+			return false;
+		}
+
+		$url = self::TWITTER_API_URL_BASE . '1/lists/subscribers/destroy.json';
+		$method = 'POST';
 
 		// request
 		return $this->_request($this->_buildRequest($url, $method, $params));
