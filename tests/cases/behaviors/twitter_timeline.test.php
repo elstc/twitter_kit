@@ -25,7 +25,7 @@
 App::import('Core', array('AppModel', 'Model'));
 App::import('Behavior', array('TwitterKit.TwitterTimeline'));
 
-ConnectionManager::create('test_twitter', array(
+ConnectionManager::create('test_twitter_timeline', array(
 	'datasource' => 'TwitterKit.TwitterSource',
 	'oauth_consumer_key' => 'ePqJkNG4cSyNePJnOjAQw',
 	'oauth_consumer_secret' => 'dfezTpMTxbhE3UBBKmtQNwR0EvVceqKHBOCKmcLQ',
@@ -62,7 +62,7 @@ class TwitterTimelineBehaviorTest extends CakeTestCase {
  */
 	function startTest() {
 		$this->TestModel = ClassRegistry::init('MockTwitterTimelineTestModel');
-		$this->TestModel->Behaviors->attach('TwitterKit.TwitterTimeline', array('datasource' => 'test_twitter'));
+		$this->TestModel->Behaviors->attach('TwitterKit.TwitterTimeline', array('datasource' => 'test_twitter_timeline'));
 		$this->TestModel->Behaviors->TwitterTimeline->DataSource->reset();
 	}
 
