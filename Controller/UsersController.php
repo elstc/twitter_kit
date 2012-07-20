@@ -51,6 +51,7 @@ class UsersController extends AppController {
     }
 
     public function logout() {
+				$this->Session->delete('Auth.User') ;
         $this->Session->destroy();
         $this->Session->setFlash(__d('twitter_kit', 'Signed out'));
         $this->redirect($this->Auth->logoutRedirect);
