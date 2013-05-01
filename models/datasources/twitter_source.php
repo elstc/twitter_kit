@@ -185,8 +185,8 @@ class TwitterSource extends DataSource {
 		}
 
 		// -- error logging
-		if ($is_process && !empty($response['error'])) {
-			$this->log($response['error'] . "\n" . print_r($params, true), LOG_DEBUG);
+		if ($is_process && !empty($response['errors'])) {
+			$this->log($response['errors'] . "\n" . print_r($params, true), LOG_DEBUG);
 		}
 
 		return $response;
