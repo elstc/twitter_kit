@@ -575,7 +575,26 @@ class TwitterSource extends DataSource {
  * @see http://dev.twitter.com/doc/get/statuses/mentions
  */
 	public function statuses_mentions($params = array()) {
-		$url = self::TWITTER_API_URL_BASE_HTTPS . '1.1/statuses/mentions.json';
+		return $this->statuses_mentions_timeline($params);
+	}
+
+/**
+ * GET statuses/mentions_timeline
+ *
+ * @param array  $params
+ *  *Optional*
+ *     since_id:  Returns only statuses with an ID greater than (that is, more recent than) the specified ID.
+ *     max_id:    Returns only statuses with an ID less than (that is, older than) or equal to the specified ID.
+ *     count:     Specifies the number of statuses to retrieve. May not be greater than 200.
+ *     page:      Specifies the page of results to retrieve. Note: there are pagination limits.
+ *     include_rts:
+ *     include_entities:
+ *
+ * @return array|false
+ * @see http://dev.twitter.com/doc/get/statuses/mentions_timeline
+ */
+	public function statuses_mentions_timeline($params = array()) {
+		$url = self::TWITTER_API_URL_BASE_HTTPS . '1.1/statuses/mentions_timeline.json';
 		$method = 'GET';
 
 		// request
