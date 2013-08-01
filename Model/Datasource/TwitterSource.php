@@ -310,7 +310,7 @@ class TwitterSource extends DataSource {
      */
     public function getLog() {
 
-        return array('log' => array(), 'count' => array(), 'time' => array());
+        return array('log' => array(), 'count' => 0, 'time' => null);
 
     }
 
@@ -2618,6 +2618,7 @@ class TwitterSource extends DataSource {
 
         // request
         $response = $this->_request($params, false);
+        var_dump($response);
 
         if ($this->_isXml($response)) {
 

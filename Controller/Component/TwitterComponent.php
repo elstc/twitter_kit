@@ -134,7 +134,7 @@ class TwitterComponent extends Component {
      *
      * @param AppController $controller
      */
-    public function startup($controller) {
+    public function startup(Controller $controller) {
 
         $this->controller = $controller;
 
