@@ -2618,7 +2618,6 @@ class TwitterSource extends DataSource {
 
         // request
         $response = $this->_request($params, false);
-        var_dump($response);
 
         if ($this->_isXml($response)) {
 
