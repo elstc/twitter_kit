@@ -79,10 +79,10 @@ class HttpSocketOauth extends HttpSocket {
    * request to the service e.g. Twitpic along with 2 extra headers:
    * - X-Auth-Service-Provider - effectively, this is the realm that identity
    *   delegation should be sent to - in the case of Twitter, just set this to
-   *   https://api.twitter.com/1/account/verify_credentials.json;
+   *   https://api.twitter.com/1.1/account/verify_credentials.json;
    * - X-Verify-Credentials-Authorization - Consumer should create all the OAuth
    *   parameters necessary so it could call
-   *   https://api.twitter.com/1/account/verify_credentials.json using OAuth in
+   *   https://api.twitter.com/1.1/account/verify_credentials.json using OAuth in
    *   the HTTP header (e.g. it should look like OAuth oauth_consumer_key="...",
    *   oauth_token="...", oauth_signature_method="...", oauth_signature="...",
    *   oauth_timestamp="...", oauth_nonce="...", oauth_version="...".
