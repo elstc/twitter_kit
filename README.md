@@ -4,6 +4,13 @@ This plugin provides Twitter API DataSource, Behavior, Components, with OAuth su
 
 Copyright 2010, ELASTIC Consultants Inc. (http://elasticconsultants.com)
 
+## !! This plugin has been deprecated !!
+
+This plugin is no longer being actively developed and maintained.
+
+If you need plugin for Twitter API, please see [nojimage/CakePHP-Twim](https://github.com/nojimage/CakePHP-Twim "nojimage/CakePHP-Twim").
+
+
 ## Features
  * TwitterKit.TwitterSource
  * TwitterKit.TwitterBehavior
